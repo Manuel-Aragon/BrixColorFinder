@@ -4,6 +4,7 @@ void main() {
   runApp(const MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -110,6 +111,43 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        child: Container(
+          height: 50.0,
+          child : ElevatedButton(
+            child: Text('Go to second screen'),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SecondScreen()),
+                );
+            },
+          ),  //elevated button
+          ),
+      ),
     );
+  }
+}
+
+class SecondScreen extends StatelessWidget{
+  const SecondScreen({ Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Second Screen')),
+      body: Center(
+        child : Column(
+          children: [
+            ElevatedButton(
+              child: Text('Go to Home Screen'),
+              onPressed: () {
+                Navigator.pop(context);
+                },
+            ),  // Elevated Button
+          ],
+        ),  //Column
+      ),  //center
+    );  //scaffold
   }
 }
