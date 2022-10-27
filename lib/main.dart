@@ -1,40 +1,22 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:lucky13capstone/register.dart';
+import 'package:lucky13capstone/login.dart';
+
+
 
 void main() async {
     WidgetsFlutterBinding.ensureInitialized(); 
     await Firebase.initializeApp(); 
-    runApp(MyApp());
+    runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomePage(title: 'Home Page'),
+      ) //MaterialApp
+    ); 
 }
 
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -48,22 +30,50 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
+    void _onItemTapped(int index) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+
+      _selectedIndex = index;
+
     });
-  }
+    _navigate(index);
+    }
+
+    void _navigate(int  index) {
+      switch(index) { 
+        case 0: { 
+                    Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SecondScreen()),
+                );
+        } 
+        break; 
+        
+        case 1: { 
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+        } 
+        break;
+        case 2: {
+                        Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SignUpPage()),
+                );
+        } 
+      } 
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -82,52 +92,26 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        child: Container(
-          height: 50.0,
-          child : ElevatedButton(
-            child: Text('Go to second screen'),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SecondScreen()),
-                );
-            },
-          ),  //elevated button
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Test Navigation',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: 'Login',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: 'Register',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
       ),
     );
   }
@@ -138,19 +122,21 @@ class SecondScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Second Screen')),
+      appBar: AppBar(title: Text('Page Navigation Test')),
       body: Center(
-        child : Column(
-          children: [
-            ElevatedButton(
-              child: Text('Go to Home Screen'),
-              onPressed: () {
+        ),  //center
+      bottomNavigationBar: BottomAppBar(  //nav bar to hold return button
+        shape: const CircularNotchedRectangle(),
+        child: Container(
+          height: 50.0,
+          child : ElevatedButton( //return button
+            child: Text('Go back to home screen'),
+            onPressed: () {
                 Navigator.pop(context);
-                },
-            ),  // Elevated Button
-          ],
-        ),  //Column
-      ),  //center
-    );  //scaffold
+            },
+          ),  //elevated button
+          ),//container
+        ),//bottonNavigationBar
+      );  //scaffold
   }
 }
