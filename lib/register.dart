@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
-    ) //MaterialApp
-);
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key}) : super(key: key);
 
-class HomePage extends StatelessWidget{
   @override
-  Widget build(BuildContext context){
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget{
                         child: Container(
                             margin: EdgeInsets.only(top: 300),
                             child: Center(
-                              child: Text("Login", style: TextStyle(color: Colors.black, fontSize: 40, fontWeight: FontWeight.bold),),
+                              //child: Text("Login", style: TextStyle(color: Colors.black, fontSize: 40, fontWeight: FontWeight.bold),),
                             )
                         )
                     )
@@ -64,7 +64,35 @@ class HomePage extends StatelessWidget{
                           ),
                           child: TextField(
                             decoration: InputDecoration(
-                                hintText: " Email or Phone number",
+                                hintText: " Email",
+                                prefixIcon: Icon(Icons.email_outlined, color: Colors.redAccent),
+                                hintStyle: TextStyle(color: Colors.grey[500])
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                              color: Colors.grey[100],
+                              border: Border(bottom: BorderSide(color: Colors.grey.shade100))
+                          ),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                hintText: "Phone",
+                                prefixIcon: Icon(Icons.phone, color: Colors.redAccent),
+                                hintStyle: TextStyle(color: Colors.grey[500])
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                              color: Colors.grey[100],
+                              border: Border(bottom: BorderSide(color: Colors.grey.shade100))
+                          ),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                hintText: "Full Name",
                                 prefixIcon: Icon(Icons.person, color: Colors.redAccent),
                                 hintStyle: TextStyle(color: Colors.grey[500])
                             ),
@@ -79,7 +107,21 @@ class HomePage extends StatelessWidget{
                           child: TextField(
                             decoration: InputDecoration(
                                 hintText: "Password",
-                                prefixIcon: Icon(Icons.lock_outline, color: Colors.redAccent),
+                                prefixIcon: Icon(Icons.lock, color: Colors.redAccent),
+                                hintStyle: TextStyle(color: Colors.grey[500])
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                              color: Colors.grey[100],
+                              border: Border(bottom: BorderSide(color: Colors.grey.shade100))
+                          ),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                hintText: "Confirm Password",
+                                prefixIcon: Icon(Icons.lock, color: Colors.redAccent),
                                 hintStyle: TextStyle(color: Colors.grey[500])
                             ),
                           ),
@@ -100,25 +142,9 @@ class HomePage extends StatelessWidget{
                         )
                     ),
                     child: Center(
-                      child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                    ),
-                  ),
-                  SizedBox(height: 30,),
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                            colors: [
-                              Color.fromRGBO(16, 20, 251, 1),
-                              Color.fromRGBO(16, 20, 251, .6),
-                            ]
-                        )
-                    ),
-                    child: Center(
                       child: Text("Register", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                     ),
-                  )
+                  ),
                 ],
               ),
             )
