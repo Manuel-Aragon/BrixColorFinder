@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             Container(
                 height: 370,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('assets/images/lego.png'),
                         fit: BoxFit.fill
@@ -29,8 +29,8 @@ class _LoginPageState extends State<LoginPage> {
                   children: <Widget>[
                     Positioned(
                         child: Container(
-                            margin: EdgeInsets.only(top: 300),
-                            child: Center(
+                            margin: const EdgeInsets.only(top: 300),
+                            child: const Center(
                               child: Text("Login", style: TextStyle(color: Colors.black, fontSize: 40, fontWeight: FontWeight.bold),),
                             )
                         )
@@ -39,16 +39,16 @@ class _LoginPageState extends State<LoginPage> {
                 )
             ),
             Padding(
-              padding: EdgeInsets.all(5.0),
+              padding: const EdgeInsets.all(5.0),
               child: Column(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
-                          BoxShadow(
+                          const BoxShadow(
                               color: Color.fromRGBO(143, 148, 251, .2),
                               blurRadius: 20.0,
                               offset: Offset(0,10)
@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Column(
                       children: <Widget>[
                         Container(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
                               color: Colors.grey[100],
                               border: Border(bottom: BorderSide(color: Colors.grey.shade100))
@@ -66,13 +66,13 @@ class _LoginPageState extends State<LoginPage> {
                           child: TextField(
                             decoration: InputDecoration(
                                 hintText: " Email or Phone number",
-                                prefixIcon: Icon(Icons.person, color: Colors.redAccent),
+                                prefixIcon: const Icon(Icons.person, color: Colors.redAccent),
                                 hintStyle: TextStyle(color: Colors.grey[500])
                             ),
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
                               color: Colors.grey[100],
                               border: Border(bottom: BorderSide(color: Colors.grey.shade100))
@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: TextField(
                             decoration: InputDecoration(
                                 hintText: "Password",
-                                prefixIcon: Icon(Icons.lock_outline, color: Colors.redAccent),
+                                prefixIcon: const Icon(Icons.lock_outline, color: Colors.redAccent),
                                 hintStyle: TextStyle(color: Colors.grey[500])
                             ),
                           ),
@@ -88,35 +88,35 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 30,),
+                  const SizedBox(height: 30,),
                   Container(
                     height: 50,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                             colors: [
                               Color.fromRGBO(16, 20, 251, 1),
                               Color.fromRGBO(16, 20, 251, .6),
                             ]
                         )
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                     ),
                   ),
-                  SizedBox(height: 30,),
+                  const SizedBox(height: 30,),
                   Container(
                     height: 50,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                             colors: [
                               Color.fromRGBO(16, 20, 251, 1),
                               Color.fromRGBO(16, 20, 251, .6),
                             ]
                         )
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text("Register", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                     ),
                   )
@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Container(
           height: 50.0,
           child : ElevatedButton( //return button
-            child: Text('Go back to home screen'),
+            child: const Text('Go back to home screen'),
             onPressed: () {
                 Navigator.pop(context);
             },

@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
+      body: const Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
 
@@ -139,15 +139,15 @@ class SecondScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Page Navigation Test')),
-      body: Center(
+      appBar: AppBar(title: const Text('Page Navigation Test')),
+      body: const Center(
         ),  //center
       bottomNavigationBar: BottomAppBar(  //nav bar to hold return button
         shape: const CircularNotchedRectangle(),
         child: Container(
           height: 50.0,
           child : ElevatedButton( //return button
-            child: Text('Go back to home screen'),
+            child: const Text('Go back to home screen'),
             onPressed: () {
                 Navigator.pop(context);
             },
