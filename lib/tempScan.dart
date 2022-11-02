@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+class ScanPage extends StatefulWidget {
+  const ScanPage({Key? key}) : super(key: key);
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
+  State<ScanPage> createState() => _ScanPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _ScanPageState extends State<ScanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Settings"),
+        title: const Text("Scan"),
       ),
       bottomNavigationBar: BottomAppBar(  //nav bar to hold return button
         shape: const CircularNotchedRectangle(),
@@ -30,4 +30,8 @@ class _SettingsPageState extends State<SettingsPage> {
       ),//bottonNavigationBar
     );
   }
+}
+
+void registerUser(){
+  
 }

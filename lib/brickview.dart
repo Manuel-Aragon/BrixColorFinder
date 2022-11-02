@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+class BrickView extends StatefulWidget {
+  const BrickView({Key? key}) : super(key: key);
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
+  State<BrickView> createState() => _BrickViewState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _BrickViewState extends State<BrickView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Settings"),
+        title: const Text("BrickView"),
       ),
       bottomNavigationBar: BottomAppBar(  //nav bar to hold return button
         shape: const CircularNotchedRectangle(),
