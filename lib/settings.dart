@@ -16,18 +16,6 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         title: const Text("Settings"),
       ),
-      bottomNavigationBar: BottomAppBar(  //nav bar to hold return button
-        shape: const CircularNotchedRectangle(),
-        child: Container(
-          height: 50.0,
-          child : ElevatedButton( //return button
-            child: const Text('Go back to home screen'),
-            onPressed: () {
-                Navigator.pop(context);
-            },
-          ),  //elevated button
-          ),//container
-      ),//bottonNavigationBar
     );
   }
 }
