@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucky13capstone/login.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -7,53 +8,50 @@ class SignUpPage extends StatefulWidget {
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
+
 class _SignUpPageState extends State<SignUpPage> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: Container(
+      appBar: AppBar(title: Text("Register")),
+      body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Container(
+            Stack(
+              children: <Widget>[
+                Container(
                 height: 370,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/lego.png'),
-                        fit: BoxFit.fill
-                    )
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('assets/images/lego.png'),
+                          fit: BoxFit.fill
+                      )
+                  ),
                 ),
-                child: Stack(
-                  children: <Widget>[
-                    Positioned(
-                        child: Container(
-                            margin: EdgeInsets.only(top: 300),
-                            child: Center(
-                              //child: Text("Login", style: TextStyle(color: Colors.black, fontSize: 40, fontWeight: FontWeight.bold),),
-                            )
-                        )
-                    )
-                  ],
+                Container(
+                  margin: const EdgeInsets.only(top: 300),
+                  child: const Center(
+                    child: Text("Register", style: TextStyle(color: Colors.black, fontSize: 40, fontWeight: FontWeight.bold),),
+                  )
                 )
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.all(5.0),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color.fromRGBO(143, 148, 251, .2),
-                              blurRadius: 20.0,
-                              offset: Offset(0,10)
-                          )
-                        ]
-                    ),
+            Column(
+              children: <Widget>[
+                Container( //login form
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        const BoxShadow(
+                            color: Color.fromRGBO(143, 148, 251, .2),
+                            blurRadius: 20.0,
+                            offset: Offset(0,10)
+                        )
+                      ]
+                  ),
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -128,44 +126,38 @@ class _SignUpPageState extends State<SignUpPage> {
                         )
                       ],
                     ),
+                ),
+                const SizedBox(height: 10),
+                Container(  //registration button
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    gradient: const LinearGradient(
+                        colors: [
+                          Color.fromRGBO(16, 20, 251, 1),
+                          Color.fromRGBO(16, 20, 251, .6),
+                        ]
+                    )
                   ),
-                  SizedBox(height: 30,),
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                            colors: [
-                              Color.fromRGBO(16, 20, 251, 1),
-                              Color.fromRGBO(16, 20, 251, .6),
-                            ]
-                        )
-                    ),
-                    child: Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                        // Navigator.push(
+                        // context,
+                        // MaterialPageRoute(builder: (context) => SignUpPage()),
+                        // );
+                      },
+                    style: ElevatedButton.styleFrom(primary: Colors.transparent, shadowColor: Colors.transparent),
+                    child: const Center(
                       child: Text("Register", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                     ),
                   ),
-                ],
-              ),
-            )
+                ),
+                const SizedBox(height: 10),
+              ],
+            ),
           ],
         ),
       ),
-      // Remove this after testing is over
-      //causes overflow of because navigation bar cannot fit
-      bottomNavigationBar: BottomAppBar(  //nav bar to hold return button
-        shape: const CircularNotchedRectangle(),
-        child: Container(
-          height: 50.0,
-          child : ElevatedButton( //return button
-            child: Text('Go back to home screen'),
-            onPressed: () {
-                Navigator.pop(context);
-            },
-          ),  //elevated button
-          ),//container
-      ),//bottonNavigationBar
-      //Remove this section after testing is over
     );
   }
-}
+} 
