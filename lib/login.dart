@@ -11,6 +11,15 @@ class LoginPage extends StatefulWidget {
 
 
 class _LoginPageState extends State<LoginPage> {
+
+  void _login() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => ScanPage()),
+      (r) => false
+    );
+  }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -99,12 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ),
                   child: ElevatedButton(
-                    onPressed: () {
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ScanPage()),
-                        );
-                      },
+                    onPressed: () {_login();},
                     style: ElevatedButton.styleFrom(primary: Colors.transparent, shadowColor: Colors.transparent),
                     child: const Center(
                       child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
