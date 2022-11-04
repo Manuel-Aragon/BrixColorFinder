@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lucky13capstone/register.dart';
 import 'package:lucky13capstone/tempScan.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -12,19 +15,36 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  void _authenticate() async {
+     await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text, 
+      password: passwordController.text
+  );
+  }
+
+
   void _login() {
-    Navigator.pushAndRemoveUntil(
+    _authenticate();
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    if (user != null) {
+            Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => ScanPage()),
-      (r) => false
-    );
+      (r) => false);
+    }
+  });
+
+
   }
 
   @override
-  Widget build(BuildContext context){
+
+  Widget build(BuildContext context){  
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: Text("Login")),
+      appBar: AppBar(title: Text('Login')),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -71,6 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                             border: Border(bottom: BorderSide(color: Colors.grey.shade100))
                         ),
                         child: TextField(
+                          controller: emailController,
                           decoration: InputDecoration(
                               hintText: " Email or Phone number",
                               prefixIcon: const Icon(Icons.person, color: Colors.redAccent),
@@ -85,6 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                             border: Border(bottom: BorderSide(color: Colors.grey.shade100))
                         ),
                         child: TextField(
+                          controller: passwordController,
                           decoration: InputDecoration(
                               hintText: "Password",
                               prefixIcon: const Icon(Icons.lock_outline, color: Colors.redAccent),
@@ -108,7 +130,9 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ),
                   child: ElevatedButton(
-                    onPressed: () {_login();},
+                    onPressed: () {
+                      _login();
+                    },
                     style: ElevatedButton.styleFrom(primary: Colors.transparent, shadowColor: Colors.transparent),
                     child: const Center(
                       child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
