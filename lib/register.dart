@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lucky13capstone/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -10,6 +11,34 @@ class SignUpPage extends StatefulWidget {
 
 
 class _SignUpPageState extends State<SignUpPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  void _register() async {
+    try {
+      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+          FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+              Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+        (r) => false);
+      }
+    });
+    } on FirebaseAuthException catch (e) {
+    if (e.code == 'weak-password') {
+      print('The password provided is too weak.');
+    } else if (e.code == 'email-already-in-use') {
+      print('The account already exists for that email.');
+    }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -61,6 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               border: Border(bottom: BorderSide(color: Colors.grey.shade100))
                           ),
                           child: TextField(
+                            controller: emailController,
                             decoration: InputDecoration(
                                 hintText: " Email",
                                 prefixIcon: Icon(Icons.email_outlined, color: Colors.redAccent),
@@ -103,6 +133,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               border: Border(bottom: BorderSide(color: Colors.grey.shade100))
                           ),
                           child: TextField(
+                            controller: passwordController,
                             decoration: InputDecoration(
                                 hintText: "Password",
                                 prefixIcon: Icon(Icons.lock, color: Colors.redAccent),
@@ -141,6 +172,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   child: ElevatedButton(
                     onPressed: () {
+                      _register();
                         // Navigator.push(
                         // context,
                         // MaterialPageRoute(builder: (context) => SignUpPage()),
