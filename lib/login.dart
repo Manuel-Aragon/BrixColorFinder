@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucky13capstone/register.dart';
 import 'package:lucky13capstone/tempScan.dart';
+import 'package:lucky13capstone/camera.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
     if (user != null) {
             Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => ScanPage()),
+      MaterialPageRoute(builder: (context) => TakePictureScreen()),
       (r) => false);
     }
   });

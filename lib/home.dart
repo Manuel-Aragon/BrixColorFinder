@@ -8,6 +8,7 @@ import 'package:lucky13capstone/main.dart';
 import 'package:lucky13capstone/tempScan.dart';
 import 'package:lucky13capstone/brickview.dart';
 
+import 'package:camera/camera.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -102,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                          Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ScanPage()),
+                          MaterialPageRoute(builder: (context) => TakePictureScreen()),
                           );
                         },
                   ),

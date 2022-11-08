@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucky13capstone/brickview.dart';
 import 'settings.dart';
+
 class ScanPage extends StatefulWidget {
   const ScanPage({Key? key}) : super(key: key);
 

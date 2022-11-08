@@ -5,10 +5,6 @@ import 'package:camera/camera.dart';
 import 'package:lucky13capstone/home.dart';
 
 
-
-
-
-
 void main() async {
 
     WidgetsFlutterBinding.ensureInitialized(); 
