@@ -17,6 +17,8 @@ class _LoginPageState extends State<LoginPage> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+
   void _authenticate() async {
      await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: emailController.text, 
@@ -26,7 +28,9 @@ class _LoginPageState extends State<LoginPage> {
 
 
   void _login() {
-    _authenticate();
+    if (_key.currentState!.validate()){
+      _authenticate();
+    }
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
     if (user != null) {
             Navigator.pushAndRemoveUntil(
@@ -35,9 +39,8 @@ class _LoginPageState extends State<LoginPage> {
       (r) => false);
     }
   });
-
-
   }
+
 
   @override
 
@@ -68,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             Column(
-              children: <Widget>[
+              children: [
                 Container( //login form
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
@@ -82,39 +85,44 @@ class _LoginPageState extends State<LoginPage> {
                         )
                       ]
                   ),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            border: Border(bottom: BorderSide(color: Colors.grey.shade100))
-                        ),
-                        child: TextField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                              hintText: " Email or Phone number",
-                              prefixIcon: const Icon(Icons.person, color: Colors.redAccent),
-                              hintStyle: TextStyle(color: Colors.grey[500])
+                  child: Form(
+                    key: _key,
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                              color: Colors.grey[100],
+                              border: Border(bottom: BorderSide(color: Colors.grey.shade100))
+                          ),
+                          child: TextFormField(
+                            controller: emailController, 
+                            validator: validateEmail,
+                            decoration: InputDecoration(
+                                hintText: " Email or Phone number",
+                                prefixIcon: const Icon(Icons.person, color: Colors.redAccent),
+                                hintStyle: TextStyle(color: Colors.grey[500])
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            border: Border(bottom: BorderSide(color: Colors.grey.shade100))
-                        ),
-                        child: TextField(
-                          controller: passwordController,
-                          decoration: InputDecoration(
-                              hintText: "Password",
-                              prefixIcon: const Icon(Icons.lock_outline, color: Colors.redAccent),
-                              hintStyle: TextStyle(color: Colors.grey[500])
+                        Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                              color: Colors.grey[100],
+                              border: Border(bottom: BorderSide(color: Colors.grey.shade100))
                           ),
-                        ),
-                      )
-                    ],
+                          child: TextFormField(
+                            controller: passwordController,
+                            validator: validatePassword,
+                            decoration: InputDecoration(
+                                hintText: "Password",
+                                prefixIcon: const Icon(Icons.lock_outline, color: Colors.redAccent),
+                                hintStyle: TextStyle(color: Colors.grey[500])
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -130,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ),
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async{
                       _login();
                     },
                     style: ElevatedButton.styleFrom(primary: Colors.transparent, shadowColor: Colors.transparent),
@@ -172,4 +180,17 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+}
+
+String? validateEmail(String? formEmail) {
+  if (formEmail == null || formEmail.isEmpty){
+    return 'E-mail address is required.';
+  }
+  return null;
+}
+String? validatePassword(String? formPassword) {
+  if (formPassword == null || formPassword.isEmpty){
+    return 'Password is required.';
+  }
+  return null;
 }

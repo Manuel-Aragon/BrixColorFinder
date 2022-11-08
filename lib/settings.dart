@@ -30,6 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: Center(
         child:  ElevatedButton( //return button
+                  style: ElevatedButton.styleFrom(primary: Colors.red, shadowColor: Colors.transparent),
                     child: const Text('Logout'),
                       onPressed: () {
                         _logout();

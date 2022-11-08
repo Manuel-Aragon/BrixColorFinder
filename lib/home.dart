@@ -97,6 +97,15 @@ class _HomePageState extends State<HomePage> {
                           );
                         },
                   ),
+                  ElevatedButton( //return button
+                    child: const Text('Camera'),
+                      onPressed: () {
+                         Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ScanPage()),
+                          );
+                        },
+                  ),
                 ],
               ),
       ),
