@@ -4,7 +4,7 @@ import 'package:lucky13capstone/login.dart';
 import 'package:lucky13capstone/camera.dart';
 import 'package:lucky13capstone/settings.dart';
 
-import 'package:lucky13capstone/tempScan.dart';
+import 'package:lucky13capstone/temp_scan.dart';
 import 'package:lucky13capstone/brickview.dart';
 
 class HomePage extends StatefulWidget {

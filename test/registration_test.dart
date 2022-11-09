@@ -10,9 +10,9 @@ import 'package:lucky13capstone/register.dart';
 void main() {
   testWidgets('', (WidgetTester tester) async {
       //Wrap signuppage widget with the MediaQuery(...) instance due to Scaffold(..)
-        Widget testWidget = new MediaQuery(
-          data: new MediaQueryData(),
-          child: new MaterialApp(home: new SignUpPage())
+        Widget testWidget = const MediaQuery(
+          data: MediaQueryData(),
+          child: MaterialApp(home: SignUpPage())
           );
     // Build our app and trigger a frame.
     await tester.pumpWidget(testWidget);

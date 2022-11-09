@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lucky13capstone/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +9,6 @@ class SignUpPage extends StatefulWidget {
   @override
   State<SignUpPage> createState() => _SignUpPageState();
 }
-
 
 class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
@@ -30,12 +30,20 @@ class _SignUpPageState extends State<SignUpPage> {
     });
     } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
-      print('The password provided is too weak.');
+      if (kDebugMode) {
+        if (kDebugMode) {
+          print('The password provided is too weak.');
+        }
+      }
     } else if (e.code == 'email-already-in-use') {
-      print('The account already exists for that email.');
+      if (kDebugMode) {
+        print('The account already exists for that email.');
+      }
     }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -73,8 +81,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        const BoxShadow(
+                      boxShadow: const [
+                        BoxShadow(
                             color: Color.fromRGBO(143, 148, 251, .2),
                             blurRadius: 20.0,
                             offset: Offset(0,10)
@@ -178,7 +186,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         // MaterialPageRoute(builder: (context) => SignUpPage()),
                         // );
                       },
-                    style: ElevatedButton.styleFrom(primary: Colors.transparent, shadowColor: Colors.transparent),
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, shadowColor: Colors.transparent),
                     child: const Center(
                       child: Text("Register", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                     ),
