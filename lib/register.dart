@@ -16,7 +16,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void _register() async {
     try {
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
@@ -24,7 +24,7 @@ class _SignUpPageState extends State<SignUpPage> {
       if (user != null) {
               Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
+        MaterialPageRoute(builder: (context) => const LoginPage()),
         (r) => false);
       }
     });
@@ -43,7 +43,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context){
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: Text("Register")),
+      appBar: AppBar(title: const Text("Register")),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -84,7 +84,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Column(
                       children: <Widget>[
                         Container(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
                               color: Colors.grey[100],
                               border: Border(bottom: BorderSide(color: Colors.grey.shade100))
@@ -93,13 +93,13 @@ class _SignUpPageState extends State<SignUpPage> {
                             controller: emailController,
                             decoration: InputDecoration(
                                 hintText: " Email",
-                                prefixIcon: Icon(Icons.email_outlined, color: Colors.redAccent),
+                                prefixIcon: const Icon(Icons.email_outlined, color: Colors.redAccent),
                                 hintStyle: TextStyle(color: Colors.grey[500])
                             ),
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
                               color: Colors.grey[100],
                               border: Border(bottom: BorderSide(color: Colors.grey.shade100))
@@ -107,13 +107,13 @@ class _SignUpPageState extends State<SignUpPage> {
                           child: TextField(
                             decoration: InputDecoration(
                                 hintText: "Phone",
-                                prefixIcon: Icon(Icons.phone, color: Colors.redAccent),
+                                prefixIcon: const Icon(Icons.phone, color: Colors.redAccent),
                                 hintStyle: TextStyle(color: Colors.grey[500])
                             ),
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
                               color: Colors.grey[100],
                               border: Border(bottom: BorderSide(color: Colors.grey.shade100))
@@ -121,13 +121,13 @@ class _SignUpPageState extends State<SignUpPage> {
                           child: TextField(
                             decoration: InputDecoration(
                                 hintText: "Full Name",
-                                prefixIcon: Icon(Icons.person, color: Colors.redAccent),
+                                prefixIcon: const Icon(Icons.person, color: Colors.redAccent),
                                 hintStyle: TextStyle(color: Colors.grey[500])
                             ),
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
                               color: Colors.grey[100],
                               border: Border(bottom: BorderSide(color: Colors.grey.shade100))
@@ -136,13 +136,13 @@ class _SignUpPageState extends State<SignUpPage> {
                             controller: passwordController,
                             decoration: InputDecoration(
                                 hintText: "Password",
-                                prefixIcon: Icon(Icons.lock, color: Colors.redAccent),
+                                prefixIcon: const Icon(Icons.lock, color: Colors.redAccent),
                                 hintStyle: TextStyle(color: Colors.grey[500])
                             ),
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
                               color: Colors.grey[100],
                               border: Border(bottom: BorderSide(color: Colors.grey.shade100))
@@ -150,7 +150,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           child: TextField(
                             decoration: InputDecoration(
                                 hintText: "Confirm Password",
-                                prefixIcon: Icon(Icons.lock, color: Colors.redAccent),
+                                prefixIcon: const Icon(Icons.lock, color: Colors.redAccent),
                                 hintStyle: TextStyle(color: Colors.grey[500])
                             ),
                           ),

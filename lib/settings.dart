@@ -11,11 +11,11 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
 
-  void _logout() async {
-    await FirebaseAuth.instance.signOut();
+  void _logout(){
+    FirebaseAuth.instance.signOut();
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
+      MaterialPageRoute(builder: (context) => const LoginPage()),
       (r) => false
     );
 }
@@ -30,7 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: Center(
         child:  ElevatedButton( //return button
-                  style: ElevatedButton.styleFrom(primary: Colors.red, shadowColor: Colors.transparent),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red, shadowColor: Colors.transparent),
                     child: const Text('Logout'),
                       onPressed: () {
                         _logout();

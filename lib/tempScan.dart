@@ -28,7 +28,7 @@ class _ScanPageState extends State<ScanPage> {
                       onPressed: () {
                          Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => SettingsPage()),
+                          MaterialPageRoute(builder: (context) => const SettingsPage()),
                           );
                         },
                   ),
@@ -37,7 +37,7 @@ class _ScanPageState extends State<ScanPage> {
                       onPressed: () {
                          Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => BrickView()),
+                          MaterialPageRoute(builder: (context) => const BrickView()),
                           );
                         },
                   ),

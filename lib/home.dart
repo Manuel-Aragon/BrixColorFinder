@@ -4,11 +4,8 @@ import 'package:lucky13capstone/login.dart';
 import 'package:lucky13capstone/camera.dart';
 import 'package:lucky13capstone/settings.dart';
 
-import 'package:lucky13capstone/main.dart';
 import 'package:lucky13capstone/tempScan.dart';
 import 'package:lucky13capstone/brickview.dart';
-
-import 'package:camera/camera.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -31,9 +28,6 @@ class HomePage extends StatefulWidget {
 
 
 class _HomePageState extends State<HomePage> {
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -58,7 +52,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                          Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
+                          MaterialPageRoute(builder: (context) => const LoginPage()),
                           );
                         },
                   ),
@@ -67,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                          Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => SignUpPage()),
+                          MaterialPageRoute(builder: (context) => const SignUpPage()),
                           );
                         },
                   ),
@@ -76,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                          Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => SettingsPage()),
+                          MaterialPageRoute(builder: (context) => const SettingsPage()),
                           );
                         },
                   ),
@@ -85,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                          Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => BrickView()),
+                          MaterialPageRoute(builder: (context) => const BrickView()),
                           );
                         },
                   ),
@@ -94,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                          Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ScanPage()),
+                          MaterialPageRoute(builder: (context) => const ScanPage()),
                           );
                         },
                   ),
@@ -103,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                          Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => TakePictureScreen()),
+                          MaterialPageRoute(builder: (context) => const TakePictureScreen()),
                           );
                         },
                   ),

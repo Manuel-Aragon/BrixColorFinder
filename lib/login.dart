@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lucky13capstone/register.dart';
-import 'package:lucky13capstone/tempScan.dart';
 import 'package:lucky13capstone/camera.dart';
-
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
@@ -36,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     if (user != null) {
             Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => TakePictureScreen()),
+      MaterialPageRoute(builder: (context) => const TakePictureScreen()),
       (r) => false);
     }
   });
@@ -48,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context){  
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(title: const Text('Login')),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -142,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () async{
                       _login();
                     },
-                    style: ElevatedButton.styleFrom(primary: Colors.transparent, shadowColor: Colors.transparent),
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, shadowColor: Colors.transparent),
                     child: const Center(
                       child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                     ),
@@ -164,10 +161,10 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                         Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                        MaterialPageRoute(builder: (context) => const SignUpPage()),
                         );
                       },
-                    style: ElevatedButton.styleFrom(primary: Colors.transparent, shadowColor: Colors.transparent),
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, shadowColor: Colors.transparent),
                     child: const Center(
                       child: Text("Register", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                     ),
