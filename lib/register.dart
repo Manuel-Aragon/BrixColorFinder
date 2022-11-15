@@ -12,9 +12,18 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final nameController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmationController = TextEditingController();
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+
+  void _authenticate() async {
+    
+  }
 
   void _register() async {
+
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
@@ -89,81 +98,92 @@ class _SignUpPageState extends State<SignUpPage> {
                         )
                       ]
                   ),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              border: Border(bottom: BorderSide(color: Colors.grey.shade100))
-                          ),
-                          child: TextField(
-                            controller: emailController,
-                            decoration: InputDecoration(
-                                hintText: " Email",
-                                prefixIcon: const Icon(Icons.email_outlined, color: Colors.redAccent),
-                                hintStyle: TextStyle(color: Colors.grey[500])
+                    child: Form(
+                      key: _key,
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[100],
+                                border: Border(bottom: BorderSide(color: Colors.grey.shade100))
+                            ),
+                            child: TextFormField(
+                              controller: emailController,
+                              validator: validateEmail,
+                              decoration: InputDecoration(
+                                  hintText: " Email",
+                                  prefixIcon: const Icon(Icons.email_outlined, color: Colors.redAccent),
+                                  hintStyle: TextStyle(color: Colors.grey[500])
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              border: Border(bottom: BorderSide(color: Colors.grey.shade100))
-                          ),
-                          child: TextField(
-                            decoration: InputDecoration(
-                                hintText: "Phone",
-                                prefixIcon: const Icon(Icons.phone, color: Colors.redAccent),
-                                hintStyle: TextStyle(color: Colors.grey[500])
+                          Container(
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[100],
+                                border: Border(bottom: BorderSide(color: Colors.grey.shade100))
+                            ),
+                            child: TextFormField(
+                              controller: phoneController,
+                              validator: validatePhone,
+                              decoration: InputDecoration(
+                                  hintText: "Phone",
+                                  prefixIcon: const Icon(Icons.phone, color: Colors.redAccent),
+                                  hintStyle: TextStyle(color: Colors.grey[500])
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              border: Border(bottom: BorderSide(color: Colors.grey.shade100))
-                          ),
-                          child: TextField(
-                            decoration: InputDecoration(
-                                hintText: "Full Name",
-                                prefixIcon: const Icon(Icons.person, color: Colors.redAccent),
-                                hintStyle: TextStyle(color: Colors.grey[500])
+                          Container(
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[100],
+                                border: Border(bottom: BorderSide(color: Colors.grey.shade100))
+                            ),
+                            child: TextFormField(
+                              controller: nameController,
+                              validator: validateName,
+                              decoration: InputDecoration(
+                                  hintText: "Full Name",
+                                  prefixIcon: const Icon(Icons.person, color: Colors.redAccent),
+                                  hintStyle: TextStyle(color: Colors.grey[500])
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              border: Border(bottom: BorderSide(color: Colors.grey.shade100))
-                          ),
-                          child: TextField(
-                            controller: passwordController,
-                            decoration: InputDecoration(
-                                hintText: "Password",
-                                prefixIcon: const Icon(Icons.lock, color: Colors.redAccent),
-                                hintStyle: TextStyle(color: Colors.grey[500])
+                          Container(
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[100],
+                                border: Border(bottom: BorderSide(color: Colors.grey.shade100))
+                            ),
+                            child: TextFormField(
+                              controller: passwordController,
+                              validator: validatePassword,
+                              decoration: InputDecoration(
+                                  hintText: "Password",
+                                  prefixIcon: const Icon(Icons.lock, color: Colors.redAccent),
+                                  hintStyle: TextStyle(color: Colors.grey[500])
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              border: Border(bottom: BorderSide(color: Colors.grey.shade100))
-                          ),
-                          child: TextField(
-                            decoration: InputDecoration(
-                                hintText: "Confirm Password",
-                                prefixIcon: const Icon(Icons.lock, color: Colors.redAccent),
-                                hintStyle: TextStyle(color: Colors.grey[500])
+                          Container(
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[100],
+                                border: Border(bottom: BorderSide(color: Colors.grey.shade100))
                             ),
-                          ),
-                        )
-                      ],
+                            child: TextFormField(
+                              controller: confirmationController,
+                              validator: validateConfirmation,
+                              decoration: InputDecoration(
+                                  hintText: "Confirm Password",
+                                  prefixIcon: const Icon(Icons.lock, color: Colors.redAccent),
+                                  hintStyle: TextStyle(color: Colors.grey[500])
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                 ),
                 const SizedBox(height: 10),
@@ -180,12 +200,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   child: ElevatedButton(
                     onPressed: () {
-                      _register();
-                        // Navigator.push(
-                        // context,
-                        // MaterialPageRoute(builder: (context) => SignUpPage()),
-                        // );
-                      },
+                      if (_key.currentState!.validate()){
+                        _register();
+                      }
+                    },
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, shadowColor: Colors.transparent),
                     child: const Center(
                       child: Text("Register", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
@@ -201,3 +219,43 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 } 
+
+String? validateEmail(String? formEmail) {
+  if (formEmail == null || formEmail.isEmpty){
+    return 'E-mail address is required.';
+  }
+  //other validations go here
+  return null;
+}
+
+String? validatePhone(String? formPhone) {
+  if (formPhone == null || formPhone.isEmpty){
+    return 'Phone number is required.';
+  }
+  //other validations go here
+  return null;
+}
+
+String? validateName(String? formName) {
+  if (formName == null || formName.isEmpty){
+    return 'Name is required.';
+  }
+  //other validations go here
+  return null;
+}
+
+String? validatePassword(String? formPassword) {
+  if (formPassword == null || formPassword.isEmpty){
+    return 'Password is required.';
+  }
+  //other validations go here
+  return null;
+}
+
+String? validateConfirmation(String? formConfirmation) {
+  if (formConfirmation == null || formConfirmation.isEmpty){
+    return 'Please confirm your password';
+  }
+  //other validations go here
+  return null;
+}
