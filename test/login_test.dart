@@ -17,7 +17,6 @@ void main() {
           );
     // Build our app and trigger a frame.
     await tester.pumpWidget(testWidget);
-
     expect(find.byType(ElevatedButton), findsNWidgets(2));
   });
 

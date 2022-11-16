@@ -6,6 +6,7 @@ import 'package:lucky13capstone/settings.dart';
 
 import 'package:lucky13capstone/temp_scan.dart';
 import 'package:lucky13capstone/brickview.dart';
+import 'package:lucky13capstone/history.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -80,6 +81,15 @@ class _HomePageState extends State<HomePage> {
                          Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const BrickView()),
+                          );
+                        },
+                  ),
+                  ElevatedButton( //return button
+                    child: const Text('History'),
+                      onPressed: () {
+                         Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const HistoryPage()),
                           );
                         },
                   ),

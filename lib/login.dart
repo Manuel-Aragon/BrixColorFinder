@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lucky13capstone/register.dart';
 import 'package:lucky13capstone/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lucky13capstone/temp_scan.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -31,10 +32,10 @@ class _LoginPageState extends State<LoginPage> {
     }
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
     if (user != null) {
-            Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => const TakePictureScreen()),
-      (r) => false);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const ScanPage()),
+        (r) => false);
     }
   });
   }

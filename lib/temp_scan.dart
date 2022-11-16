@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucky13capstone/brickview.dart';
 import 'settings.dart';
+import 'package:lucky13capstone/history.dart';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({Key? key}) : super(key: key);
@@ -29,6 +30,15 @@ class _ScanPageState extends State<ScanPage> {
                          Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const SettingsPage()),
+                          );
+                        },
+                  ),
+                  ElevatedButton( //brick view
+                    child: const Text('History'),
+                      onPressed: () {
+                         Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const HistoryPage()),
                           );
                         },
                   ),
