@@ -2,18 +2,13 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
-  const TakePictureScreen({
-    super.key,
-    required this.camera,
-  });
-
-  final CameraDescription camera;
-
+  const TakePictureScreen({Key? key}) : super(key: key);
   @override
   TakePictureScreenState createState() => TakePictureScreenState();
 }
@@ -21,20 +16,35 @@ class TakePictureScreen extends StatefulWidget {
 class TakePictureScreenState extends State<TakePictureScreen> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
+  bool isCameraReady = false;
+  bool isPhotoInProgress = false;
 
   @override
-  void initState() {
+  void initState() 
+  {
     super.initState();
-    // To display the current output from the Camera,
-    // create a CameraController.
-    _controller = CameraController(
-      // Get a specific camera from the list of available cameras.
-      widget.camera,
-      // Define the resolution to use.
-      ResolutionPreset.medium,
+    _getCamera();
+  }
+
+  //gets the first available camera from user's device
+  void _getCamera() async 
+  {
+    final cameras = await availableCameras();
+    final firstCamera = cameras.first;
+
+    _controller = CameraController
+    (
+      firstCamera,
+      ResolutionPreset.max,
+      enableAudio: false,
     );
 
-    // Next, initialize the controller. This returns a Future.
+    await _controller.initialize();
+    setState(() 
+    {
+      isCameraReady = true;
+    });
+
     _initializeControllerFuture = _controller.initialize();
   }
 
@@ -91,7 +101,9 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             );
           } catch (e) {
             // If an error occurs, log the error to the console.
-            print(e);
+            if (kDebugMode) {
+              print(e);
+            }
           }
         },
         child: const Icon(Icons.camera_alt),
