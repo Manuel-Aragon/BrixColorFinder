@@ -181,11 +181,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
+// This code is validating the input of an email address and password. 
+//If either the email address or password is empty, a message is returned to the user. Otherwise, null is returned.
 String? validateEmail(String? formEmail) {
   if (formEmail == null || formEmail.isEmpty){
     return 'E-mail address is required.';
   }
-  //
   return null;
 }
 String? validatePassword(String? formPassword) {
