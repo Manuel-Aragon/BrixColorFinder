@@ -7,6 +7,7 @@ import 'package:lucky13capstone/settings.dart';
 import 'package:lucky13capstone/temp_scan.dart';
 import 'package:lucky13capstone/brickview.dart';
 import 'package:lucky13capstone/history.dart';
+import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -26,9 +27,28 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+const kModelName = "base-model";
 
 
 class _HomePageState extends State<HomePage> {
+   @override
+  void initState() {
+    super.initState();
+    initWithLocalModel();
+  }
+
+  FirebaseCustomModel? model;
+
+  /// Initially get the lcoal model if found, and asynchronously get the latest one in background.
+  initWithLocalModel() async {
+    final _model = await FirebaseModelDownloader.instance.getModel(
+        kModelName, FirebaseModelDownloadType.localModelUpdateInBackground);
+
+    setState(() {
+      model = _model;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -47,7 +67,7 @@ class _HomePageState extends State<HomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
               child: Column(
-                children: <Widget>[
+                children: [
                   ElevatedButton( //return button
                     child: const Text('Login'),
                       onPressed: () {
@@ -111,8 +131,59 @@ class _HomePageState extends State<HomePage> {
                           );
                         },
                   ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Card(
+                      margin: EdgeInsets.zero,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: model != null
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Model name: ${model!.name}'),
+                                  Text('Model size: ${model!.size}'),
+                                ],
+                              )
+                            : const Text("No local model found"),
+                        ),
+                      ),
+                  ),
+                                  const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          final _model = await FirebaseModelDownloader.instance
+                              .getModel(kModelName,
+                                  FirebaseModelDownloadType.latestModel);
+
+                          setState(() {
+                            model = _model;
+                          });
+                        },
+                        child: const Text('Get latest model'),
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          await FirebaseModelDownloader.instance
+                              .deleteDownloadedModel(kModelName);
+
+                          setState(() {
+                            model = null;
+                          });
+                        },
+                        child: const Text('Delete local model'),
+                      ),
+                    ),
+                  ],
+                ),   
                 ],
-              ),
+            ),
       ),
     );
   }
