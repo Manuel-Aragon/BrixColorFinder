@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                         },
                   ),
                   ElevatedButton( //return button
-                    child: const Text('History'),
+                    child: const Text('Scan History'),
                       onPressed: () {
                          Navigator.push(
                           context,
