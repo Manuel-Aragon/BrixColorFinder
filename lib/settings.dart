@@ -54,9 +54,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Settings"),
-        ),
+        appBar: AppBar(title: const Text('Settings')),
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(12),

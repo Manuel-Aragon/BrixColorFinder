@@ -113,7 +113,7 @@ class _ScanPageState extends State<ScanPage> {
                       MaterialPageRoute(builder: (context) => const SettingsPage()),
                       );
                     },
-                    icon: Icon(Icons.settings),
+                    icon: const Icon(Icons.settings),
                   ),
             IconButton( 
                       onPressed: () {
@@ -122,54 +122,54 @@ class _ScanPageState extends State<ScanPage> {
                           MaterialPageRoute(builder: (context) => const HistoryPage()),
                           );
                         },
-                        icon: Icon(Icons.access_time),
+                        icon: const Icon(Icons.access_time),
                   ),
               ],
             ),
-        SizedBox(height: 450), 
+        const SizedBox(height: 450), 
 
          Column(
           //mainAxisAlignment: MainAxisAlignment.spaceAround,
            children: [
            Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
+            children: const [
               Text('Shape      '),
               SizedBox(
                 width: 150,
                 height: 40,
-                child: const DecoratedBox(
-                  decoration: const BoxDecoration(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
                       color: Color.fromARGB(255, 221, 221, 221)),
                 ),
               ),
             ],
           ),
-          SizedBox(height:10),
+          const SizedBox(height:10),
         Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
+            children: const [
               Text('Dimension'),
               SizedBox(
                 width: 150,
                 height: 40,
-                child: const DecoratedBox(
-                  decoration: const BoxDecoration(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
                       color: Color.fromARGB(255, 221, 221, 221)),
                 ),
               ),
             ],
           ),
-          SizedBox(height:10),
+          const SizedBox(height:10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
+            children: const [
               Text('Color        '),
               SizedBox(
                 width: 150,
                 height: 40,
-                child: const DecoratedBox(
-                  decoration: const BoxDecoration(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
                       color: Color.fromARGB(255, 221, 221, 221)),
                 ),
               ),
@@ -177,11 +177,11 @@ class _ScanPageState extends State<ScanPage> {
           ),
           ],
         ),
-       SizedBox(height:20),
+       const SizedBox(height:20),
         ElevatedButton.icon(
                     onPressed: (){},
-                    icon: Icon(Icons.camera_alt_outlined),
-                    label: Text('SCAN'),
+                    icon: const Icon(Icons.camera_alt_outlined),
+                    label: const Text('SCAN'),
                     ), 
       ],
     ),
