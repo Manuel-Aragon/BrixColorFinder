@@ -18,7 +18,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   TextStyle headingStyle = const TextStyle(
-      fontSize: 16, fontWeight: FontWeight.w600, color: Colors.red);
+      fontSize: 16, fontWeight: FontWeight.w600, color: Colors.blue);
 
   bool lockAppSwitchVal = true;
   bool fingerprintSwitchVal = false;
@@ -38,8 +38,8 @@ class _SettingsPageState extends State<SettingsPage> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: Colors.redAccent,
-          secondary: Colors.redAccent,
+          primary: Colors.blueAccent,
+          secondary: Colors.blueAccent,
         ),
       ),
       home: Scaffold(
@@ -104,7 +104,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: const Text("Location"),
                   trailing: Switch(
                       value: lockAppSwitchVal,
-                      activeColor: Colors.redAccent,
+                      activeColor: Colors.blueAccent,
                       onChanged: (val) {
                         setState(() {
                           lockAppSwitchVal = val;
@@ -117,7 +117,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: const Text("Use fingerprint"),
                   trailing: Switch(
                       value: fingerprintSwitchVal,
-                      activeColor: Colors.redAccent,
+                      activeColor: Colors.blueAccent,
                       onChanged: (val) {
                         setState(() {
                           fingerprintSwitchVal = val;
