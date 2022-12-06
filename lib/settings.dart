@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(
@@ -30,6 +32,15 @@ class _SettingsPageState extends State<SettingsPage> {
     color: CupertinoColors.inactiveGray,
   );
   TextStyle descStyleIOS = const TextStyle(color: CupertinoColors.inactiveGray);
+
+   void _logout(){
+    FirebaseAuth.instance.signOut();
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+            (r) => false
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +103,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const ListTile(
                   leading: Icon(Icons.exit_to_app),
                   title: Text("Sign Out"),
+                  //onTap: () => _logout(),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -135,6 +147,8 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
     )
+
+
         : CupertinoApp(
       debugShowCheckedModeBanner: false,
       home: CupertinoPageScaffold(
