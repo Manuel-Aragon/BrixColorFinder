@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucky13capstone/model_page.dart';
 import 'package:lucky13capstone/register.dart';
 import 'package:lucky13capstone/login.dart';
 import 'package:lucky13capstone/camera.dart';
@@ -8,6 +9,7 @@ import 'package:lucky13capstone/temp_scan.dart';
 import 'package:lucky13capstone/brickview.dart';
 import 'package:lucky13capstone/history.dart';
 import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
+import 'package:lucky13capstone/model_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -105,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                         },
                   ),
                   ElevatedButton( //return button
-                    child: const Text('History'),
+                    child: const Text('Scan History'),
                       onPressed: () {
                          Navigator.push(
                           context,
@@ -128,6 +130,15 @@ class _HomePageState extends State<HomePage> {
                          Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const TakePictureScreen()),
+                          );
+                        },
+                  ),
+                  ElevatedButton( //return button
+                    child: const Text('Model Demo'),
+                      onPressed: () {
+                         Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const ModelPage()),
                           );
                         },
                   ),
