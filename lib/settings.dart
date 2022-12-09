@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lucky13capstone/brickview.dart';
 
 void main() {
   runApp(
@@ -64,6 +65,18 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: Text("History"),
                 subtitle: Text("Settings"),
               ),
+              const Divider(),
+              ListTile(
+                  leading: const Icon(Icons.table_chart_outlined),
+                  title: const Text("Brick View"),
+                  subtitle: const Text("View"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BrickView()),
+                    );
+                  }),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -94,6 +107,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: const Icon(Icons.exit_to_app),
                 title: const Text("Sign Out"),
                 onTap: () => _logout(),
+              ),
+              const Divider(),
+              const ListTile(
+                leading: Icon(Icons.save),
+                title: Text("Save Settings"),
               ),
             ],
           ),
