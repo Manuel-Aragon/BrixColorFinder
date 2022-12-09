@@ -31,9 +31,8 @@ class HomePage extends StatefulWidget {
 
 const kModelName = "base-model";
 
-
 class _HomePageState extends State<HomePage> {
-   @override
+  @override
   void initState() {
     super.initState();
     initWithLocalModel();
@@ -65,136 +64,145 @@ class _HomePageState extends State<HomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body:  Center(
+      body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-              child: Column(
-                children: [
-                  ElevatedButton( //return button
-                    child: const Text('Login'),
-                      onPressed: () {
-                         Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const LoginPage()),
-                          );
-                        },
-                  ),
-                  ElevatedButton( //return button
-                    child: const Text('Register'),
-                      onPressed: () {
-                         Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const SignUpPage()),
-                          );
-                        },
-                  ),
-                  ElevatedButton( //return button
-                    child: const Text('Settings'),
-                      onPressed: () {
-                         Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const SettingsPage()),
-                          );
-                        },
-                  ),
-                  ElevatedButton( //return button
-                    child: const Text('Brick View'),
-                      onPressed: () {
-                         Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const BrickView()),
-                          );
-                        },
-                  ),
-                  ElevatedButton( //return button
-                    child: const Text('Scan History'),
-                      onPressed: () {
-                         Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const HistoryPage()),
-                          );
-                        },
-                  ),
-                  ElevatedButton( //return button
-                    child: const Text('Scan'),
-                      onPressed: () {
-                         Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const ScanPage()),
-                          );
-                        },
-                  ),
-                  ElevatedButton( //return button
-                    child: const Text('Camera'),
-                      onPressed: () {
-                         Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const TakePictureScreen()),
-                          );
-                        },
-                  ),
-                  ElevatedButton( //return button
-                    child: const Text('Model Demo'),
-                      onPressed: () {
-                         Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const ModelPage()),
-                          );
-                        },
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Card(
-                      margin: EdgeInsets.zero,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: model != null
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Model name: ${model!.name}'),
-                                  Text('Model size: ${model!.size}'),
-                                ],
-                              )
-                            : const Text("No local model found"),
-                        ),
-                      ),
-                  ),
-                                  const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          final _model = await FirebaseModelDownloader.instance
-                              .getModel(kModelName,
-                                  FirebaseModelDownloadType.latestModel);
-
-                          setState(() {
-                            model = _model;
-                          });
-                        },
-                        child: const Text('Get latest model'),
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await FirebaseModelDownloader.instance
-                              .deleteDownloadedModel(kModelName);
-
-                          setState(() {
-                            model = null;
-                          });
-                        },
-                        child: const Text('Delete local model'),
-                      ),
-                    ),
-                  ],
-                ),   
-                ],
+        child: Column(
+          children: [
+            ElevatedButton(
+              //return button
+              child: const Text('Login'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
+              },
             ),
+            ElevatedButton(
+              //return button
+              child: const Text('Register'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SignUpPage()),
+                );
+              },
+            ),
+            ElevatedButton(
+              //return button
+              child: const Text('Settings'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
+                );
+              },
+            ),
+            ElevatedButton(
+              //return button
+              child: const Text('Brick View'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BrickView()),
+                );
+              },
+            ),
+            ElevatedButton(
+              //return button
+              child: const Text('Scan History'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HistoryPage()),
+                );
+              },
+            ),
+            ElevatedButton(
+              //return button
+              child: const Text('Scan'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ScanPage()),
+                );
+              },
+            ),
+            ElevatedButton(
+              //return button
+              child: const Text('Camera'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const TakePictureScreen()),
+                );
+              },
+            ),
+            ElevatedButton(
+              //return button
+              child: const Text('Model Demo'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ModelPage()),
+                );
+              },
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: Card(
+                margin: EdgeInsets.zero,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: model != null
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Model name: ${model!.name}'),
+                            Text('Model size: ${model!.size}'),
+                          ],
+                        )
+                      : const Text("No local model found"),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      final _model = await FirebaseModelDownloader.instance
+                          .getModel(kModelName,
+                              FirebaseModelDownloadType.latestModel);
+
+                      setState(() {
+                        model = _model;
+                      });
+                    },
+                    child: const Text('Get latest model'),
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await FirebaseModelDownloader.instance
+                          .deleteDownloadedModel(kModelName);
+
+                      setState(() {
+                        model = null;
+                      });
+                    },
+                    child: const Text('Delete local model'),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

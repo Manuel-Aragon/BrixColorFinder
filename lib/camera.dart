@@ -5,7 +5,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
   const TakePictureScreen({Key? key}) : super(key: key);
@@ -20,28 +19,24 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   bool isPhotoInProgress = false;
 
   @override
-  void initState() 
-  {
+  void initState() {
     super.initState();
     _getCamera();
   }
 
   //gets the first available camera from user's device
-  void _getCamera() async 
-  {
+  void _getCamera() async {
     final cameras = await availableCameras();
     final firstCamera = cameras.first;
 
-    _controller = CameraController
-    (
+    _controller = CameraController(
       firstCamera,
       ResolutionPreset.max,
       enableAudio: false,
     );
 
     await _controller.initialize();
-    setState(() 
-    {
+    setState(() {
       isCameraReady = true;
     });
 

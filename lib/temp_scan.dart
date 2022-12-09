@@ -19,7 +19,7 @@ class _ScanPageState extends State<ScanPage> {
       appBar: AppBar(
         title: const Text("Scan"),
       ),
-    /* body:  Center(
+      /* body:  Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
               child: Column(
@@ -58,7 +58,7 @@ class _ScanPageState extends State<ScanPage> {
                     onPressed: (){},
                     icon: Icon(Icons.camera_alt_outlined),
                     label: Text('SCAN'),
-                    ), 
+                    ),
                 ],
               ),
       ),*/
@@ -75,7 +75,7 @@ class _ScanPageState extends State<ScanPage> {
                     },
                     icon: Icon(Icons.settings),
                   ),
-                  IconButton( 
+                  IconButton(
                       onPressed: () {
                          Navigator.push(
                           context,
@@ -86,106 +86,104 @@ class _ScanPageState extends State<ScanPage> {
                   ),
         ],
       ),*/
-     
 
-     /* Align(
+      /* Align(
         alignment: Alignment.bottomCenter,
         child: ElevatedButton.icon(
                     onPressed: (){},
                     icon: Icon(Icons.camera_alt_outlined),
                     label: Text('SCAN'),
-                    ), 
+                    ),
                     child:widget
             ),
 
             */
 
-
-    body: Column(
-      children: [
+      body: Column(
+        children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-            IconButton(
-                   onPressed: () {
-                      Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const SettingsPage()),
-                      );
-                    },
-                    icon: const Icon(Icons.settings),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingsPage()),
+                  );
+                },
+                icon: const Icon(Icons.settings),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HistoryPage()),
+                  );
+                },
+                icon: const Icon(Icons.access_time),
+              ),
+            ],
+          ),
+          const SizedBox(height: 450),
+          Column(
+            //mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: const [
+                  Text('Shape      '),
+                  SizedBox(
+                    width: 150,
+                    height: 40,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 221, 221, 221)),
+                    ),
                   ),
-            IconButton( 
-                      onPressed: () {
-                         Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const HistoryPage()),
-                          );
-                        },
-                        icon: const Icon(Icons.access_time),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: const [
+                  Text('Dimension'),
+                  SizedBox(
+                    width: 150,
+                    height: 40,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 221, 221, 221)),
+                    ),
                   ),
-              ],
-            ),
-        const SizedBox(height: 450), 
-
-         Column(
-          //mainAxisAlignment: MainAxisAlignment.spaceAround,
-           children: [
-           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
-              Text('Shape      '),
-              SizedBox(
-                width: 150,
-                height: 40,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 221, 221, 221)),
-                ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: const [
+                  Text('Color        '),
+                  SizedBox(
+                    width: 150,
+                    height: 40,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 221, 221, 221)),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-          const SizedBox(height:10),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
-              Text('Dimension'),
-              SizedBox(
-                width: 150,
-                height: 40,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 221, 221, 221)),
-                ),
-              ),
-            ],
+          const SizedBox(height: 20),
+          ElevatedButton.icon(
+            onPressed: () {},
+            icon: const Icon(Icons.camera_alt_outlined),
+            label: const Text('SCAN'),
           ),
-          const SizedBox(height:10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
-              Text('Color        '),
-              SizedBox(
-                width: 150,
-                height: 40,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 221, 221, 221)),
-                ),
-              ),
-            ],
-          ),
-          ],
-        ),
-       const SizedBox(height:20),
-        ElevatedButton.icon(
-                    onPressed: (){},
-                    icon: const Icon(Icons.camera_alt_outlined),
-                    label: const Text('SCAN'),
-                    ), 
-      ],
-    ),
-
+        ],
+      ),
     );
   }
 }

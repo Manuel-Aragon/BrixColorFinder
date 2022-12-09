@@ -1,3 +1,5 @@
 {
-    "cmake.sourceDirectory": "${workspaceFolder}/windows/runner"
+    "cmake.sourceDirectory": "${workspaceFolder}/windows/runner",
+    "editor.formatOnSave": true,
+    "files.trimTrailingWhitespace": true
 }

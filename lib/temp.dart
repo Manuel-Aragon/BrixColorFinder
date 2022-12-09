@@ -24,7 +24,7 @@
 
 
 //   @override
-//   void initState() 
+//   void initState()
 //   {
 //     super.initState();
 //     _getCamera();
@@ -44,7 +44,7 @@
 //   }
 
 //   //gets the first available camera from user's device
-//   void _getCamera() async 
+//   void _getCamera() async
 //   {
 //     final cameras = await availableCameras();
 //     final firstCamera = cameras.first;
@@ -57,7 +57,7 @@
 //     );
 
 //     await cameraController.initialize();
-//     setState(() 
+//     setState(()
 //     {
 //       isCameraReady = true;
 //     });

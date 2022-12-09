@@ -4,18 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lucky13capstone/register.dart';
 
-
-
 void main() {
   testWidgets('', (WidgetTester tester) async {
-      //Wrap signuppage widget with the MediaQuery(...) instance due to Scaffold(..)
-        Widget testWidget = const MediaQuery(
-          data: MediaQueryData(),
-          child: MaterialApp(home: SignUpPage())
-          );
+    //Wrap signuppage widget with the MediaQuery(...) instance due to Scaffold(..)
+    Widget testWidget = const MediaQuery(
+        data: MediaQueryData(), child: MaterialApp(home: SignUpPage()));
     // Build our app and trigger a frame.
     await tester.pumpWidget(testWidget);
-
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

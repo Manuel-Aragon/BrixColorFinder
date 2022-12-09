@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tflite/tflite.dart';
 import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
 
-
 const kModelName = "base-model";
-
 
 class ModelPage extends StatefulWidget {
   const ModelPage({Key? key}) : super(key: key);
@@ -15,7 +13,6 @@ class ModelPage extends StatefulWidget {
 
 late List<CameraDescription> cameras;
 
-
 class _ModelPageState extends State<ModelPage> {
   late CameraController cameraController;
   late CameraImage cameraImage;
@@ -23,7 +20,7 @@ class _ModelPageState extends State<ModelPage> {
 
   initCamera() async {
     cameras = await availableCameras();
-    
+
     cameraController = CameraController(
       cameras[0],
       ResolutionPreset.medium,
