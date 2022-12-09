@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lucky13capstone/register.dart';
-import 'package:lucky13capstone/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lucky13capstone/temp_scan.dart';
 

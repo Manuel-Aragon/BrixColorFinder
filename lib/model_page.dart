@@ -1,7 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:tflite/tflite.dart';
-import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
 
 const kModelName = "base-model";
 
@@ -78,8 +77,6 @@ class _ModelPageState extends State<ModelPage> {
   }
 
   List<Widget> displayBoxesAroundRecognizedObjects(Size screen) {
-    if (recognitionsList == null) return [];
-
     double factorX = screen.width;
     double factorY = screen.height;
 
@@ -120,7 +117,7 @@ class _ModelPageState extends State<ModelPage> {
         left: 0.0,
         width: size.width,
         height: size.height - 100,
-        child: Container(
+        child: SizedBox(
           height: size.height - 100,
           child: (!cameraController.value.isInitialized)
               ? Container()
@@ -132,9 +129,7 @@ class _ModelPageState extends State<ModelPage> {
       ),
     );
 
-    if (cameraImage != null) {
-      list.addAll(displayBoxesAroundRecognizedObjects(size));
-    }
+    list.addAll(displayBoxesAroundRecognizedObjects(size));
 
     return SafeArea(
       child: Scaffold(

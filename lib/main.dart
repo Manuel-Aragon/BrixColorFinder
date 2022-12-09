@@ -9,6 +9,5 @@ void main() async {
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     home: HomePage(title: 'Home Page'),
-  ) //MaterialApp
-      );
+  ));
 }

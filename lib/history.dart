@@ -7,14 +7,14 @@ class HistoryPage extends StatefulWidget {
   State<HistoryPage> createState() => _HistoryState();
 }
 
-//This class builds the formatting for how the list will look and take in information
 class MyHistoryBox extends StatelessWidget {
   final String blockText;
   final Image blockImage;
   final String blockColor;
 
-  MyHistoryBox(
-      {required this.blockText,
+  const MyHistoryBox(
+      {super.key,
+      required this.blockText,
       required this.blockImage,
       required this.blockColor});
 
@@ -33,8 +33,8 @@ class MyHistoryBox extends StatelessWidget {
             child: Column(//the values inside the list object
                 children: [
               blockImage,
-              Text(blockText, style: TextStyle(fontSize: 30.0)),
-              Text(blockColor, style: TextStyle(fontSize: 30.0)),
+              Text(blockText, style: const TextStyle(fontSize: 30.0)),
+              Text(blockColor, style: const TextStyle(fontSize: 30.0)),
             ]),
           ),
         ));

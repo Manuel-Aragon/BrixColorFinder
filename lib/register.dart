@@ -18,8 +18,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final confirmationController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
-  void _authenticate() async {}
-
   void _register() async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
