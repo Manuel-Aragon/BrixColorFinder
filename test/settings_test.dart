@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lucky13capstone/register.dart';
+import 'package:lucky13capstone/register_page.dart';
 
 void main() {
   testWidgets('', (WidgetTester tester) async {

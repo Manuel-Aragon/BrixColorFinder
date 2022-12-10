@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:lucky13capstone/home.dart';
+import 'package:lucky13capstone/dev_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -8,6 +8,6 @@ void main() async {
 
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: HomePage(title: 'Home Page'),
+    home: DevPage(title: 'Dev Page'),
   ));
 }

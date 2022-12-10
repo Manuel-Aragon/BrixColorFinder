@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:lucky13capstone/model_page.dart';
-import 'package:lucky13capstone/register.dart';
-import 'package:lucky13capstone/login.dart';
-import 'package:lucky13capstone/camera.dart';
-import 'package:lucky13capstone/settings.dart';
+import 'package:lucky13capstone/register_page.dart';
+import 'package:lucky13capstone/login_page.dart';
+import 'package:lucky13capstone/camera_page.dart';
+import 'package:lucky13capstone/settings_page.dart';
 
 import 'package:lucky13capstone/temp_scan.dart';
-import 'package:lucky13capstone/brickview.dart';
-import 'package:lucky13capstone/history.dart';
+import 'package:lucky13capstone/brickview_page.dart';
+import 'package:lucky13capstone/history_page.dart';
 import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+class DevPage extends StatefulWidget {
+  const DevPage({super.key, required this.title});
   final String title;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<DevPage> createState() => _DevPageState();
 }
 
 const kModelName = "base-model";
 
-class _HomePageState extends State<HomePage> {
+class _DevPageState extends State<DevPage> {
   @override
   void initState() {
     super.initState();

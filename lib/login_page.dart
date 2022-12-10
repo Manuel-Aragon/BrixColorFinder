@@ -1,5 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:lucky13capstone/register.dart';
+import 'package:lucky13capstone/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lucky13capstone/temp_scan.dart';
 
@@ -29,7 +30,9 @@ class _LoginPageState extends State<LoginPage> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
     } catch (error) {
-      print(error);
+      if (kDebugMode) {
+        print(error);
+      }
       // Display an error message to the user
       // or take some other appropriate action
     }

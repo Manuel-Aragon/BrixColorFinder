@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'login.dart';
+import 'login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:lucky13capstone/brickview.dart';
+import 'package:lucky13capstone/brickview_page.dart';
 
 void main() {
   runApp(
