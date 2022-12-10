@@ -3,29 +3,50 @@ import 'package:lucky13capstone/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lucky13capstone/temp_scan.dart';
 
+// This class represents the login page of the app.
 class LoginPage extends StatefulWidget {
+  // The LoginPage constructor.
   const LoginPage({Key? key}) : super(key: key);
 
+  // This method creates the state for the LoginPage.
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
+// This class represents the state of the LoginPage.
 class _LoginPageState extends State<LoginPage> {
+  //controller for the email field in the login form
   final emailController = TextEditingController();
+  //controller for the  password field in the login form.
   final passwordController = TextEditingController();
+  //This key is used to access the form state.
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
+// This method is called by the _login method to start the authentication process.
   void _authenticate() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text);
+    try {
+      // Call the signInWithEmailAndPassword method to authenticate the user.
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+    } catch (error) {
+      print(error);
+      // Display an error message to the user
+      // or take some other appropriate action
+    }
   }
 
+// This method is called when the user clicks the login button.
   void _login() {
+    // Check if the form is valid and, if so, call the _authenticate method.
     if (_key.currentState!.validate()) {
       _authenticate();
     }
+
+    // Set up a listener to wait for the user to be authenticated.
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      // If the user is authenticated, navigate to the ScanPage.
       if (user != null) {
+        //pushAndRemoveUntil() used so that user can't navigate back after they login
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const ScanPage()),
