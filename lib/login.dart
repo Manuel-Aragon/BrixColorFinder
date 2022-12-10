@@ -66,23 +66,29 @@ class _LoginPageState extends State<LoginPage> {
             Stack(
               children: <Widget>[
                 Container(
-                  height: 370,
+                  height: MediaQuery.of(context).size.height * 0.4,
                   decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/lego.png'),
-                          fit: BoxFit.fill)),
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/lego.png'),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
                 ),
                 Container(
-                    margin: const EdgeInsets.only(top: 300),
-                    child: const Center(
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold),
+                  margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.3,
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Login",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ))
+                    ),
+                  ),
+                ),
               ],
             ),
             Column(
@@ -114,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                             controller: emailController,
                             validator: validateEmail,
                             decoration: InputDecoration(
-                                hintText: " Email or Phone number",
+                                hintText: "Email",
                                 prefixIcon: const Icon(Icons.person,
                                     color: Colors.redAccent),
                                 hintStyle: TextStyle(color: Colors.grey[500])),
@@ -144,6 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 10),
                 Container(
                   //login button
+
                   height: 50,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -169,14 +176,16 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 10),
                 Container(
-                  //registration button
                   height: 50,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      gradient: const LinearGradient(colors: [
+                    borderRadius: BorderRadius.circular(10),
+                    gradient: const LinearGradient(
+                      colors: [
                         Color.fromRGBO(16, 20, 251, 1),
                         Color.fromRGBO(16, 20, 251, .6),
-                      ])),
+                      ],
+                    ),
+                  ),
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -186,13 +195,16 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        shadowColor: Colors.transparent),
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                    ),
                     child: const Center(
                       child: Text(
                         "Register",
                         style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -207,18 +219,29 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-// This code is validating the input of an email address and password.
-//If either the email address or password is empty, a message is returned to the user. Otherwise, null is returned.
+// Validate an email string and return an error message if invalid.
 String? validateEmail(String? formEmail) {
-  if (formEmail == null || formEmail.isEmpty) {
-    return 'E-mail address is required.';
+  // Check if input is not null and not empty.
+  if (formEmail?.isNotEmpty == true) {
+    // Use regex to check for valid email format.
+    final RegExp emailRegex = RegExp(
+        r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$');
+    // Return null if email is valid, otherwise return error message.
+    if (emailRegex.hasMatch(formEmail!)) {
+      return null;
+    }
+    return 'Please enter a valid e-mail address.';
   }
-  return null;
+  // Return error message if input is null or empty.
+  return 'E-mail address is required.';
 }
 
+// Validate a password string and return an error message if invalid.
 String? validatePassword(String? formPassword) {
+  // Return error message if input is null or empty.
   if (formPassword == null || formPassword.isEmpty) {
     return 'Password is required.';
   }
+  // Return null if input is not null or empty.
   return null;
 }
