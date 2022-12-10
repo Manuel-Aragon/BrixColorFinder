@@ -18,26 +18,31 @@ class _SignUpPageState extends State<SignUpPage> {
   final confirmationController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
+// This method is called when the user clicks the register button.
   void _register() async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      // Create a new user with the given email and password
+      final authResult =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
-      FirebaseAuth.instance.authStateChanges().listen((User? user) {
-        if (user != null) {
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const LoginPage()),
-              (r) => false);
-        }
-      });
+
+      // Check if the user was created successfully
+      final currentUser = authResult.user;
+      if (currentUser != null) {
+        // Navigate to the login page
+        // ignore: use_build_context_synchronously
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+          (r) => false,
+        );
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         if (kDebugMode) {
-          if (kDebugMode) {
-            print('The password provided is too weak.');
-          }
+          print('The password provided is too weak.');
         }
       } else if (e.code == 'email-already-in-use') {
         if (kDebugMode) {
@@ -53,38 +58,47 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Get the screen size.
+    final screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: const Text("Register")),
+      appBar: AppBar(title: const Text('Register')),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Stack(
               children: <Widget>[
                 Container(
-                  height: 370,
+                  height: MediaQuery.of(context).size.height * 0.4,
                   decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/lego.png'),
-                          fit: BoxFit.fill)),
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/lego.png'),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
                 ),
                 Container(
-                    margin: const EdgeInsets.only(top: 300),
-                    child: const Center(
-                      child: Text(
-                        "Register",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold),
+                  margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.3,
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Register",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ))
+                    ),
+                  ),
+                ),
               ],
             ),
             Column(
               children: <Widget>[
                 Container(
-                  //login form
+                  //Register form
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -226,12 +240,21 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 }
 
+// Validate an email string and return an error message if invalid.
 String? validateEmail(String? formEmail) {
-  if (formEmail == null || formEmail.isEmpty) {
-    return 'E-mail address is required.';
+  // Check if input is not null and not empty.
+  if (formEmail?.isNotEmpty == true) {
+    // Use regex to check for valid email format.
+    final RegExp emailRegex = RegExp(
+        r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$');
+    // Return null if email is valid, otherwise return error message.
+    if (emailRegex.hasMatch(formEmail!)) {
+      return null;
+    }
+    return 'Please enter a valid e-mail address.';
   }
-  //other validations go here
-  return null;
+  // Return error message if input is null or empty.
+  return 'E-mail address is required.';
 }
 
 String? validatePhone(String? formPhone) {
@@ -250,11 +273,13 @@ String? validateName(String? formName) {
   return null;
 }
 
+// Validate a password string and return an error message if invalid.
 String? validatePassword(String? formPassword) {
+  // Return error message if input is null or empty.
   if (formPassword == null || formPassword.isEmpty) {
     return 'Password is required.';
   }
-  //other validations go here
+  // Return null if input is not null or empty.
   return null;
 }
 
