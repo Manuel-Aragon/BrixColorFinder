@@ -59,7 +59,6 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     // Get the screen size.
-    final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Colors.white,
