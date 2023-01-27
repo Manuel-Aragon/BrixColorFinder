@@ -520,10 +520,11 @@ packages:
   tflite:
     dependency: "direct main"
     description:
-      name: tflite
-      sha256: "661f8942a0e8ca05fedf554cc6f9cc95f526d0e4588d1665e0eb4d29e25e69b1"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "6a45707091f62fb4441f21ea46a612408d2677dd"
+      url: "https://github.com/Manuel-Aragon/flutter_tflite"
+    source: git
     version: "1.1.2"
   typed_data:
     dependency: transitive
