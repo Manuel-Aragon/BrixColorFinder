@@ -1,5 +1,6 @@
 {
     "cmake.sourceDirectory": "${workspaceFolder}/windows/runner",
     "editor.formatOnSave": true,
-    "files.trimTrailingWhitespace": true
+    "files.trimTrailingWhitespace": true,
+    "java.configuration.updateBuildConfiguration": "disabled"
 }
