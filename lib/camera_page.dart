@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:lucky13capstone/history_page.dart';
 
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
@@ -84,6 +85,17 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             final image = await _controller.takePicture();
 
             if (!mounted) return;
+
+            // Image should be taken at this point, so add the information to the scan history lists
+
+            HistoryState().color.add('NewColor');   // placeholder values
+            HistoryState().block.add('NewBlock');
+            HistoryState().image.add(Image.asset(
+              'assets/images/2x2BrickRed.PNG',
+              width: 200.0,
+              height: 200.0,
+              fit: BoxFit.contain,
+            ));
 
             // If the picture was taken, display it on a new screen.
             await Navigator.of(context).push(

@@ -4,7 +4,7 @@ class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
 
   @override
-  State<HistoryPage> createState() => _HistoryState();
+  State<HistoryPage> createState() => HistoryState();
 }
 
 class MyHistoryBox extends StatelessWidget {
@@ -41,11 +41,11 @@ class MyHistoryBox extends StatelessWidget {
   }
 }
 
-class _HistoryState extends State<HistoryPage> {
+class HistoryState extends State<HistoryPage> {
   //The text here is obviously hard coded in,
   //later the text will be gathered from saved
   //scan results from some array
-  final List _block = [
+  final List block = [
     '2x2 Brick',
     '2x4 Plate',
     '2x4 Slope',
@@ -57,7 +57,7 @@ class _HistoryState extends State<HistoryPage> {
   //The text here is obviously hard coded in,
   //later the text will be gathered from saved
   //scan results from some array
-  final List _color = [
+  final List color = [
     'Red',
     'Blue',
     'Black',
@@ -66,10 +66,10 @@ class _HistoryState extends State<HistoryPage> {
     'Green',
   ];
 
-  //The imnages here are obviously hard coded in,
+  //The images here are obviously hard coded in,
   //later the images will be gather from saved
   //scan results from some array
-  final List _image = [
+  final List image = [
     Image.asset(
       'assets/images/2x2BrickRed.PNG',
       width: 200.0,
@@ -118,14 +118,12 @@ class _HistoryState extends State<HistoryPage> {
         backgroundColor: Colors.black,
       ),
       body: ListView.builder(
-        itemCount: _block
-            .length, //the ListView builder will make a number of list items equal to the number of elements in the _text object
+        itemCount: block.length, //the ListView builder will make a number of list items equal to the number of elements in the _text object
         itemBuilder: ((context, index) {
           return MyHistoryBox(
-            blockText: _block[
-                index], //create a MyHistoryBox object with the text input as the _block with the current index
-            blockImage: _image[index],
-            blockColor: _color[index],
+            blockText: block[index], //create a MyHistoryBox object with the text input as the _block with the current index
+            blockImage: image[index],
+            blockColor: color[index],
           );
         }),
       ),
