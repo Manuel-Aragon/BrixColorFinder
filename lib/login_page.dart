@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lucky13capstone/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:lucky13capstone/temp_scan.dart';
+import 'package:lucky13capstone/Scan.dart';
 
 // This class represents the login page of the app.
 class LoginPage extends StatefulWidget {
