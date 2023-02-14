@@ -4,7 +4,7 @@ import 'package:lucky13capstone/register_page.dart';
 import 'package:lucky13capstone/login_page.dart';
 import 'package:lucky13capstone/settings_page.dart';
 
-import 'package:lucky13capstone/Scan.dart';
+import 'package:lucky13capstone/scan_page.dart';
 import 'package:lucky13capstone/brickview_page.dart';
 import 'package:lucky13capstone/history_page.dart';
 import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
@@ -88,7 +88,7 @@ class _DevPageState extends State<DevPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HistoryPage()),
+                  MaterialPageRoute(builder: (context) => const HistoryPage()),
                 );
               },
             ),

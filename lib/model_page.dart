@@ -1,5 +1,7 @@
-import 'package:camera/camera.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
 
 const kModelName = "base-model";
@@ -10,47 +12,23 @@ class ModelPage extends StatefulWidget {
   State<ModelPage> createState() => _ModelPageState();
 }
 
-late List<CameraDescription> cameras;
+late XFile? pickedFile;
+late List recognitionsList;
 
 class _ModelPageState extends State<ModelPage> {
-  late CameraController cameraController;
-  late CameraImage cameraImage;
-  late List recognitionsList;
-
-  initCamera() async {
-    cameras = await availableCameras();
-
-    cameraController = CameraController(
-      cameras[0],
-      ResolutionPreset.medium,
-      enableAudio: false,
-    );
-    cameraController.initialize().then((value) {
-      setState(() {
-        cameraController.startImageStream((image) => {
-              cameraImage = image,
-              runModel(),
-            });
-      });
-    });
+  initImagePicker() async {
+    pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    runModel();
   }
 
   runModel() async {
-    recognitionsList = (await Tflite.detectObjectOnFrame(
-      bytesList: cameraImage.planes.map((plane) {
-        return plane.bytes;
-      }).toList(),
-      imageHeight: cameraImage.height,
-      imageWidth: cameraImage.width,
-      imageMean: 127.5,
-      imageStd: 127.5,
+    recognitionsList = (await Tflite.detectObjectOnImage(
+      path: pickedFile!.path,
       numResultsPerClass: 1,
       threshold: 0.4,
     ))!;
 
-    setState(() {
-      cameraImage;
-    });
+    setState(() {});
   }
 
   Future loadModel() async {
@@ -63,17 +41,14 @@ class _ModelPageState extends State<ModelPage> {
   @override
   void dispose() {
     super.dispose();
-
-    cameraController.stopImageStream();
     Tflite.close();
   }
 
   @override
   void initState() {
     super.initState();
-
     loadModel();
-    initCamera();
+    initImagePicker();
   }
 
   List<Widget> displayBoxesAroundRecognizedObjects(Size screen) {
@@ -119,11 +94,11 @@ class _ModelPageState extends State<ModelPage> {
         height: size.height - 100,
         child: SizedBox(
           height: size.height - 100,
-          child: (!cameraController.value.isInitialized)
+          child: (pickedFile == null)
               ? Container()
-              : AspectRatio(
-                  aspectRatio: cameraController.value.aspectRatio,
-                  child: CameraPreview(cameraController),
+              : Image.file(
+                  File(pickedFile!.path),
+                  fit: BoxFit.contain,
                 ),
         ),
       ),

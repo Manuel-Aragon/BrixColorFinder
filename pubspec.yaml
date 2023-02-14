@@ -32,6 +32,9 @@ dependencies:
   flutter:
     sdk: flutter
   camera:
+  image_picker:
+  video_player:
+  image:
   #path_provider: 2.0.12
   #path:
   firebase_core: ^2.3.0

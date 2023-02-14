@@ -7,6 +7,10 @@ import 'package:camera/camera.dart';
 
 import 'package:flutter/foundation.dart';
 
+import 'package:tflite/tflite.dart';
+
+const kModelName = "base-model";
+
 class ScanPage extends StatefulWidget {
   const ScanPage({Key? key}) : super(key: key);
 
@@ -55,7 +59,6 @@ class _ScanPageState extends State<ScanPage> {
   @override
   Widget build(BuildContext context) {
     // Get the screen size.
-    final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
         // Disable the bottom inset to avoid resizing the layout when the keyboard appears.
@@ -82,7 +85,7 @@ class _ScanPageState extends State<ScanPage> {
             ),
           ),
           Align(
-            alignment: Alignment(0, -1),
+            alignment: const Alignment(0, -1),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -104,7 +107,8 @@ class _ScanPageState extends State<ScanPage> {
                     // Navigate to the history page when the history icon is pressed.
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HistoryPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const HistoryPage()),
                     );
                   },
                   icon: const Icon(Icons.access_time, color: Colors.white),
@@ -113,7 +117,7 @@ class _ScanPageState extends State<ScanPage> {
             ),
           ),
           Align(
-            alignment: Alignment(0, 1),
+            alignment: const Alignment(0, 1),
             child: FloatingActionButton.large(
               // Provide an onPressed callback.
               onPressed: () async {
@@ -143,7 +147,7 @@ class _ScanPageState extends State<ScanPage> {
                   // If the picture was taken, display it on a new screen.
                   await Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => DisplayPictureScreen(
+                      builder: (context) => DisplayModelScreen(
                         // Pass the automatically generated path to
                         // the DisplayPictureScreen widget.
                         imagePath: image.path,
@@ -164,6 +168,8 @@ class _ScanPageState extends State<ScanPage> {
   }
 }
 
+List recognitionsList = [];
+
 // A widget that displays the picture taken by the user.
 class DisplayPictureScreen extends StatelessWidget {
   final String imagePath;
@@ -177,6 +183,98 @@ class DisplayPictureScreen extends StatelessWidget {
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
       body: Image.file(File(imagePath)),
+    );
+  }
+}
+
+class DisplayModelScreen extends StatelessWidget {
+  final String imagePath;
+
+  const DisplayModelScreen({Key? key, required this.imagePath})
+      : super(key: key);
+
+  Future<void> runModel() async {
+    recognitionsList = (await Tflite.detectObjectOnImage(
+      path: imagePath,
+      numResultsPerClass: 1,
+      threshold: 0.4,
+    ))!;
+  }
+
+  Future<void> loadModel() async {
+    await Tflite.loadModel(
+        model: "assets/ssd_mobilenet.tflite",
+        labels: "assets/ssd_mobilenet.txt");
+  }
+
+  List<Widget> displayBoxesAroundRecognizedObjects(Size screen) {
+    double factorX = screen.width;
+    double factorY = screen.height;
+
+    Color colorPick = Colors.pink;
+
+    return recognitionsList.map((result) {
+      return Positioned(
+        left: result["rect"]["x"] * factorX,
+        top: result["rect"]["y"] * factorY,
+        width: result["rect"]["w"] * factorX,
+        height: result["rect"]["h"] * factorY,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+            border: Border.all(color: Colors.pink, width: 2.0),
+          ),
+          child: Text(
+            "${result['detectedClass']} ${(result['confidenceInClass'] * 100).toStringAsFixed(0)}%",
+            style: TextStyle(
+              background: Paint()..color = colorPick,
+              color: Colors.black,
+              fontSize: 18.0,
+            ),
+          ),
+        ),
+      );
+    }).toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    List<Widget> list = [];
+
+    loadModel();
+    runModel();
+
+    list.add(
+      Positioned(
+        top: 0.0,
+        left: 0.0,
+        width: size.width,
+        height: size.height - 100,
+        child: SizedBox(
+          height: size.height - 100,
+          child: Image.file(
+            File(imagePath),
+            fit: BoxFit.contain,
+          ),
+        ),
+      ),
+    );
+
+    list.addAll(displayBoxesAroundRecognizedObjects(size));
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('ML model')),
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.only(top: 50),
+          color: Colors.black,
+          child: Stack(
+            children: list,
+          ),
+        ),
+      ),
     );
   }
 }
