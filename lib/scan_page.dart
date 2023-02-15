@@ -201,6 +201,10 @@ class DisplayModelScreen extends StatelessWidget {
     ))!;
   }
 
+  void onSaveButtonPressed() {
+    // TODO: implement image saving logic
+  }
+
   Future<void> loadModel() async {
     await Tflite.loadModel(
         model: "assets/ssd_mobilenet.tflite",
@@ -274,6 +278,16 @@ class DisplayModelScreen extends StatelessWidget {
             children: list,
           ),
         ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              FloatingActionButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Icon(Icons.close)),
+              FloatingActionButton(onPressed: onSaveButtonPressed)
+            ]),
       ),
     );
   }
