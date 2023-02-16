@@ -15,6 +15,7 @@ class ModelPage extends StatefulWidget {
 late XFile? pickedFile;
 late List recognitionsList;
 
+// pickedFile creates an error here I believe, because it has not yet been initialized
 class _ModelPageState extends State<ModelPage> {
   initImagePicker() async {
     pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);

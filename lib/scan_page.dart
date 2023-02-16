@@ -133,17 +133,6 @@ class _ScanPageState extends State<ScanPage> {
 
                   if (!mounted) return;
 
-                  // Image should be taken at this point, so add the information to the scan history lists
-
-                  HistoryState().color.add('NewColor'); // placeholder values
-                  HistoryState().block.add('NewBlock');
-                  HistoryState().image.add(Image.asset(
-                        'assets/images/2x2BrickRed.PNG',
-                        width: 200.0,
-                        height: 200.0,
-                        fit: BoxFit.contain,
-                      ));
-
                   // If the picture was taken, display it on a new screen.
                   await Navigator.of(context).push(
                     MaterialPageRoute(
@@ -203,6 +192,17 @@ class DisplayModelScreen extends StatelessWidget {
 
   void onSaveButtonPressed() {
     // TODO: implement image saving logic
+    // Image should be taken at this point, so add the information to the scan history lists
+    HistoryState()
+        .updateHistory('NewBlock', 'NewColor', 'assets/images/2x2BrickRed.PNG');
+    /*HistoryState().color.add('NewColor'); // placeholder values
+    HistoryState().block.add('NewBlock');
+    HistoryState().image.add(Image.asset(
+          'assets/images/2x2BrickRed.PNG',
+          width: 200.0,
+          height: 200.0,
+          fit: BoxFit.contain,
+        ));*/
   }
 
   Future<void> loadModel() async {
@@ -286,7 +286,11 @@ class DisplayModelScreen extends StatelessWidget {
               FloatingActionButton(
                   onPressed: () => Navigator.pop(context),
                   child: const Icon(Icons.close)),
-              FloatingActionButton(onPressed: onSaveButtonPressed)
+              FloatingActionButton(
+                  onPressed: () {
+                    onSaveButtonPressed(); //pressing the save button should save the results of the scan and send them to the scan history
+                  },
+                  child: const Icon(Icons.save))
             ]),
       ),
     );
