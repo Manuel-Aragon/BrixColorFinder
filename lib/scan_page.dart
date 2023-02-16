@@ -20,7 +20,7 @@ class ScanPage extends StatefulWidget {
 
 class _ScanPageState extends State<ScanPage> {
   late CameraController _controller;
-  late Future<void> _initializeControllerFuture;
+  Future<void>? _initializeControllerFuture;
   bool isCameraReady = false;
   bool isPhotoInProgress = false;
 
