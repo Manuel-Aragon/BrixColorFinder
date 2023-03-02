@@ -4,9 +4,7 @@ import 'package:lucky13capstone/history_page.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:camera/camera.dart';
-
 import 'package:flutter/foundation.dart';
-
 import 'package:tflite/tflite.dart';
 
 const kModelName = "base-model";
@@ -191,7 +189,6 @@ class DisplayModelScreen extends StatelessWidget {
   }
 
   void onSaveButtonPressed() {
-    // TODO: implement image saving logic
     // Image should be taken at this point, so add the information to the scan history lists
     HistoryState()
         .updateHistory('NewBlock', 'NewColor', 'assets/images/2x2BrickRed.PNG');
@@ -207,7 +204,7 @@ class DisplayModelScreen extends StatelessWidget {
 
   Future<void> loadModel() async {
     await Tflite.loadModel(
-        model: "assets/model_edgetpu.tflite", labels: "assets/labels.txt");
+        model: "assets/model.tflite", labels: "assets/labels.txt");
   }
 
   List<Widget> displayBoxesAroundRecognizedObjects(Size screen) {
