@@ -115,6 +115,8 @@ class HistoryState extends State<HistoryPage>
 
   //this function is supposed to be called in scan page after taking a picture to save
   //the resulting data by adding the data here
+  //the setState() function here causes an exception. Something to do with an initial state needing to be created...
+
   updateHistory(String blockData, String colorData, String imagePath) {
     setState(() {
       block.add(blockData);
@@ -130,7 +132,7 @@ class HistoryState extends State<HistoryPage>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    super.build(context); //may need to be removed?
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
