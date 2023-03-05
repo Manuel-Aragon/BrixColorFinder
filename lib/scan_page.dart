@@ -204,7 +204,7 @@ class DisplayModelScreen extends StatelessWidget {
 
   Future<void> loadModel() async {
     await Tflite.loadModel(
-        model: "assets/microModel.tflite", labels: "assets/microLabels.txt");
+        model: "assets/model.tflite", labels: "assets/labels.txt");
   }
 
   List<Widget> displayBoxesAroundRecognizedObjects(Size screen) {

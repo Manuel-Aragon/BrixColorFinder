@@ -1,35 +1,57 @@
-import 'dart:io';
-
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
+import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
 
 const kModelName = "base-model";
 
-class ModelPage extends StatefulWidget {
-  const ModelPage({Key? key}) : super(key: key);
+class LiveModelPage extends StatefulWidget {
+  const LiveModelPage({Key? key}) : super(key: key);
   @override
-  State<ModelPage> createState() => _ModelPageState();
+  State<LiveModelPage> createState() => _LiveModelPageState();
 }
 
-XFile? pickedFile;
-List? recognitionsList;
+late List<CameraDescription> cameras;
 
-// pickedFile creates an error here I believe, because it has not yet been initialized
-class _ModelPageState extends State<ModelPage> {
-  initImagePicker() async {
-    pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    runModel();
+class _LiveModelPageState extends State<LiveModelPage> {
+  late CameraController cameraController;
+  CameraImage? cameraImage;
+  List? recognitionsList;
+
+  initCamera() async {
+    cameras = await availableCameras();
+
+    cameraController = CameraController(
+      cameras[0],
+      ResolutionPreset.medium,
+      enableAudio: false,
+    );
+    cameraController.initialize().then((value) {
+      setState(() {
+        cameraController.startImageStream((image) => {
+              cameraImage = image,
+              runModel(),
+            });
+      });
+    });
   }
 
   runModel() async {
-    recognitionsList = (await Tflite.detectObjectOnImage(
-      path: pickedFile!.path,
+    recognitionsList = (await Tflite.detectObjectOnFrame(
+      bytesList: cameraImage!.planes.map((plane) {
+        return plane.bytes;
+      }).toList(),
+      imageHeight: cameraImage!.height,
+      imageWidth: cameraImage!.width,
+      imageMean: 127.5,
+      imageStd: 127.5,
       numResultsPerClass: 1,
       threshold: 0.4,
     ))!;
 
-    setState(() {});
+    setState(() {
+      cameraImage;
+    });
   }
 
   Future loadModel() async {
@@ -42,17 +64,22 @@ class _ModelPageState extends State<ModelPage> {
   @override
   void dispose() {
     super.dispose();
+
+    cameraController.stopImageStream();
     Tflite.close();
   }
 
   @override
   void initState() {
     super.initState();
+
     loadModel();
-    initImagePicker();
+    initCamera();
   }
 
   List<Widget> displayBoxesAroundRecognizedObjects(Size screen) {
+    if (recognitionsList == null) return [];
+
     double factorX = screen.width;
     double factorY = screen.height;
 
@@ -93,19 +120,21 @@ class _ModelPageState extends State<ModelPage> {
         left: 0.0,
         width: size.width,
         height: size.height - 100,
-        child: SizedBox(
+        child: Container(
           height: size.height - 100,
-          child: (pickedFile == null)
+          child: (!cameraController.value.isInitialized)
               ? Container()
-              : Image.file(
-                  File(pickedFile!.path),
-                  fit: BoxFit.contain,
+              : AspectRatio(
+                  aspectRatio: cameraController.value.aspectRatio,
+                  child: CameraPreview(cameraController),
                 ),
         ),
       ),
     );
 
-    list.addAll(displayBoxesAroundRecognizedObjects(size));
+    if (cameraImage != null) {
+      list.addAll(displayBoxesAroundRecognizedObjects(size));
+    }
 
     return SafeArea(
       child: Scaffold(
