@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lucky13capstone/model_page.dart';
 import 'package:lucky13capstone/register_page.dart';
 import 'package:lucky13capstone/login_page.dart';
-import 'package:lucky13capstone/camera_page.dart';
 import 'package:lucky13capstone/settings_page.dart';
 
-import 'package:lucky13capstone/temp_scan.dart';
+import 'package:lucky13capstone/scan_page.dart';
 import 'package:lucky13capstone/brickview_page.dart';
 import 'package:lucky13capstone/history_page.dart';
 import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
@@ -99,16 +98,6 @@ class _DevPageState extends State<DevPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const ScanPage()),
-                );
-              },
-            ),
-            ElevatedButton(
-              child: const Text('Camera'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const TakePictureScreen()),
                 );
               },
             ),

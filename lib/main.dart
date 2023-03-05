@@ -5,9 +5,20 @@ import 'package:lucky13capstone/dev_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(); //initialize firebase
-
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: DevPage(title: 'Dev Page'),
-  ));
+  //cameras = await availableCameras();
+  runApp(const BrickFinder());
 }
+
+class BrickFinder extends StatelessWidget {
+  const BrickFinder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      //theme: ThemeData.dark(),
+      home: DevPage(title: 'Dev Page'),
+    );
+  }
+}
+
+//List<CameraDescription> cameras;

@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 
-class BrickView extends StatefulWidget {
-  const BrickView({Key? key}) : super(key: key);
+class HistoryPage extends StatefulWidget {
+  const HistoryPage({Key? key}) : super(key: key);
 
   @override
-  State<BrickView> createState() => _BrickViewState();
+  State<HistoryPage> createState() => HistoryState();
 }
 
-class MyBrickviewBox extends StatelessWidget {
+class MyHistoryBox extends StatelessWidget {
   final String blockText;
   final Image blockImage;
+  final String blockColor;
 
-  const MyBrickviewBox(
+  const MyHistoryBox(
       {super.key,
-        required this.blockText,
-        required this.blockImage});
+      required this.blockText,
+      required this.blockImage,
+      required this.blockColor});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      //spacing between list objects
+        //spacing between list objects
         padding: const EdgeInsets.all(10.0),
         child: ClipRRect(
           //rounding edges of list object
@@ -30,19 +32,20 @@ class MyBrickviewBox extends StatelessWidget {
             color: Colors.grey,
             child: Column(//the values inside the list object
                 children: [
-                  blockImage,
-                  Text(blockText, style: const TextStyle(fontSize: 30.0))
-                ]),
+              blockImage,
+              Text(blockText, style: const TextStyle(fontSize: 30.0)),
+              Text(blockColor, style: const TextStyle(fontSize: 30.0)),
+            ]),
           ),
         ));
   }
 }
 
-class _BrickViewState extends State<BrickView> {
+class HistoryState extends State<HistoryPage> {
   //The text here is obviously hard coded in,
   //later the text will be gathered from saved
   //scan results from some array
-  final List _block = [
+  final List block = [
     '2x2 Brick',
     '2x4 Plate',
     '2x4 Slope',
@@ -51,10 +54,22 @@ class _BrickViewState extends State<BrickView> {
     '1x2 Plate',
   ];
 
-  //The imnages here are obviously hard coded in,
+  //The text here is obviously hard coded in,
+  //later the text will be gathered from saved
+  //scan results from some array
+  final List color = [
+    'Red',
+    'Blue',
+    'Black',
+    'White',
+    'Yellow',
+    'Green',
+  ];
+
+  //The images here are obviously hard coded in,
   //later the images will be gather from saved
   //scan results from some array
-  final List _image = [
+  final List image = [
     Image.asset(
       'assets/images/2x2BrickRed.PNG',
       width: 200.0,
@@ -99,15 +114,18 @@ class _BrickViewState extends State<BrickView> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("LEGO Brick View"),
+        title: const Text("LEGO Scan History"),
         backgroundColor: Colors.black,
       ),
       body: ListView.builder(
-        itemCount: _block.length, //the ListView builder will make a number of list items equal to the number of elements in the _text object
+        itemCount: block
+            .length, //the ListView builder will make a number of list items equal to the number of elements in the _text object
         itemBuilder: ((context, index) {
-          return MyBrickviewBox(
-            blockText: _block[index], //create a MyHistoryBox object with the text input as the _block with the current index
-            blockImage: _image[index]
+          return MyHistoryBox(
+            blockText: block[
+                index], //create a MyHistoryBox object with the text input as the _block with the current index
+            blockImage: image[index],
+            blockColor: color[index],
           );
         }),
       ),
