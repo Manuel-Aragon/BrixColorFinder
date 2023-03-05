@@ -158,7 +158,7 @@ class _ScanPageState extends State<ScanPage> {
 List recognitionsList = [];
 
 // A widget that displays the picture taken by the user.
-class DisplayPictureScreen extends StatelessWidget {
+/*class DisplayPictureScreen extends StatelessWidget {
   final String imagePath;
 
   const DisplayPictureScreen({super.key, required this.imagePath});
@@ -172,7 +172,7 @@ class DisplayPictureScreen extends StatelessWidget {
       body: Image.file(File(imagePath)),
     );
   }
-}
+}*/
 
 class DisplayModelScreen extends StatelessWidget {
   final String imagePath;
@@ -204,7 +204,7 @@ class DisplayModelScreen extends StatelessWidget {
 
   Future<void> loadModel() async {
     await Tflite.loadModel(
-        model: "assets/model.tflite", labels: "assets/labels.txt");
+        model: "assets/microModel.tflite", labels: "assets/microLabels.txt");
   }
 
   List<Widget> displayBoxesAroundRecognizedObjects(Size screen) {
