@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -10,14 +12,15 @@ class HistoryPage extends StatefulWidget {
 // method for creating the Scan History List Elements format
 class MyHistoryBox extends StatelessWidget {
   final String blockText;
-  final Image blockImage;
+  final File? blockImage;
   final String blockColor;
 
   const MyHistoryBox(
-      {super.key,
+      {Key? key,
       required this.blockText,
       required this.blockImage,
-      required this.blockColor});
+      required this.blockColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,13 @@ class MyHistoryBox extends StatelessWidget {
             color: Colors.grey,
             child: Column(//the values inside the list object
                 children: [
-              blockImage,
+              blockImage != null
+                  ? Image.file(blockImage!,
+                      width: 200.0, height: 200.0, fit: BoxFit.contain)
+                  : SizedBox(
+                      width: 200.0,
+                      height: 200.0,
+                      child: Icon(Icons.image_outlined)),
               Text(blockText, style: const TextStyle(fontSize: 30.0)),
               Text(blockColor, style: const TextStyle(fontSize: 30.0)),
             ]),
@@ -45,87 +54,42 @@ class MyHistoryBox extends StatelessWidget {
 
 class HistoryState extends State<HistoryPage>
     with AutomaticKeepAliveClientMixin {
+  final ImagePicker _picker = ImagePicker();
+  File? _selectedImage;
+  final List<String> block = [];
+  final List<String> color = [];
+  final List<File?> image = [];
+
   @override
   bool get wantKeepAlive => true;
-  //The text here is obviously hard coded in,
-  //later the text will be gathered from saved
-  //scan results from some array
-  final List block = [
-    '2x2 Brick',
-    '2x4 Plate',
-    '2x4 Slope',
-    'Stud',
-    '1x1 Brick',
-    '1x2 Plate',
-  ];
 
-  //The text here is obviously hard coded in,
-  //later the text will be gathered from saved
-  //scan results from some array
-  final List color = [
-    'Red',
-    'Blue',
-    'Black',
-    'White',
-    'Yellow',
-    'Green',
-  ];
-
-  //The images here are obviously hard coded in,
-  //later the images will be gather from saved
-  //scan results from some array
-  final List image = [
-    Image.asset(
-      'assets/images/2x2BrickRed.PNG',
-      width: 200.0,
-      height: 200.0,
-      fit: BoxFit.contain,
-    ),
-    Image.asset(
-      'assets/images/2x4PlateBlue.PNG',
-      width: 200.0,
-      height: 200.0,
-      fit: BoxFit.contain,
-    ),
-    Image.asset(
-      'assets/images/2x4SlopeBlack.PNG',
-      width: 200.0,
-      height: 200.0,
-      fit: BoxFit.contain,
-    ),
-    Image.asset(
-      'assets/images/StudWhite.PNG',
-      width: 200.0,
-      height: 200.0,
-      fit: BoxFit.contain,
-    ),
-    Image.asset(
-      'assets/images/1x1BrickYellow.PNG',
-      width: 200.0,
-      height: 200.0,
-      fit: BoxFit.contain,
-    ),
-    Image.asset(
-      'assets/images/1x2PlateGreen.PNG',
-      width: 200.0,
-      height: 200.0,
-      fit: BoxFit.contain,
-    ),
-  ];
-
-  //this function is supposed to be called in scan page after taking a picture to save
-  //the resulting data by adding the data here
-  updateHistory(String blockData, String colorData, String imagePath) {
+  updateHistory(String blockData, String colorData, File? imageFile) {
     setState(() {
       block.add(blockData);
       color.add(colorData);
-      image.add(Image.asset(
-        imagePath,
-        width: 200.0,
-        height: 200.0,
-        fit: BoxFit.contain,
-      ));
+      image.add(imageFile);
+      _selectedImage = null;
     });
+  }
+
+  updateHistoryFromOtherScreen(
+      String blockData, String colorData, File? imageFile) {
+    setState(() {
+      block.add(blockData);
+      color.add(colorData);
+      image.add(imageFile);
+    });
+  }
+
+  Future<void> launchCamera() async {
+    final XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.camera);
+    if (pickedImage != null) {
+      setState(() {
+        _selectedImage = File(pickedImage.path);
+      });
+      updateHistory('New Block', 'New Color', _selectedImage);
+    }
   }
 
   @override
@@ -139,16 +103,22 @@ class HistoryState extends State<HistoryPage>
         backgroundColor: Colors.black,
       ),
       body: ListView.builder(
-        itemCount: block
-            .length, //the ListView builder will make a number of list items equal to the number of elements in the _text object
+        itemCount: block.length,
         itemBuilder: ((context, index) {
           return MyHistoryBox(
-            blockText: block[
-                index], //create a MyHistoryBox object with the text input as the _block with the current index
-            blockImage: image[index],
+            blockText: block[index],
+            blockImage: _selectedImage != null && index == block.length - 1
+                ? _selectedImage
+                : image[index] != null
+                    ? image[index]
+                    : null,
             blockColor: color[index],
           );
         }),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: launchCamera,
+        child: Icon(Icons.camera_alt),
       ),
     );
   }

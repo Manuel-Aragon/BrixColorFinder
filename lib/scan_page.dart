@@ -193,8 +193,8 @@ class DisplayModelScreen extends StatelessWidget {
   void onSaveButtonPressed() {
     // TODO: implement image saving logic
     // Image should be taken at this point, so add the information to the scan history lists
-    HistoryState()
-        .updateHistory('NewBlock', 'NewColor', 'assets/images/2x2BrickRed.PNG');
+    // HistoryState()
+    //     .updateHistory('NewBlock', 'NewColor', 'assets/images/2x2BrickRed.PNG');
     /*HistoryState().color.add('NewColor'); // placeholder values
     HistoryState().block.add('NewBlock');
     HistoryState().image.add(Image.asset(
