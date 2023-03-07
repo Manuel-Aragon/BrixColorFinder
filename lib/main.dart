@@ -14,9 +14,24 @@ class BrickFinder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      //theme: ThemeData.dark(),
-      home: DevPage(title: 'Dev Page'),
+    return MaterialApp(
+      //theme: ThemeData.light(),
+      //darkTheme: ThemeData.dark(),
+      theme: ThemeData(
+        //scaffoldBackgroundColor: Color.fromARGB(255, 25, 39, 48),
+        appBarTheme:
+            AppBarTheme(color: const Color.fromARGB(255, 38, 214, 226)),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            backgroundColor: const Color.fromARGB(
+                223, 212, 89, 100), // background (button) color
+            foregroundColor: const Color(0xFfffffff), // foreground (text) color
+          ),
+        ),
+      ),
+      home: const DevPage(title: 'Dev Page'),
     );
   }
 }

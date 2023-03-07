@@ -31,7 +31,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  shared_preferences:
+  provider:
   camera:
+  adaptive_theme: ^2.2.0
   image_picker:
   video_player:
   image:
