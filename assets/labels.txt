@@ -1,3 +1,5 @@
-0 2x4 Brick
-1 2x2 Brick
-2 1x2 Wedge
+0 White Brick
+1 2x4 Brick
+2 2x2 Brick
+3 1x2 Wedge
+4 Far away bricks

@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:tflite/tflite.dart';
-import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
+//import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
 
 const kModelName = "base-model";
 
