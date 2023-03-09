@@ -1,3 +1,4 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'login_page.dart';
@@ -21,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
   TextStyle headingStyle = const TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w600,
-      color: const Color.fromARGB(223, 212, 89, 100));
+      color: Color.fromARGB(223, 212, 89, 100));
 
   bool lockAppSwitchVal = true;
   bool fingerprintSwitchVal = false;
@@ -95,6 +96,17 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: Icon(Icons.mail),
                 title: Text("Email"),
               ),
+              const Divider(),
+              ListTile(
+                  leading: const Icon(Icons.person),
+                  title: const Text("Login"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()),
+                    );
+                  }),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
