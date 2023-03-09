@@ -53,7 +53,7 @@ class BrickFinder extends StatelessWidget {
       ),
       initial: AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(
-          theme: theme, darkTheme: darkTheme, home: const ScanPage()),
+          theme: theme, darkTheme: darkTheme, home: const DevPage(title: 'Dev Page')),
     );
   }
 }
