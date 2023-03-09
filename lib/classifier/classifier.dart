@@ -36,6 +36,7 @@ import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 import 'classifier_category.dart';
 import 'classifier_model.dart';
 
+//the list of lables (brick types from the model)
 typedef ClassifierLabels = List<String>;
 
 class Classifier {
@@ -48,15 +49,20 @@ class Classifier {
   })  : _labels = labels,
         _model = model;
 
+  // this loadWith function is called back in the _loadClassifier function on the scan page
+  // and calls it with the label file and model file as input requirements
   static Future<Classifier?> loadWith({
     required String labelsFileName,
     required String modelFileName,
   }) async {
+    // attempt to load the models and the labels and create a classifier to assign lables and model
     try {
       final labels = await _loadLabels(labelsFileName);
       final model = await _loadModel(modelFileName);
       return Classifier._(labels: labels, model: model);
-    } catch (e) {
+    }
+    // on failure, print this error message to the debug
+    catch (e) {
       debugPrint('Can\'t initialize Classifier: ${e.toString()}');
       if (e is Error) {
         debugPrintStack(stackTrace: e.stackTrace);
@@ -65,23 +71,29 @@ class Classifier {
     }
   }
 
+  //this function actually loads the model and labels using the Interpreter from the tflite package
+  //uses the model file as input to attempt to load that model
   static Future<ClassifierModel> _loadModel(String modelFileName) async {
     final interpreter = await Interpreter.fromAsset(modelFileName);
 
-    // Get input and output shape from the model
+    // Get input and output SHAPE from the model
     final inputShape = interpreter.getInputTensor(0).shape;
     final outputShape = interpreter.getOutputTensor(0).shape;
 
+    //print the SHAPEs to debug for testing
     debugPrint('Input shape: $inputShape');
     debugPrint('Output shape: $outputShape');
 
-    // Get input and output type from the model
+    // Get input and output TYPE from the model
     final inputType = interpreter.getInputTensor(0).type;
     final outputType = interpreter.getOutputTensor(0).type;
 
+    //print the SHAPEs to debug for testing
     debugPrint('Input type: $inputType');
     debugPrint('Output type: $outputType');
 
+    // this is essentially a Set function in a C++ class
+    // it assigns all values to themselves as far as I can tell
     return ClassifierModel(
       interpreter: interpreter,
       inputShape: inputShape,
@@ -91,23 +103,30 @@ class Classifier {
     );
   }
 
+  //this section, like the last, loads all of the labels by inputing the label file
   static Future<ClassifierLabels> _loadLabels(String labelsFileName) async {
     final rawLabels = await FileUtil.loadLabels(labelsFileName);
 
-    // Remove the index number from the label
+    // Remove the index number from the label (example '0 2x2 Brick' -> '2x2 Brick')
     final labels = rawLabels
         .map((label) => label.substring(label.indexOf(' ')).trim())
         .toList();
 
+    //print the new label strings to debug
     debugPrint('Labels: $labels');
     return labels;
   }
 
+  //this closes the instance of the 'interpreter' to save memory
   void close() {
     _model.interpreter.close();
   }
 
+  //HERE is where the actual model prediction is made!
+  //It returns the topResult, meaning; the label value with the highest accuracy rating
+  //This is called from the analyzeImage function in the lego recognizer page
   ClassifierCategory predict(Image image) {
+    //print the image dimensions to debug
     debugPrint(
       'Image: ${image.width}x${image.height}, '
       'size: ${image.length} bytes',
@@ -121,18 +140,23 @@ class Classifier {
       'size: ${inputImage.buffer.lengthInBytes} bytes',
     );
 
-    // Define the output buffer
+    // Define the output buffer, using the earlier defined outputShape and outputType
+    //this uses the tflite helper package to use TensorBuffer.createFixedSize(). Helpful!!
     final outputBuffer = TensorBuffer.createFixedSize(
       _model.outputShape,
       _model.outputType,
     );
 
     // Run inference
+    // I believe here is exactly where the model is then ran
     _model.interpreter.run(inputImage.buffer, outputBuffer.buffer);
 
     debugPrint('OutputBuffer: ${outputBuffer.getDoubleList()}');
 
-    // Post Process the outputBuffer
+    // Post Process the outputBuffer (read the results data and process it)
+    // This will then create the calculated results of the run of the model
+    // which will have different percentage values for each category
+    // the highest accuracy percentage result will be the identified brick (topResult)
     final resultCategories = _postProcessOutput(outputBuffer);
     final topResult = resultCategories.first;
 
@@ -141,6 +165,8 @@ class Classifier {
     return topResult;
   }
 
+  //This class processes the results of running the model and creating the output buffer (output data)
+  // generates the accuracy values (probabilities)
   List<ClassifierCategory> _postProcessOutput(TensorBuffer outputBuffer) {
     final probabilityProcessor = TensorProcessorBuilder().build();
 
@@ -149,11 +175,14 @@ class Classifier {
     final labelledResult = TensorLabel.fromList(_labels, outputBuffer);
 
     final categoryList = <ClassifierCategory>[];
+
     labelledResult.getMapWithFloatValue().forEach((key, value) {
       final category = ClassifierCategory(key, value);
       categoryList.add(category);
       debugPrint('label: ${category.label}, score: ${category.score}');
     });
+
+    //sort the scores from highest to lowest
     categoryList.sort((a, b) => (b.score > a.score ? 1 : -1));
 
     return categoryList;
