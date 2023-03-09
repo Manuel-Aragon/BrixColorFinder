@@ -31,15 +31,17 @@ import 'package:flutter/material.dart';
 
 import '../styles.dart';
 
+//This class is used to modify the shape of the widget of the photo object.
 class PlantPhotoView extends StatelessWidget {
   final File? file;
   const PlantPhotoView({super.key, this.file});
 
+  //builds the shape of the taken image
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 250,
-      height: 250,
+      width: 360,
+      height: 360,
       color: Colors.blueGrey,
       child: (file == null)
           ? _buildEmptyView()
@@ -47,11 +49,16 @@ class PlantPhotoView extends StatelessWidget {
     );
   }
 
+  //builds the shape of the image before a valid photo has been taken
   Widget _buildEmptyView() {
-    return const Center(
-        child: Text(
-      'Please pick a photo',
-      style: kAnalyzingTextStyle,
-    ));
+    return const Align(
+        alignment: Alignment(0.5, 0.0),
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Text(
+            'Take a picture of a LEGO or select one from your photos',
+            style: kAnalyzingTextStyle,
+          ),
+        ));
   }
 }

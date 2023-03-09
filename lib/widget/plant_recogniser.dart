@@ -39,9 +39,6 @@ import 'plant_photo_view.dart';
 const _labelsFileName = 'assets/labels.txt';
 const _modelFileName = 'model_unquant.tflite';
 
-//const _labelsFileName = 'assets/LEGO_labels.txt';
-//const _modelFileName = 'assets/LEGO_fp_model.tflite';
-
 class PlantRecogniser extends StatefulWidget {
   const PlantRecogniser({super.key});
 
@@ -49,44 +46,66 @@ class PlantRecogniser extends StatefulWidget {
   State<PlantRecogniser> createState() => _PlantRecogniserState();
 }
 
+//enumerator function for setting the status of a scan result
+//this is used when the result is or is not found, changing the print output
 enum _ResultStatus {
   notStarted,
   notFound,
   found,
 }
 
+//This entire class is what is used to set up the LEGO scanning feature
+//it contains the UI for the page, how the user selects the scan method,
+//how the user's LEGO image is displayed and processed with the model.
 class _PlantRecogniserState extends State<PlantRecogniser> {
-  bool _isAnalyzing = false;
-  final picker = ImagePicker();
-  File? _selectedImageFile;
+  bool _isAnalyzing =
+      false; //used to check if the image is in the process of being analyized by the model
+  final picker =
+      ImagePicker(); //initialize picker to use the image picker package for selecting images from the user's camera roll
+  File?
+      _selectedImageFile; //used for accessing the selected image from the image gallery
 
   // Result
-  _ResultStatus _resultStatus = _ResultStatus.notStarted;
-  String _plantLabel = ''; // Name of Error Message
-  double _accuracy = 0.0;
+  _ResultStatus _resultStatus =
+      _ResultStatus.notStarted; //initialize result status to notStarted yet
+  String _legoLabel =
+      ''; //the string for printing the Model Label (the name of the LEGO brick)
+  double _accuracy = 0.0; //initialize the accuracy variable to zero
 
+  //initialize a classifier type, using the class from the classifier.dart file.
+  //this is used
   late Classifier _classifier;
 
+  //this initializes the 'state' of the application and calls the _loadClassifier funciton below
   @override
   void initState() {
     super.initState();
     _loadClassifier();
   }
 
+  //
   Future<void> _loadClassifier() async {
+    //print to the debug console the model being used and its labels
     debugPrint(
       'Start loading of Classifier with '
       'labels at $_labelsFileName, '
       'model at $_modelFileName',
     );
 
+    //initialize classifier, by waiting for the Classifier class's loadWith() function
+    //loads the classifier using the input model and labels and assigns them to mutable
+    //variables.
     final classifier = await Classifier.loadWith(
       labelsFileName: _labelsFileName,
       modelFileName: _modelFileName,
     );
+
+    //this generated classifier is then assigned to the earlier initialized classifier
+    //the ! means that the 'classifier' is checked to not be null first.
     _classifier = classifier!;
   }
 
+  //This is a build widget, which dynamically builds the structure of the UI of this page
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -97,20 +116,20 @@ class _PlantRecogniserState extends State<PlantRecogniser> {
         children: [
           const Spacer(),
           Padding(
-            padding: const EdgeInsets.only(top: 30),
+            padding: const EdgeInsets.only(top: 20),
             child: _buildTitle(),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 30),
           _buildPhotolView(),
           const SizedBox(height: 10),
           _buildResultView(),
           const Spacer(flex: 5),
           _buildPickPhotoButton(
-            title: 'Take a photo',
+            title: 'Take a picture of a LEGO',
             source: ImageSource.camera,
           ),
           _buildPickPhotoButton(
-            title: 'Pick from gallery',
+            title: 'Pick a LEGO from gallery',
             source: ImageSource.gallery,
           ),
           const Spacer(),
@@ -133,12 +152,12 @@ class _PlantRecogniserState extends State<PlantRecogniser> {
     if (!_isAnalyzing) {
       return const SizedBox.shrink();
     }
-    return const Text('Analyzing...', style: kAnalyzingTextStyle);
+    return const Text('Scanning for LEGOs...', style: kAnalyzingTextStyle);
   }
 
   Widget _buildTitle() {
     return const Text(
-      'Plant Recogniser',
+      'BrixColor Finder',
       style: kTitleTextStyle,
       textAlign: TextAlign.center,
     );
@@ -153,7 +172,7 @@ class _PlantRecogniserState extends State<PlantRecogniser> {
       child: Container(
         width: 300,
         height: 50,
-        color: kColorBrown,
+        color: kColorBrickRed,
         child: Center(
             child: Text(title,
                 style: const TextStyle(
@@ -197,35 +216,38 @@ class _PlantRecogniserState extends State<PlantRecogniser> {
     final result = resultCategory.score >= 0.8
         ? _ResultStatus.found
         : _ResultStatus.notFound;
-    final plantLabel = resultCategory.label;
+    final legoLabel = resultCategory.label;
     final accuracy = resultCategory.score;
 
     _setAnalyzing(false);
 
     setState(() {
       _resultStatus = result;
-      _plantLabel = plantLabel;
+      _legoLabel = legoLabel;
       _accuracy = accuracy;
     });
   }
 
   Widget _buildResultView() {
-    var title = '';
+    var title = ''; //initialize title to be blanck
 
+    //This ifelse block is used for displaying the result text
     if (_resultStatus == _ResultStatus.notFound) {
-      title = 'Fail to recognise';
+      title = 'LEGO not detected';
     } else if (_resultStatus == _ResultStatus.found) {
-      title = _plantLabel;
+      title = _legoLabel; //this prints the resulting label
     } else {
       title = '';
     }
 
-    //
+    //This is were the accuracy result text is created
     var accuracyLabel = '';
     if (_resultStatus == _ResultStatus.found) {
-      accuracyLabel = 'Accuracy: ${(_accuracy * 100).toStringAsFixed(2)}%';
+      accuracyLabel =
+          'LEGO brick confidence: ${(_accuracy * 100).toStringAsFixed(2)}%';
     }
 
+    //This is the widget were the LEGO label and accuracy result is located
     return Column(
       children: [
         Text(title, style: kResultTextStyle),
