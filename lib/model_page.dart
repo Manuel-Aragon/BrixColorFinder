@@ -12,8 +12,8 @@ class ModelPage extends StatefulWidget {
   State<ModelPage> createState() => _ModelPageState();
 }
 
-late XFile? pickedFile;
-late List recognitionsList;
+XFile? pickedFile;
+List? recognitionsList;
 
 // pickedFile creates an error here I believe, because it has not yet been initialized
 class _ModelPageState extends State<ModelPage> {
@@ -58,7 +58,7 @@ class _ModelPageState extends State<ModelPage> {
 
     Color colorPick = Colors.pink;
 
-    return recognitionsList.map((result) {
+    return recognitionsList!.map((result) {
       return Positioned(
         left: result["rect"]["x"] * factorX,
         top: result["rect"]["y"] * factorY,

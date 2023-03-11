@@ -44,7 +44,16 @@ dependencies:
   tflite:
     git:
       url: https://github.com/Manuel-Aragon/flutter_tflite
+  tflite_flutter: ^0.9.0
+  tflite_flutter_helper:
+    git:
+      url: https://github.com/filofan1/tflite_flutter_helper.git
+      ref: 783f15e5a87126159147d8ea30b98eea9207ac70
 
+  # tflite_flutter_helper:
+    # git:
+      # url: https://github.com/filofan1/tflite_flutter_helper.git
+      # ref: 783f15e5a87126159147d8ea30b98eea9207ac70
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
