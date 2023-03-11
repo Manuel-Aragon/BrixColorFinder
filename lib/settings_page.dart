@@ -1,3 +1,4 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'login_page.dart';
@@ -19,7 +20,9 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   TextStyle headingStyle = const TextStyle(
-      fontSize: 16, fontWeight: FontWeight.w600, color: Colors.blue);
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      color: Color.fromARGB(223, 212, 89, 100));
 
   bool lockAppSwitchVal = true;
   bool fingerprintSwitchVal = false;
@@ -28,9 +31,10 @@ class _SettingsPageState extends State<SettingsPage> {
   TextStyle headingStyleIOS = const TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: 16,
-    color: CupertinoColors.inactiveGray,
+    color: Color.fromARGB(223, 89, 212, 161),
   );
-  TextStyle descStyleIOS = const TextStyle(color: CupertinoColors.inactiveGray);
+  TextStyle descStyleIOS =
+      const TextStyle(color: Color.fromARGB(255, 194, 13, 13));
 
   void _logout() {
     FirebaseAuth.instance.signOut();
@@ -92,6 +96,17 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: Icon(Icons.mail),
                 title: Text("Email"),
               ),
+              const Divider(),
+              ListTile(
+                  leading: const Icon(Icons.person),
+                  title: const Text("Login"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()),
+                    );
+                  }),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
