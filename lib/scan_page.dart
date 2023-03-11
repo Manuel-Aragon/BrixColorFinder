@@ -4,9 +4,7 @@ import 'package:lucky13capstone/history_page.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:camera/camera.dart';
-
 import 'package:flutter/foundation.dart';
-
 import 'package:tflite/tflite.dart';
 
 const kModelName = "base-model";
@@ -160,7 +158,7 @@ class _ScanPageState extends State<ScanPage> {
 List recognitionsList = [];
 
 // A widget that displays the picture taken by the user.
-class DisplayPictureScreen extends StatelessWidget {
+/*class DisplayPictureScreen extends StatelessWidget {
   final String imagePath;
 
   const DisplayPictureScreen({super.key, required this.imagePath});
@@ -174,7 +172,7 @@ class DisplayPictureScreen extends StatelessWidget {
       body: Image.file(File(imagePath)),
     );
   }
-}
+}*/
 
 class DisplayModelScreen extends StatelessWidget {
   final String imagePath;
@@ -191,10 +189,9 @@ class DisplayModelScreen extends StatelessWidget {
   }
 
   void onSaveButtonPressed() {
-    // TODO: implement image saving logic
     // Image should be taken at this point, so add the information to the scan history lists
-    HistoryState()
-        .updateHistory('NewBlock', 'NewColor', 'assets/images/2x2BrickRed.PNG');
+    // HistoryState()
+    //     .updateHistory('NewBlock', 'NewColor', 'assets/images/2x2BrickRed.PNG');
     /*HistoryState().color.add('NewColor'); // placeholder values
     HistoryState().block.add('NewBlock');
     HistoryState().image.add(Image.asset(
