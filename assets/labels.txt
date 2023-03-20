@@ -1,5 +1,7 @@
-0 White Brick
+0 2x2 Brick
 1 2x4 Brick
-2 2x2 Brick
-3 1x2 Wedge
-4 Far away bricks
+2 1x2 Brick
+3 1x1 Brick
+4 1x1 Plate, Round
+5 1x2 Plate
+6 1x1 Plate
