@@ -56,6 +56,205 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
+   @override
+Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Register")),
+      body: SingleChildScrollView(
+        child: Container(
+            padding: EdgeInsets.all(20),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              //**top part**
+              Image(image: AssetImage('assets/images/logo1.png')),
+              Text(
+                "Sign Up",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              //Input
+              Form(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextFormField(
+                        controller: nameController,
+                        validator: validateName,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 2.5,
+                                color: Color.fromARGB(255, 66, 164, 255)),
+                                borderRadius: BorderRadius.circular(40.0),
+                                ),
+                              focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 2.5,
+                                color: Color.fromARGB(255, 66, 164, 255)),
+                                borderRadius: BorderRadius.circular(40.0),
+                              ),
+                              prefixIcon: Icon(Icons.person_outline_outlined),
+                              labelText: "Full Name",
+                              hintText: "Full Name",
+                           ),
+                        ),
+                        const SizedBox(height: 20),
+
+                      TextFormField(
+                        controller: emailController,
+                        validator: validateEmail,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 2.5,
+                                color: Color.fromARGB(255, 66, 164, 255)),
+                            borderRadius: BorderRadius.circular(40.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 2.5,
+                                color: Color.fromARGB(255, 66, 164, 255)),
+                            borderRadius: BorderRadius.circular(40.0),
+                          ),
+                          prefixIcon: Icon(Icons.mail),
+                          labelText: "Email",
+                          hintText: "Email",
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      TextFormField(
+                        controller: phoneController,
+                        validator: validatePhone,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 2.5,
+                                color: Color.fromARGB(255, 66, 164, 255)),
+                            borderRadius: BorderRadius.circular(40.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 2.5,
+                                color: Color.fromARGB(255, 66, 164, 255)),
+                            borderRadius: BorderRadius.circular(40.0),
+                          ),
+                          prefixIcon: Icon(Icons.phone),
+                          labelText: "Number",
+                          hintText: "Number",
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: passwordController,
+                        validator: validatePassword,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 2.5,
+                                color: Color.fromARGB(255, 66, 164, 255)),
+                            borderRadius: BorderRadius.circular(40.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 2.5,
+                                color: Color.fromARGB(255, 66, 164, 255)),
+                            borderRadius: BorderRadius.circular(40.0),
+                          ),
+                          prefixIcon: Icon(Icons.lock_outline),
+                          labelText: "Password",
+                          hintText: "Password",
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        controller: confirmationController,
+                        validator: validateConfirmation,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 2.5,
+                                color: Color.fromARGB(255, 66, 164, 255)),
+                            borderRadius: BorderRadius.circular(40.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 2.5,
+                                color: Color.fromARGB(255, 66, 164, 255)),
+                            borderRadius: BorderRadius.circular(40.0),
+                          ),
+                          prefixIcon: Icon(Icons.lock_outline),
+                          labelText: "Confirm Password",
+                          hintText: "Confirm Password",
+                        ),
+                      ),
+
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: 45,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            _register();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40.0)),
+                          ),
+                          child: Text("SIGN UP"),
+                        ),
+                      ),
+
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()),
+                            );
+                          },
+                          child: const Text.rich(
+                            TextSpan(
+                                text: "Already have an account?",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18.0),
+                                children: const [
+                                  TextSpan(
+                                    text: " Login",
+                                    style: TextStyle(color: Colors.blue),
+                                  )
+                                ]),
+                          ),
+                        ),
+                      ),
+                      ],
+                    ),
+                   )
+                  )
+           ]),
+        ),
+      ),
+    );
+  }
+}
+
+/*
   @override
   Widget build(BuildContext context) {
     // Get the screen size.
@@ -237,7 +436,7 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
-}
+}*/
 
 // Validate an email string and return an error message if invalid.
 String? validateEmail(String? formEmail) {
