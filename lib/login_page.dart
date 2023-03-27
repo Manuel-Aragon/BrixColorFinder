@@ -24,6 +24,9 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
   //This key is used to access the form state.
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  //to hide password
+  bool passenable = true;
+
 
 // This method is called by the _login method to start the authentication process.
   void _authenticate() async {
@@ -111,6 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
+                        obscureText: passenable,
                         controller: passwordController,
                         validator: validatePassword,
                         decoration: InputDecoration(
@@ -129,7 +133,21 @@ class _LoginPageState extends State<LoginPage> {
                           prefixIcon: Icon(Icons.lock_outline),
                           labelText: "Password",
                           hintText: "Password",
+                          suffixIcon: IconButton(
+                            icon: Icon (
+                              passenable ? Icons.visibility_off : Icons.visibility),
+                              onPressed: () {
+                                setState(() {
+                                  passenable = !passenable;
+                                });
+                              },
+                            ),
+                          alignLabelWithHint: false,
+                          filled: true,
+                          fillColor: Colors.white,
                         ),
+                        keyboardType: TextInputType.visiblePassword,
+                        textInputAction: TextInputAction.done,
                       ),
                       Align(
                         alignment: Alignment.centerRight,
