@@ -65,8 +65,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
           appBar: AppBar(title: const Text('Login')),
           body: SingleChildScrollView(
               child: Container(
@@ -154,7 +153,11 @@ class _LoginPageState extends State<LoginPage> {
                         child: TextButton(
                             onPressed: () {}, child: Text("Forgot Password?")),
                       ),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       SizedBox(
+                        height: 45,
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () async {
@@ -168,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 40,
                       ),
                       Align(
                         alignment: Alignment.center,
@@ -183,7 +186,9 @@ class _LoginPageState extends State<LoginPage> {
                           child: const Text.rich(
                             TextSpan(
                                 text: "Don't have an account?",
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18.0),
                                 children: const [
                                   TextSpan(
                                     text: " Sign Up",
@@ -198,10 +203,10 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ]),
-          ))),
-    );
+          ))
+          );
   }
-
+}
   /* @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -366,8 +371,8 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }*/
-}
+  }
+}*/
 
 // Validate an email string and return an error message if invalid.
 String? validateEmail(String? formEmail) {
