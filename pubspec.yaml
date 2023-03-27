@@ -32,7 +32,6 @@ dependencies:
   flutter:
     sdk: flutter
   shared_preferences:
-  provider:
   camera:
   adaptive_theme: ^2.2.0
   image_picker:
@@ -52,7 +51,7 @@ dependencies:
     git:
       url: https://github.com/filofan1/tflite_flutter_helper.git
       ref: 783f15e5a87126159147d8ea30b98eea9207ac70
-
+  provider: ^6.0.0
   # tflite_flutter_helper:
     # git:
       # url: https://github.com/filofan1/tflite_flutter_helper.git

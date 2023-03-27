@@ -31,16 +31,19 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../classifier/classifier.dart';
 import '../styles.dart';
 import 'lego_photo_view.dart';
+import '../history_page.dart';
 
 const _labelsFileName = 'assets/labels.txt';
 const _modelFileName = 'model_unquant.tflite';
 
 class LegoBrickRecogniser extends StatefulWidget {
-  const LegoBrickRecogniser({super.key});
+  //const LegoBrickRecogniser({super.key});
+  const LegoBrickRecogniser({Key? key}) : super(key: key);
 
   @override
   State<LegoBrickRecogniser> createState() => _LegoBrickRecogniserState();
@@ -108,36 +111,45 @@ class _LegoBrickRecogniserState extends State<LegoBrickRecogniser> {
   //This is a build widget, which dynamically builds the structure of the UI of this page
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: kBgColor,
-      width: double.infinity,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: _buildTitle(),
-          ),
-          const SizedBox(height: 30),
-          _buildPhotolView(),
-          const SizedBox(height: 10),
-          _buildResultView(),
-          const Spacer(flex: 5),
-          _buildPickPhotoButton(
-            title: 'Take a picture of a LEGO',
-            source: ImageSource.camera,
-          ),
-          _buildPickPhotoButton(
-            title: 'Pick a LEGO from gallery',
-            source: ImageSource.gallery,
-          ),
-          const Spacer(),
-        ],
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text("BrixColor Finder"),
+        backgroundColor: kColorBrickRed,
+      ),
+      body: Container(
+        color: kBgColor,
+        width: double.infinity,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            const Spacer(),
+            /*Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: _buildTitle(),
+            ),*/
+            const SizedBox(height: 0),
+            _buildPhotolView(),
+            const SizedBox(height: 10),
+            _buildResultView(),
+            const Spacer(flex: 5),
+            _buildPickPhotoButton(
+              title: 'Take a picture of a LEGO',
+              source: ImageSource.camera,
+            ),
+            _buildPickPhotoButton(
+              title: 'Pick a LEGO from gallery',
+              source: ImageSource.gallery,
+            ),
+            const Spacer(),
+          ],
+        ),
       ),
     );
   }
 
+  // widget that creates the view of the taken image on the page
   Widget _buildPhotolView() {
     return Stack(
       alignment: AlignmentDirectional.center,
@@ -155,13 +167,14 @@ class _LegoBrickRecogniserState extends State<LegoBrickRecogniser> {
     return const Text('Scanning for LEGOs...', style: kAnalyzingTextStyle);
   }
 
-  Widget _buildTitle() {
+  // Builds the title for the page (probably will get rid of this)
+  /*Widget _buildTitle() {
     return const Text(
       'BrixColor Finder',
       style: kTitleTextStyle,
       textAlign: TextAlign.center,
     );
-  }
+  }*/
 
   Widget _buildPickPhotoButton({
     required ImageSource source,
@@ -225,6 +238,9 @@ class _LegoBrickRecogniserState extends State<LegoBrickRecogniser> {
       _resultStatus = result;
       _legoLabel = legoLabel;
       _accuracy = accuracy;
+      //HistoryState().updateHistoryFromOtherScreen(legoLabel, accuracy.toString(), image);
+      var historyModel = context.read<HistoryModel>();
+      historyModel.addNewScan(legoLabel, accuracy.toString(), image);
     });
   }
 
