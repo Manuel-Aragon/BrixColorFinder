@@ -2,9 +2,10 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:lucky13capstone/classifier/lego_recognizer.dart';
 import 'package:lucky13capstone/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:lucky13capstone/scan_page.dart';
+import 'package:lucky13capstone/classifier/lego_scan.dart';
 
 // This class represents the login page of the app.
 class LoginPage extends StatefulWidget {
@@ -54,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
         //pushAndRemoveUntil() used so that user can't navigate back after they login
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => const ScanPage()),
+            MaterialPageRoute(builder: (context) => const LegoRecogniser()),
             (r) => false);
       }
     });

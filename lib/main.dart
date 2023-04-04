@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:lucky13capstone/dev_page.dart';
-import 'package:lucky13capstone/scan_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,7 +53,9 @@ class BrickFinder extends StatelessWidget {
       ),
       initial: AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(
-          theme: theme, darkTheme: darkTheme, home: const DevPage(title: 'Dev Page')),
+          theme: theme,
+          darkTheme: darkTheme,
+          home: const DevPage(title: 'Dev Page')),
     );
   }
 }

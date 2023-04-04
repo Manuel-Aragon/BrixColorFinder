@@ -32,18 +32,18 @@ import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 
-import '../classifier/classifier.dart';
+import 'classifier.dart';
 import '../styles.dart';
-import 'plant_photo_view.dart';
+import 'lego_scan.dart';
 
 const _labelsFileName = 'assets/labels.txt';
 const _modelFileName = 'model_unquant.tflite';
 
-class PlantRecogniser extends StatefulWidget {
-  const PlantRecogniser({super.key});
+class LegoRecogniser extends StatefulWidget {
+  const LegoRecogniser({super.key});
 
   @override
-  State<PlantRecogniser> createState() => _PlantRecogniserState();
+  State<LegoRecogniser> createState() => _LegoRecogniserState();
 }
 
 //enumerator function for setting the status of a scan result
@@ -57,7 +57,7 @@ enum _ResultStatus {
 //This entire class is what is used to set up the LEGO scanning feature
 //it contains the UI for the page, how the user selects the scan method,
 //how the user's LEGO image is displayed and processed with the model.
-class _PlantRecogniserState extends State<PlantRecogniser> {
+class _LegoRecogniserState extends State<LegoRecogniser> {
   bool _isAnalyzing =
       false; //used to check if the image is in the process of being analyized by the model
   final picker =
@@ -142,7 +142,7 @@ class _PlantRecogniserState extends State<PlantRecogniser> {
     return Stack(
       alignment: AlignmentDirectional.center,
       children: [
-        PlantPhotoView(file: _selectedImageFile),
+        LegoPhotoView(file: _selectedImageFile),
         _buildAnalyzingText(),
       ],
     );
