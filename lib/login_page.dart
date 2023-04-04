@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:lucky13capstone/classifier/lego_recognizer.dart';
 import 'package:lucky13capstone/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:lucky13capstone/classifier/lego_scan.dart';
+import 'package:lucky13capstone/classifier/lego_photo_view.dart';
 
 // This class represents the login page of the app.
 class LoginPage extends StatefulWidget {

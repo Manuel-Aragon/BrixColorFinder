@@ -34,10 +34,17 @@ import 'package:image_picker/image_picker.dart';
 
 import 'classifier.dart';
 import '../styles.dart';
-import 'lego_scan.dart';
+import 'lego_photo_view.dart';
+
+import 'dart:typed_data';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:math' as math;
 
 const _labelsFileName = 'assets/labels.txt';
 const _modelFileName = 'model_unquant.tflite';
+
+const _colorLabelFileName = 'assets/color_labels.txt';
+const _colorModelFileName = 'color_unquant.tflite';
 
 class LegoRecogniser extends StatefulWidget {
   const LegoRecogniser({super.key});
@@ -66,15 +73,23 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
       _selectedImageFile; //used for accessing the selected image from the image gallery
 
   // Result
-  _ResultStatus _resultStatus =
+  _ResultStatus _legoResultStatus =
       _ResultStatus.notStarted; //initialize result status to notStarted yet
   String _legoLabel =
       ''; //the string for printing the Model Label (the name of the LEGO brick)
-  double _accuracy = 0.0; //initialize the accuracy variable to zero
+  double _legoAccuracy = 0.0; //initialize the accuracy variable to zero
+
+  // Result
+  _ResultStatus _colorResultStatus =
+      _ResultStatus.notStarted; //initialize result status to notStarted yet
+  String _colorLabel =
+      ''; //the string for printing the Model Label (the name of the LEGO brick)
+  double _colorAccuracy = 0.0; //initialize the accuracy variable to zero
 
   //initialize a classifier type, using the class from the classifier.dart file.
   //this is used
   late Classifier _classifier;
+  late Classifier _colorClassifier;
 
   //this initializes the 'state' of the application and calls the _loadClassifier funciton below
   @override
@@ -95,14 +110,19 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
     //initialize classifier, by waiting for the Classifier class's loadWith() function
     //loads the classifier using the input model and labels and assigns them to mutable
     //variables.
-    final classifier = await Classifier.loadWith(
+    final legoClassifier = await Classifier.loadWith(
       labelsFileName: _labelsFileName,
       modelFileName: _modelFileName,
+    );
+    final colorClassifier = await Classifier.loadWith(
+      labelsFileName: _colorLabelFileName,
+      modelFileName: _colorModelFileName,
     );
 
     //this generated classifier is then assigned to the earlier initialized classifier
     //the ! means that the 'classifier' is checked to not be null first.
-    _classifier = classifier!;
+    _classifier = legoClassifier!;
+    _colorClassifier = colorClassifier!;
   }
 
   //This is a build widget, which dynamically builds the structure of the UI of this page
@@ -211,40 +231,57 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
 
     final imageInput = img.decodeImage(image.readAsBytesSync())!;
 
-    final resultCategory = _classifier.predict(imageInput);
+    final legoResultCategory = _classifier.predict(imageInput);
 
-    final result = resultCategory.score >= 0.8
+    final legoResult = legoResultCategory.score >= 0.8
         ? _ResultStatus.found
         : _ResultStatus.notFound;
-    final legoLabel = resultCategory.label;
-    final accuracy = resultCategory.score;
+    final legoLabel = legoResultCategory.label;
+    final legoAccuracy = legoResultCategory.score;
+
+    final colorResultCategory = _colorClassifier.predict(imageInput);
+
+    final colorResult = colorResultCategory.score >= 0.8
+        ? _ResultStatus.found
+        : _ResultStatus.notFound;
+    final colorLabel = colorResultCategory.label;
+    final colorAccuracy = colorResultCategory.score;
 
     _setAnalyzing(false);
 
     setState(() {
-      _resultStatus = result;
+      _legoResultStatus = legoResult;
       _legoLabel = legoLabel;
-      _accuracy = accuracy;
+      _legoAccuracy = legoAccuracy;
+      _colorResultStatus = colorResult;
+      _colorLabel = colorLabel;
+      _colorAccuracy = colorAccuracy;
     });
   }
 
   Widget _buildResultView() {
     var title = ''; //initialize title to be blanck
+    var color = '';
 
     //This ifelse block is used for displaying the result text
-    if (_resultStatus == _ResultStatus.notFound) {
+    if (_legoResultStatus == _ResultStatus.notFound) {
       title = 'LEGO not detected';
-    } else if (_resultStatus == _ResultStatus.found) {
+    } else if (_legoResultStatus == _ResultStatus.found) {
       title = _legoLabel; //this prints the resulting label
+      color = _colorLabel;
+      //
     } else {
       title = '';
     }
 
     //This is were the accuracy result text is created
     var accuracyLabel = '';
-    if (_resultStatus == _ResultStatus.found) {
+    var colorAccuracyLabel = '';
+    if (_legoResultStatus == _ResultStatus.found) {
       accuracyLabel =
-          'LEGO brick confidence: ${(_accuracy * 100).toStringAsFixed(2)}%';
+          'LEGO brick confidence: ${(_legoAccuracy * 100).toStringAsFixed(2)}%';
+      colorAccuracyLabel =
+          'Color confidence: ${(_colorAccuracy * 100).toStringAsFixed(2)}%';
     }
 
     //This is the widget were the LEGO label and accuracy result is located
@@ -252,7 +289,11 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
       children: [
         Text(title, style: kResultTextStyle),
         const SizedBox(height: 10),
-        Text(accuracyLabel, style: kResultRatingTextStyle)
+        Text(accuracyLabel, style: kResultRatingTextStyle),
+        const SizedBox(height: 10),
+        Text(color, style: kResultTextStyle),
+        const SizedBox(height: 10),
+        Text(colorAccuracyLabel, style: kResultRatingTextStyle)
       ],
     );
   }
