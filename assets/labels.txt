@@ -10,3 +10,12 @@
 9 2x3 Plate
 10 2x4 Brick
 11 2x4 Plate
+12 1x2 Tile
+13 1x2 Jumper
+14 1x6 Plate
+15 1x4 Brick
+16 1x3 Plate
+17 1x4 Tile
+18 1x2 Grill
+19 1x1 Brick, Round
+20 2x2 Tile

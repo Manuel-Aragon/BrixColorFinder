@@ -134,6 +134,23 @@ class _LegoBrickRecogniserState extends State<LegoBrickRecogniser> {
             const SizedBox(height: 10),
             _buildResultView(),
             const Spacer(flex: 5),
+            ElevatedButton(
+              child: const Text(
+                'Tips for taking photos',
+                style: TextStyle(
+                  fontFamily: kButtonFont,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w600,
+                  color: kColorLightYellow,
+                ),
+              ),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => _buildTipDialog(context),
+                );
+              },
+            ),
             _buildPickPhotoButton(
               title: 'Take a picture of a LEGO',
               source: ImageSource.camera,
@@ -146,6 +163,29 @@ class _LegoBrickRecogniserState extends State<LegoBrickRecogniser> {
           ],
         ),
       ),
+    );
+  }
+
+  // widget for creating the popup dialog for the tip button
+  Widget _buildTipDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Some tips for taking LEGO photos effectively:'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text(
+              "-Take your pictures at 3 times magnification so you may take your photos close without blurring the image.\n\n-Take pictures in a well lit area with neutral colored lighting.\n\n-Don't take pictures directly from above, as some bricks will look identical.\n\n-Use white or dark brown backgrounds if possible.\n\n-Make sure the LEGO brick is as center frame as possible."),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Close'),
+        ),
+      ],
     );
   }
 
