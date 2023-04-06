@@ -151,10 +151,12 @@ class _LoginPageState extends State<LoginPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                            onPressed: () {}, child: Text("Forgot Password?")),
+                            onPressed: () {}, child: Text("Forgot Password?",
+                          style: TextStyle(fontSize: 16),)
+                        ),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 15,
                       ),
                       SizedBox(
                         height: 45,
