@@ -1,9 +1,8 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lucky13capstone/brickview_page.dart';
+import 'package:lucky13capstone/dev_page.dart';
 
 void main() {
   runApp(
@@ -127,6 +126,21 @@ class _SettingsPageState extends State<SettingsPage> {
               const ListTile(
                 leading: Icon(Icons.save),
                 title: Text("Save Settings"),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Development", style: headingStyle),
+                ],
+              ),
+              ListTile(
+                leading: const Icon(Icons.dangerous),
+                title: const Text("Devevelopment Page"),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const DevPage(title: 'Dev Page')),
+                ),
               ),
             ],
           ),
