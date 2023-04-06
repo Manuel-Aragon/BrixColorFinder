@@ -17,6 +17,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final passwordController = TextEditingController();
   final confirmationController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  bool passenable = true;
 
 // This method is called when the user clicks the register button.
   void _register() async {
@@ -153,6 +154,7 @@ Widget build(BuildContext context) {
 
                       const SizedBox(height: 20),
                       TextFormField(
+                        obscureText: passenable,
                         controller: passwordController,
                         validator: validatePassword,
                         decoration: InputDecoration(
@@ -171,11 +173,26 @@ Widget build(BuildContext context) {
                           prefixIcon: Icon(Icons.lock_outline),
                           labelText: "Password",
                           hintText: "Password",
+                          suffixIcon: IconButton(
+                            icon: Icon (
+                                passenable ? Icons.visibility_off : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                passenable = !passenable;
+                              });
+                            },
+                          ),
+                          alignLabelWithHint: false,
+                          filled: true,
+                          fillColor: Colors.white,
                         ),
+                        keyboardType: TextInputType.visiblePassword,
+                        textInputAction: TextInputAction.done,
                       ),
 
                       const SizedBox(height: 20),
                       TextFormField(
+                        obscureText: passenable,
                         controller: confirmationController,
                         validator: validateConfirmation,
                         decoration: InputDecoration(
@@ -194,7 +211,21 @@ Widget build(BuildContext context) {
                           prefixIcon: Icon(Icons.lock_outline),
                           labelText: "Confirm Password",
                           hintText: "Confirm Password",
+                          suffixIcon: IconButton(
+                            icon: Icon (
+                                passenable ? Icons.visibility_off : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                passenable = !passenable;
+                              });
+                            },
+                          ),
+                          alignLabelWithHint: false,
+                          filled: true,
+                          fillColor: Colors.white,
                         ),
+                        keyboardType: TextInputType.visiblePassword,
+                        textInputAction: TextInputAction.done,
                       ),
 
                       const SizedBox(
