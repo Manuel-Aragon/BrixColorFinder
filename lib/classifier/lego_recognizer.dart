@@ -309,7 +309,7 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
       _colorAccuracy = colorAccuracy;
 
       var historyModel = context.read<HistoryModel>();
-      historyModel.addNewScan(legoLabel, legoAccuracy.toString(), image);
+      historyModel.addNewScan(legoLabel, colorLabel, image);
     });
   }
 
@@ -320,12 +320,14 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
     //This ifelse block is used for displaying the result text
     if (_legoResultStatus == _ResultStatus.notFound) {
       title = 'LEGO not detected';
+      color = 'Color uncertain';
     } else if (_legoResultStatus == _ResultStatus.found) {
       title = _legoLabel; //this prints the resulting label
       color = _colorLabel;
       //
     } else {
       title = '';
+      color = '';
     }
 
     //This is were the accuracy result text is created

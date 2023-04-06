@@ -56,7 +56,7 @@ class MyHistoryBox extends StatelessWidget {
               Text(blockText,
                   style:
                       const TextStyle(fontSize: 30.0, color: kColorOffWhite)),
-              Text("Accuracy: $blockColor%",
+              Text(blockColor,
                   style:
                       const TextStyle(fontSize: 30.0, color: kColorOffWhite)),
             ],
@@ -74,7 +74,7 @@ class HistoryModel extends ChangeNotifier {
 
   // internal private version of the History. Stores each list data for each item.
   final List<String> _brick = [];
-  final List<String> _accuracy = [];
+  final List<String> _color = [];
   final List<File?> _image = [];
 
   // the unmodifiable view of the items in the Scan History Lists
@@ -87,9 +87,9 @@ class HistoryModel extends ChangeNotifier {
   }
 
   // this function will tell the lists to update, then, when the History
-  void addNewScan(String brick, String accuracy, File? image) {
+  void addNewScan(String brick, String color, File? image) {
     // round the accuracy value, then turn in back into a string
-    double d_Accuracy = double.parse(accuracy);
+    /*double d_Accuracy = double.parse(accuracy);
     d_Accuracy = roundDouble(d_Accuracy, 2);
     // check if the LEGO was not confidently found
     if (d_Accuracy < 0.8) {
@@ -97,22 +97,22 @@ class HistoryModel extends ChangeNotifier {
     }
     // make accuracy out of 100
     d_Accuracy *= 100;
-    String acc = d_Accuracy.toString();
+    String acc = d_Accuracy.toString();*/
 
     // add the items to the Lists
     _brick.add(brick);
-    _accuracy.add(acc);
+    _color.add(color);
     _image.add(image);
-    debugPrint('brick: $_brick\naccuracy: $_accuracy\nimage: $_image\n');
+    debugPrint('brick: $_brick\naccuracy: $_color\nimage: $_image\n');
     notifyListeners();
   }
 
   // clear all the items from the Lists
   void clearScans() {
     _brick.clear();
-    _accuracy.clear();
+    _color.clear();
     _image.clear();
-    debugPrint('brick: $_brick\naccuracy: $_accuracy\nimage: $_image\n');
+    debugPrint('brick: $_brick\naccuracy: $_color\nimage: $_image\n');
     notifyListeners();
   }
 }
@@ -186,7 +186,7 @@ class HistoryState extends State<HistoryPage>
                   : historyModel._image[index] != null
                       ? historyModel._image[index]
                       : null,
-              blockColor: historyModel._accuracy[index],
+              blockColor: historyModel._color[index],
             );
           }),
         ),
