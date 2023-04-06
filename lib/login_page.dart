@@ -98,13 +98,13 @@ class _LoginPageState extends State<LoginPage> {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           prefixIcon: Icon(Icons.person_outline_outlined),
@@ -121,13 +121,13 @@ class _LoginPageState extends State<LoginPage> {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           prefixIcon: Icon(Icons.lock_outline),
@@ -152,8 +152,12 @@ class _LoginPageState extends State<LoginPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                            onPressed: () {}, child: Text("Forgot Password?",
-                          style: TextStyle(fontSize: 16),)
+                            onPressed: () {},
+                            style: TextButton.styleFrom(
+                              foregroundColor: Color.fromARGB(223, 212, 89, 100),
+                            ),
+                            child: Text("Forgot Password?",
+                            style: TextStyle(fontSize: 16),)
                         ),
                       ),
                       const SizedBox(
@@ -195,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                                 children: const [
                                   TextSpan(
                                     text: " Sign Up",
-                                    style: TextStyle(color: Colors.blue),
+                                    style: TextStyle(color: Color.fromARGB(223, 212, 89, 100)),
                                   )
                                 ]),
                           ),

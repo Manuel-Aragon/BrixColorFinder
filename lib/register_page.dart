@@ -17,6 +17,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final passwordController = TextEditingController();
   final confirmationController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  bool passenable = true;
 
 // This method is called when the user clicks the register button.
   void _register() async {
@@ -90,13 +91,13 @@ Widget build(BuildContext context) {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                                 borderRadius: BorderRadius.circular(40.0),
                                 ),
                               focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                                 borderRadius: BorderRadius.circular(40.0),
                               ),
                               prefixIcon: Icon(Icons.person_outline_outlined),
@@ -113,13 +114,13 @@ Widget build(BuildContext context) {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           prefixIcon: Icon(Icons.mail),
@@ -136,13 +137,13 @@ Widget build(BuildContext context) {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           prefixIcon: Icon(Icons.phone),
@@ -153,48 +154,78 @@ Widget build(BuildContext context) {
 
                       const SizedBox(height: 20),
                       TextFormField(
+                        obscureText: passenable,
                         controller: passwordController,
                         validator: validatePassword,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           prefixIcon: Icon(Icons.lock_outline),
                           labelText: "Password",
                           hintText: "Password",
+                          suffixIcon: IconButton(
+                            icon: Icon (
+                                passenable ? Icons.visibility_off : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                passenable = !passenable;
+                              });
+                            },
+                          ),
+                          alignLabelWithHint: false,
+                          filled: true,
+                          fillColor: Colors.white,
                         ),
+                        keyboardType: TextInputType.visiblePassword,
+                        textInputAction: TextInputAction.done,
                       ),
 
                       const SizedBox(height: 20),
                       TextFormField(
+                        obscureText: passenable,
                         controller: confirmationController,
                         validator: validateConfirmation,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           prefixIcon: Icon(Icons.lock_outline),
                           labelText: "Confirm Password",
                           hintText: "Confirm Password",
+                          suffixIcon: IconButton(
+                            icon: Icon (
+                                passenable ? Icons.visibility_off : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                passenable = !passenable;
+                              });
+                            },
+                          ),
+                          alignLabelWithHint: false,
+                          filled: true,
+                          fillColor: Colors.white,
                         ),
+                        keyboardType: TextInputType.visiblePassword,
+                        textInputAction: TextInputAction.done,
                       ),
 
                       const SizedBox(
@@ -237,7 +268,7 @@ Widget build(BuildContext context) {
                                 children: const [
                                   TextSpan(
                                     text: " Login",
-                                    style: TextStyle(color: Colors.blue),
+                                    style: TextStyle(color: Color.fromARGB(223, 212, 89, 100)),
                                   )
                                 ]),
                           ),
