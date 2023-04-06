@@ -18,14 +18,15 @@ class _SignUpPageState extends State<SignUpPage> {
   final passwordController = TextEditingController();
   final confirmationController = TextEditingController();
   bool passenable = true;
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Initialize the Firestore instance
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 // This method is called when the user clicks the register button.
   void _register() async {
     try {
       // Create a new user with the given email and password
+
       final authResult =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,

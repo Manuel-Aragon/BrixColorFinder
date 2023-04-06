@@ -15,6 +15,13 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  void _logout(BuildContext context) {
+    FirebaseAuth.instance.signOut();
+
+    // Call setState to trigger a rebuild
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,12 +34,12 @@ class _SettingsPageState extends State<SettingsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _generalSettingsColumn(context),
-              if (context.watch<SettingsModel>().loggedIn)
+              if (FirebaseAuth.instance.currentUser != null)
                 _accountSettingsColumn()
               else
                 const SizedBox(height: 0),
-              if (context.watch<SettingsModel>().loggedIn)
-                _securitySettingsColumn(context)
+              if (FirebaseAuth.instance.currentUser != null)
+                _securitySettingsColumn(context, this)
               else
                 _securitySettingsColumnLoggedOut(context),
               _developmentSettingsColumn(context)
@@ -42,14 +49,6 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
     );
   }
-}
-
-void _logout(BuildContext context) {
-  FirebaseAuth.instance.signOut();
-  context.read<SettingsModel>().updateLoggedIn(false);
-
-  // Navigator.pushAndRemoveUntil(context,
-  //     MaterialPageRoute(builder: (context) => const LoginPage()), (r) => false);
 }
 
 Widget _generalSettingsColumn(BuildContext context) {
@@ -111,7 +110,7 @@ Widget _accountSettingsColumn() {
   );
 }
 
-Widget _securitySettingsColumn(BuildContext context) {
+Widget _securitySettingsColumn(BuildContext context, _SettingsPageState state) {
   return Column(
     children: [
       Row(
@@ -129,7 +128,7 @@ Widget _securitySettingsColumn(BuildContext context) {
       ListTile(
         leading: const Icon(Icons.exit_to_app),
         title: const Text("Sign Out"),
-        onTap: () => _logout(context),
+        onTap: () => state._logout(context),
       ),
       const Divider(),
       ListTile(

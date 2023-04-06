@@ -6,20 +6,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 class SettingsModel extends ChangeNotifier {
   bool _darkMode;
   String _language;
-  bool _loggedIn;
   // Initialize the Firestore instance
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   SettingsModel({
     required Map<String, dynamic> preferences,
   })  : _darkMode = preferences['darkMode'] ?? false,
-        _language = preferences['language'] ?? 'en',
-        _loggedIn = preferences['loggedIn'] ?? false;
+        _language = preferences['language'] ?? 'en';
 
   // ... Other getters and setters
 
   bool get darkMode => _darkMode;
-  bool get loggedIn => _loggedIn;
 
   void updateDarkMode(bool darkMode) {
     _darkMode = darkMode;
@@ -31,24 +28,16 @@ class SettingsModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateLoggedIn(bool loggedIn) {
-    print("test");
-    print(_loggedIn);
-    print(loggedIn);
-    _loggedIn = loggedIn;
-    notifyListeners();
-  }
-
   Future<void> saveSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('darkMode', _darkMode);
     prefs.setString('language', _language);
-    prefs.setBool('loggedIn', _loggedIn);
     notifyListeners();
     print("Saved Settings to preferences");
   }
 
   Future<void> saveToCloud() async {
+    saveSettings();
     // Get the current user's ID
     String? userId = FirebaseAuth.instance.currentUser?.uid;
 
@@ -57,11 +46,41 @@ class SettingsModel extends ChangeNotifier {
       await _firestore.collection('users').doc(userId).update({
         'darkMode': _darkMode,
         'language': _language,
-        'loggedIn': _loggedIn,
       });
     } else {
       // Handle the case where there's no user logged in
       print("No user is logged in. Unable to save settings to Firebase.");
+    }
+  }
+
+  Future<Map<String, dynamic>> getFromCloud() async {
+    // Get the current user
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+    // Get the user's settings document from Firestore
+    DocumentSnapshot settingsDocument = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUser?.uid)
+        .collection('settings')
+        .doc('user_settings')
+        .get();
+
+    // If the document doesn't exist, return an empty map
+    if (!settingsDocument.exists) {
+      return {};
+    }
+
+    // Convert the document data into a map and return it
+    return settingsDocument.data() as Map<String, dynamic>;
+  }
+
+  void loadFromCloud() async {
+    Map<String, dynamic> cloudSettings = await getFromCloud();
+    if (cloudSettings != {}) {
+      updateDarkMode(cloudSettings['darkmode']);
+      updateLanguage(cloudSettings['language']);
+      saveSettings();
     }
   }
 }
