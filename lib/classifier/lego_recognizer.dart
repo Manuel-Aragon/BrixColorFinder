@@ -36,10 +36,9 @@ import 'package:provider/provider.dart';
 import 'classifier.dart';
 import '../styles.dart';
 import 'lego_photo_view.dart';
-import 'dart:typed_data';
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:math' as math;
+
 import '../history_page.dart';
+import '../settings_page.dart';
 
 const _labelsFileName = 'assets/brick_labels.txt';
 const _modelFileName = 'brick_model_unquant.tflite';
@@ -177,7 +176,11 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
               title: 'Pick a LEGO from gallery',
               source: ImageSource.gallery,
             ),
+            _buildHistoryButton(context: context),
             const Spacer(),
+            _buildSettingsButton(
+              context: context,
+            )
           ],
         ),
       ),
@@ -354,4 +357,36 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
       ],
     );
   }
+}
+
+Widget _buildHistoryButton({
+  required BuildContext context,
+}) {
+  return IconButton(
+    iconSize: 100,
+    onPressed: () {
+      // Navigate to the history page when the history icon is pressed.
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HistoryPage()),
+      );
+    },
+    icon: const Icon(Icons.access_time, color: Colors.white),
+  );
+}
+
+Widget _buildSettingsButton({
+  required BuildContext context,
+}) {
+  return IconButton(
+    iconSize: 100,
+    onPressed: () {
+      // Navigate to the settings page when the settings icon is pressed.
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const SettingsPage()),
+      );
+    },
+    icon: const Icon(Icons.settings, color: Colors.white),
+  );
 }
