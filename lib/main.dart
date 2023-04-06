@@ -25,7 +25,7 @@ class BrickFinder extends StatelessWidget {
   Widget build(BuildContext context) {
     return AdaptiveTheme(
       light: ThemeData(
-        scaffoldBackgroundColor: Color.fromARGB(255, 15, 13, 13),
+        scaffoldBackgroundColor: const Color(0xFfffffff),
         appBarTheme:
             const AppBarTheme(color: Color.fromARGB(255, 38, 214, 226)),
         listTileTheme: const ListTileThemeData(
