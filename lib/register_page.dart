@@ -90,13 +90,13 @@ Widget build(BuildContext context) {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                                 borderRadius: BorderRadius.circular(40.0),
                                 ),
                               focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                                 borderRadius: BorderRadius.circular(40.0),
                               ),
                               prefixIcon: Icon(Icons.person_outline_outlined),
@@ -113,13 +113,13 @@ Widget build(BuildContext context) {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           prefixIcon: Icon(Icons.mail),
@@ -136,13 +136,13 @@ Widget build(BuildContext context) {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           prefixIcon: Icon(Icons.phone),
@@ -159,13 +159,13 @@ Widget build(BuildContext context) {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           prefixIcon: Icon(Icons.lock_outline),
@@ -182,13 +182,13 @@ Widget build(BuildContext context) {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 width: 2.5,
-                                color: Color.fromARGB(255, 66, 164, 255)),
+                                color: Color.fromARGB(223, 212, 89, 100)),
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           prefixIcon: Icon(Icons.lock_outline),
@@ -237,7 +237,7 @@ Widget build(BuildContext context) {
                                 children: const [
                                   TextSpan(
                                     text: " Login",
-                                    style: TextStyle(color: Colors.blue),
+                                    style: TextStyle(color: Color.fromARGB(223, 212, 89, 100)),
                                   )
                                 ]),
                           ),
