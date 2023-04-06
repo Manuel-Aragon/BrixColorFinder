@@ -323,13 +323,20 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
     //This ifelse block is used for displaying the result text
     if (_legoResultStatus == _ResultStatus.notFound) {
       title = 'LEGO not detected';
-      color = 'Color uncertain';
     } else if (_legoResultStatus == _ResultStatus.found) {
       title = _legoLabel; //this prints the resulting label
-      color = _colorLabel;
-      //
     } else {
       title = '';
+    }
+
+    //This ifelse block is used for displaying the result text
+    if (_colorResultStatus == _ResultStatus.notFound) {
+      color = 'Color uncertain';
+    } else if (_colorResultStatus == _ResultStatus.found) {
+      if (_colorResultStatus == _ResultStatus.found) {
+        color = _colorLabel;
+      }
+    } else {
       color = '';
     }
 
@@ -339,6 +346,8 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
     if (_legoResultStatus == _ResultStatus.found) {
       accuracyLabel =
           'Brick confidence: ${(_legoAccuracy * 100).toStringAsFixed(2)}%';
+    }
+    if (_colorResultStatus == _ResultStatus.found) {
       colorAccuracyLabel =
           'Color confidence: ${(_colorAccuracy * 100).toStringAsFixed(2)}%';
     }
