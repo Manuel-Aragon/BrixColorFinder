@@ -38,8 +38,8 @@ import '../styles.dart';
 import 'lego_photo_view.dart';
 import '../history_page.dart';
 
-const _labelsFileName = 'assets/labels.txt';
-const _modelFileName = 'model_unquant.tflite';
+const _labelsFileName = 'assets/brick_labels.txt';
+const _modelFileName = 'brick_model_unquant.tflite';
 
 class LegoBrickRecogniser extends StatefulWidget {
   //const LegoBrickRecogniser({super.key});
