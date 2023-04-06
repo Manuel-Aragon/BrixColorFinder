@@ -749,15 +749,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.16"
-  tflite:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "6a45707091f62fb4441f21ea46a612408d2677dd"
-      url: "https://github.com/Manuel-Aragon/flutter_tflite"
-    source: git
-    version: "1.1.2"
   tflite_flutter:
     dependency: "direct main"
     description:

@@ -32,10 +32,10 @@ dependencies:
   firebase_auth: ^4.1.5
   cloud_firestore: ^4.1.0
   #Adds forked version of tflite to support Android V2 embedding
-  tflite:
-    git:
-      url: https://github.com/Manuel-Aragon/flutter_tflite
-  tflite_flutter: ^0.9.0
+  # tflite:
+  #   git:
+  #     url: https://github.com/Manuel-Aragon/flutter_tflite
+  tflite_flutter: ^0.9.1
   tflite_flutter_helper:
     git:
       url: https://github.com/filofan1/tflite_flutter_helper.git
