@@ -139,7 +139,6 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            const SizedBox(height: 30),
             _buildPhotolView(),
             const SizedBox(height: 25),
             _buildResultView(),
