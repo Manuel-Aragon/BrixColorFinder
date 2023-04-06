@@ -133,7 +133,7 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("BrixColor Finder"),
+        title: const Text("BrixColor Finder", style: kResultTextStyle),
         backgroundColor: kColorBrickRed,
       ),
       body: Container(
@@ -242,7 +242,7 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
       onPressed: () => _onPickPhoto(source),
       child: Container(
         width: 300,
-        height: 50,
+        height: 40,
         color: kColorBrickRed,
         child: Center(
             child: Text(title,
@@ -333,7 +333,7 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
     var colorAccuracyLabel = '';
     if (_legoResultStatus == _ResultStatus.found) {
       accuracyLabel =
-          'LEGO brick confidence: ${(_legoAccuracy * 100).toStringAsFixed(2)}%';
+          'Brick confidence: ${(_legoAccuracy * 100).toStringAsFixed(2)}%';
       colorAccuracyLabel =
           'Color confidence: ${(_colorAccuracy * 100).toStringAsFixed(2)}%';
     }
@@ -342,12 +342,13 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
     return Column(
       children: [
         Text(title, style: kResultTextStyle),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Text(accuracyLabel, style: kResultRatingTextStyle),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Text(color, style: kResultTextStyle),
-        const SizedBox(height: 10),
-        Text(colorAccuracyLabel, style: kResultRatingTextStyle)
+        const SizedBox(height: 5),
+        Text(colorAccuracyLabel, style: kResultRatingTextStyle),
+        const SizedBox(height: 5),
       ],
     );
   }

@@ -54,12 +54,12 @@ const kAnalyzingTextStyle = TextStyle(
 
 const kResultTextStyle = TextStyle(
     fontFamily: kDisplayFont,
-    fontSize: 35.0,
+    fontSize: 25.0,
     color: kColorLightYellow,
     decoration: TextDecoration.none);
 
 const kResultRatingTextStyle = TextStyle(
     fontFamily: kMainFont,
-    fontSize: 18.0,
+    fontSize: 20.0,
     color: Colors.white,
     decoration: TextDecoration.none);
