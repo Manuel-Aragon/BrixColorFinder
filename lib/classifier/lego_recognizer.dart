@@ -130,22 +130,20 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      backgroundColor: kBgColor,
       appBar: AppBar(
         title: const Text("BrixColor Finder", style: kResultTextStyle),
         backgroundColor: kColorBrickRed,
       ),
-      body: Container(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
-        color: kBgColor,
-        width: double.infinity,
         child: Column(
           children: [
             const SizedBox(height: 30),
             _buildPhotolView(),
-            const SizedBox(height: 50),
+            const SizedBox(height: 25),
             _buildResultView(),
-            const SizedBox(height: 50),
+            const SizedBox(height: 25),
             Column(
               children: [
                 ElevatedButton(
