@@ -3,6 +3,7 @@ import 'login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lucky13capstone/brickview_page.dart';
 import 'package:lucky13capstone/dev_page.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
 void main() {
   runApp(
@@ -80,6 +81,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           builder: (context) => const BrickView()),
                     );
                   }),
+              ThemeSwitcher(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -146,6 +148,37 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ThemeSwitcher extends StatefulWidget {
+  @override
+  _ThemeSwitcherState createState() => _ThemeSwitcherState();
+}
+
+class _ThemeSwitcherState extends State<ThemeSwitcher> {
+  bool _isDarkMode = false;
+
+  @override
+  Widget build(BuildContext context) {
+    _isDarkMode = AdaptiveTheme.of(context).mode == AdaptiveThemeMode.dark;
+
+    return SwitchListTile(
+      title: const Text('Dark mode'),
+      secondary: const Icon(Icons.brightness_medium),
+      value: _isDarkMode,
+      onChanged: (bool value) {
+        setState(() {
+          _isDarkMode = value;
+        });
+
+        if (value) {
+          AdaptiveTheme.of(context).setThemeMode(AdaptiveThemeMode.dark);
+        } else {
+          AdaptiveTheme.of(context).setThemeMode(AdaptiveThemeMode.light);
+        }
+      },
     );
   }
 }

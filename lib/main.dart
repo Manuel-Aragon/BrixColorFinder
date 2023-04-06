@@ -65,5 +65,3 @@ class BrickFinder extends StatelessWidget {
     );
   }
 }
-
-//List<CameraDescription> cameras;
