@@ -63,3 +63,21 @@ const kResultRatingTextStyle = TextStyle(
     fontSize: 20.0,
     color: Colors.white,
     decoration: TextDecoration.none);
+
+//settings page
+TextStyle headingStyle = const TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: Color.fromARGB(223, 212, 89, 100));
+
+bool lockAppSwitchVal = true;
+bool fingerprintSwitchVal = false;
+bool changePassSwitchVal = true;
+
+TextStyle headingStyleIOS = const TextStyle(
+  fontWeight: FontWeight.w600,
+  fontSize: 16,
+  color: Color.fromARGB(223, 89, 212, 161),
+);
+TextStyle descStyleIOS =
+    const TextStyle(color: Color.fromARGB(255, 194, 13, 13));

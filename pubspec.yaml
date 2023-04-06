@@ -20,7 +20,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences:
+  shared_preferences: ^2.1.0
   camera:
   adaptive_theme: ^2.2.0
   image_picker:
