@@ -2,12 +2,21 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:lucky13capstone/dev_page.dart';
+import 'package:provider/provider.dart'; // used to work with ChangeNotifiers, Consumers, and Producers to manage State
+import 'package:lucky13capstone/history_page.dart'; // used to access the HistoryModel for updating the State of the Scan History
+// import 'package:lucky13capstone/scan_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(); //initialize firebase
   //cameras = await availableCameras();
-  runApp(const BrickFinder());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => HistoryModel(),
+      child: const BrickFinder(),
+    ),
+  );
+  // runApp(const BrickFinder());   // this is the original way we called this without Provider class
 }
 
 class BrickFinder extends StatelessWidget {

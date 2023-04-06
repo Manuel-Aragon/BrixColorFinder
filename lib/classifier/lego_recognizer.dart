@@ -31,17 +31,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import 'classifier.dart';
 import '../styles.dart';
 import 'lego_photo_view.dart';
-
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:math' as math;
+import '../history_page.dart';
 
-const _labelsFileName = 'assets/labels.txt';
-const _modelFileName = 'model_unquant.tflite';
+const _labelsFileName = 'assets/brick_labels.txt';
+const _modelFileName = 'brick_model_unquant.tflite';
 
 const _colorLabelFileName = 'assets/color_labels.txt';
 const _colorModelFileName = 'color_unquant.tflite';
@@ -128,36 +129,85 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
   //This is a build widget, which dynamically builds the structure of the UI of this page
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: kBgColor,
-      width: double.infinity,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: _buildTitle(),
-          ),
-          const SizedBox(height: 30),
-          _buildPhotolView(),
-          const SizedBox(height: 10),
-          _buildResultView(),
-          const Spacer(flex: 5),
-          _buildPickPhotoButton(
-            title: 'Take a picture of a LEGO',
-            source: ImageSource.camera,
-          ),
-          _buildPickPhotoButton(
-            title: 'Pick a LEGO from gallery',
-            source: ImageSource.gallery,
-          ),
-          const Spacer(),
-        ],
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text("BrixColor Finder"),
+        backgroundColor: kColorBrickRed,
+      ),
+      body: Container(
+        color: kBgColor,
+        width: double.infinity,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            const Spacer(),
+            /*Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: _buildTitle(),
+            ),*/
+            const SizedBox(height: 0),
+            _buildPhotolView(),
+            const SizedBox(height: 10),
+            _buildResultView(),
+            const Spacer(flex: 5),
+            ElevatedButton(
+              child: const Text(
+                'Tips for taking photos',
+                style: TextStyle(
+                  fontFamily: kButtonFont,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w600,
+                  color: kColorLightYellow,
+                ),
+              ),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => _buildTipDialog(context),
+                );
+              },
+            ),
+            _buildPickPhotoButton(
+              title: 'Take a picture of a LEGO',
+              source: ImageSource.camera,
+            ),
+            _buildPickPhotoButton(
+              title: 'Pick a LEGO from gallery',
+              source: ImageSource.gallery,
+            ),
+            const Spacer(),
+          ],
+        ),
       ),
     );
   }
 
+  // widget for creating the popup dialog for the tip button
+  Widget _buildTipDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Some tips for taking LEGO photos effectively:'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text(
+              "-Take your pictures at 3 times magnification so you may take your photos close without blurring the image.\n\n-Take pictures in a well lit area with neutral colored lighting.\n\n-Don't take pictures directly from above, as some bricks will look identical.\n\n-Use white or dark brown backgrounds if possible.\n\n-Make sure the LEGO brick is as center frame as possible."),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+
+  // widget that creates the view of the taken image on the page
   Widget _buildPhotolView() {
     return Stack(
       alignment: AlignmentDirectional.center,
@@ -175,13 +225,14 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
     return const Text('Scanning for LEGOs...', style: kAnalyzingTextStyle);
   }
 
-  Widget _buildTitle() {
+  // Builds the title for the page (probably will get rid of this)
+  /*Widget _buildTitle() {
     return const Text(
       'BrixColor Finder',
       style: kTitleTextStyle,
       textAlign: TextAlign.center,
     );
-  }
+  }*/
 
   Widget _buildPickPhotoButton({
     required ImageSource source,
@@ -256,6 +307,9 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
       _colorResultStatus = colorResult;
       _colorLabel = colorLabel;
       _colorAccuracy = colorAccuracy;
+
+      var historyModel = context.read<HistoryModel>();
+      historyModel.addNewScan(legoLabel, legoAccuracy.toString(), image);
     });
   }
 

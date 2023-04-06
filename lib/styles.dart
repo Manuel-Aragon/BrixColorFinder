@@ -41,7 +41,7 @@ const kBgColor = kColorDarkGrey;
 
 const kTitleTextStyle = TextStyle(
   fontFamily: kDisplayFont,
-  fontSize: 50.0,
+  fontSize: 30.0,
   color: kColorPinkishRed,
   decoration: TextDecoration.none,
 );
