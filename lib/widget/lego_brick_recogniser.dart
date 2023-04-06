@@ -278,7 +278,7 @@ class _LegoBrickRecogniserState extends State<LegoBrickRecogniser> {
       _resultStatus = result;
       _legoLabel = legoLabel;
       _accuracy = accuracy;
-      //HistoryState().updateHistoryFromOtherScreen(legoLabel, accuracy.toString(), image);
+
       var historyModel = context.read<HistoryModel>();
       historyModel.addNewScan(legoLabel, accuracy.toString(), image);
     });

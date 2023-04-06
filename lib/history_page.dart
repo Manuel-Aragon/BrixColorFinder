@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:lucky13capstone/styles.dart';
 import 'dart:math';
 import 'package:provider/provider.dart'; // used to work with ChangeNotifiers, Consumers, and Producers to manage State
@@ -103,11 +103,12 @@ class HistoryModel extends ChangeNotifier {
     _brick.add(brick);
     _accuracy.add(acc);
     _image.add(image);
+    debugPrint('brick: $_brick\naccuracy: $_accuracy\nimage: $_image\n');
     notifyListeners();
   }
 
-  clearScans() {
-    // clear all the items from the Lists
+  // clear all the items from the Lists
+  void clearScans() {
     _brick.clear();
     _accuracy.clear();
     _image.clear();
@@ -119,15 +120,18 @@ class HistoryModel extends ChangeNotifier {
 // Class for tracking the STATE of the Scan History dynamic list
 class HistoryState extends State<HistoryPage>
     with AutomaticKeepAliveClientMixin {
-  final ImagePicker _picker = ImagePicker();
+  //final ImagePicker _picker = ImagePicker();
   File? _selectedImage;
+
+  /*
   final List<String> block = [];
   final List<String> color = [];
   final List<File?> image = [];
-
+  */
   @override
   bool get wantKeepAlive => true;
 
+  /*
   // Call this function to add a result to the history list
   updateHistory(String blockData, String colorData, File? imageFile) {
     setState(() {
@@ -158,7 +162,7 @@ class HistoryState extends State<HistoryPage>
       });
       updateHistory('New Block', 'New Color', _selectedImage);
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -166,10 +170,10 @@ class HistoryState extends State<HistoryPage>
     return Consumer<HistoryModel>(
       builder: (context, historyModel, child) => Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Color.fromARGB(255, 57, 57, 57),
+        backgroundColor: const Color.fromARGB(255, 57, 57, 57),
         appBar: AppBar(
           title: const Text("LEGO Scan History"),
-          backgroundColor: Color.fromARGB(255, 44, 44, 44),
+          backgroundColor: const Color.fromARGB(255, 44, 44, 44),
         ),
         body: ListView.builder(
           itemCount: historyModel._brick.length,
@@ -187,7 +191,10 @@ class HistoryState extends State<HistoryPage>
           }),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: HistoryModel().clearScans(),
+          onPressed: () {
+            var historyModel = context.read<HistoryModel>();
+            historyModel.clearScans();
+          },
           child: const Icon(Icons.delete_forever_sharp, color: kColorDarkGrey),
           backgroundColor: Color.fromARGB(255, 189, 189, 189),
         ),
