@@ -81,7 +81,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           builder: (context) => const BrickView()),
                     );
                   }),
-              ThemeSwitcher(),
+              const ThemeSwitcher(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -153,11 +153,13 @@ class _SettingsPageState extends State<SettingsPage> {
 }
 
 class ThemeSwitcher extends StatefulWidget {
+  const ThemeSwitcher({Key? key}) : super(key: key);
+
   @override
-  _ThemeSwitcherState createState() => _ThemeSwitcherState();
+  ThemeSwitcherState createState() => ThemeSwitcherState();
 }
 
-class _ThemeSwitcherState extends State<ThemeSwitcher> {
+class ThemeSwitcherState extends State<ThemeSwitcher> {
   bool _isDarkMode = false;
 
   @override

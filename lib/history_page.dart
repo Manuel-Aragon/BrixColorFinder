@@ -39,7 +39,7 @@ class MyHistoryBox extends StatelessWidget {
           //the list object
           //onPressed:
           height: 400,
-          color: Color.fromARGB(255, 49, 49, 49),
+          color: const Color.fromARGB(255, 49, 49, 49),
           child: Column(
             //the values inside the list object
             children: [
@@ -183,9 +183,7 @@ class HistoryState extends State<HistoryPage>
               blockImage: _selectedImage != null &&
                       index == historyModel._brick.length - 1
                   ? _selectedImage
-                  : historyModel._image[index] != null
-                      ? historyModel._image[index]
-                      : null,
+                  : historyModel._image[index],
               blockColor: historyModel._color[index],
             );
           }),
@@ -195,8 +193,8 @@ class HistoryState extends State<HistoryPage>
             var historyModel = context.read<HistoryModel>();
             historyModel.clearScans();
           },
+          backgroundColor: const Color.fromARGB(255, 189, 189, 189),
           child: const Icon(Icons.delete_forever_sharp, color: kColorDarkGrey),
-          backgroundColor: Color.fromARGB(255, 189, 189, 189),
         ),
       ),
     );
