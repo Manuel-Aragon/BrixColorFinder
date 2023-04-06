@@ -7,7 +7,7 @@ import 'package:lucky13capstone/live_model.dart';
 import 'package:lucky13capstone/scan_page.dart';
 import 'package:lucky13capstone/brickview_page.dart';
 import 'package:lucky13capstone/history_page.dart';
-import 'package:lucky13capstone/widget/lego_recogniser.dart';
+import 'package:lucky13capstone/classifier/lego_recognizer.dart';
 import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
 
 class DevPage extends StatefulWidget {
