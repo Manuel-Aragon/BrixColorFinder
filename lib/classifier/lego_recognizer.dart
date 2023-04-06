@@ -136,50 +136,54 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
         backgroundColor: kColorBrickRed,
       ),
       body: Container(
+        padding: const EdgeInsets.all(20),
         color: kBgColor,
         width: double.infinity,
         child: Column(
-          mainAxisSize: MainAxisSize.max,
           children: [
-            const Spacer(),
-            /*Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: _buildTitle(),
-            ),*/
-            const SizedBox(height: 0),
+            const SizedBox(height: 30),
             _buildPhotolView(),
-            const SizedBox(height: 10),
+            const SizedBox(height: 50),
             _buildResultView(),
-            const Spacer(flex: 5),
-            ElevatedButton(
-              child: const Text(
-                'Tips for taking photos',
-                style: TextStyle(
-                  fontFamily: kButtonFont,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w600,
-                  color: kColorLightYellow,
+            const SizedBox(height: 50),
+            Column(
+              children: [
+                ElevatedButton(
+                  child: const Text(
+                    'Tips for taking photos',
+                    style: TextStyle(
+                      fontFamily: kButtonFont,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w600,
+                      color: kColorLightYellow,
+                    ),
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          _buildTipDialog(context),
+                    );
+                  },
                 ),
-              ),
-              onPressed: () {
-                showDialog(
+                _buildPickPhotoButton(
+                  title: 'Take a picture of a LEGO',
+                  source: ImageSource.camera,
+                ),
+                _buildPickPhotoButton(
+                  title: 'Pick a LEGO from gallery',
+                  source: ImageSource.gallery,
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                _buildHistoryButton(context: context),
+                const Spacer(),
+                _buildSettingsButton(
                   context: context,
-                  builder: (BuildContext context) => _buildTipDialog(context),
-                );
-              },
-            ),
-            _buildPickPhotoButton(
-              title: 'Take a picture of a LEGO',
-              source: ImageSource.camera,
-            ),
-            _buildPickPhotoButton(
-              title: 'Pick a LEGO from gallery',
-              source: ImageSource.gallery,
-            ),
-            _buildHistoryButton(context: context),
-            const Spacer(),
-            _buildSettingsButton(
-              context: context,
+                )
+              ],
             )
           ],
         ),
@@ -363,7 +367,7 @@ Widget _buildHistoryButton({
   required BuildContext context,
 }) {
   return IconButton(
-    iconSize: 100,
+    iconSize: 50,
     onPressed: () {
       // Navigate to the history page when the history icon is pressed.
       Navigator.push(
@@ -379,7 +383,7 @@ Widget _buildSettingsButton({
   required BuildContext context,
 }) {
   return IconButton(
-    iconSize: 100,
+    iconSize: 50,
     onPressed: () {
       // Navigate to the settings page when the settings icon is pressed.
       Navigator.push(
