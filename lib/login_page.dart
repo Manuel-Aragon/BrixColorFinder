@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:lucky13capstone/classifier/lego_recognizer.dart';
 import 'package:lucky13capstone/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lucky13capstone/settings_model.dart';
+import 'package:provider/provider.dart';
 
 // This class represents the login page of the app.
 class LoginPage extends StatefulWidget {
@@ -53,6 +55,7 @@ class _LoginPageState extends State<LoginPage> {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       // If the user is authenticated, navigate to the ScanPage.
       if (user != null) {
+        context.read<SettingsModel>().updateLoggedIn(true);
         //pushAndRemoveUntil() used so that user can't navigate back after they login
         Navigator.pushAndRemoveUntil(
             context,
@@ -84,6 +87,7 @@ class _LoginPageState extends State<LoginPage> {
 
             //Form
             Form(
+              key: _key,
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: Column(

@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lucky13capstone/landing_page.dart';
-import 'package:lucky13capstone/model_page.dart';
+
 import 'package:lucky13capstone/register_page.dart';
 import 'package:lucky13capstone/login_page.dart';
-import 'package:lucky13capstone/settings_page.dart';
-import 'package:lucky13capstone/live_model.dart';
-import 'package:lucky13capstone/scan_page.dart';
-import 'package:lucky13capstone/brickview_page.dart';
-import 'package:lucky13capstone/history_page.dart';
-import 'package:lucky13capstone/widget/plant_recogniser.dart';
+import 'package:lucky13capstone/classifier/lego_recognizer.dart';
 
 // This will be the first page the user sees if they are not logged in
 class LandingPage extends StatefulWidget {
@@ -30,11 +24,11 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Landing Page'),
+        title: const Text('Landing Page'),
       ),
       body: Center(
         child: Column(children: [
-          Image(image: AssetImage('assets/images/logo1.png')),
+          const Image(image: AssetImage('assets/images/logo1.png')),
           ElevatedButton(
             child: const Text('Login'),
             onPressed: () {
@@ -58,8 +52,7 @@ class _LandingPageState extends State<LandingPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => const PlantRecogniser()),
+                MaterialPageRoute(builder: (context) => const LegoRecogniser()),
               );
             },
           ),

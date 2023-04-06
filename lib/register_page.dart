@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lucky13capstone/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -18,6 +19,9 @@ class _SignUpPageState extends State<SignUpPage> {
   final confirmationController = TextEditingController();
   bool passenable = true;
 
+  // Initialize the Firestore instance
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
 // This method is called when the user clicks the register button.
   void _register() async {
     try {
@@ -31,6 +35,24 @@ class _SignUpPageState extends State<SignUpPage> {
       // Check if the user was created successfully
       final currentUser = authResult.user;
       if (currentUser != null) {
+        // Save user information to Firestore
+        await _firestore.collection('users').doc(currentUser.uid).set({
+          'email': emailController.text,
+          'phone': phoneController.text,
+          'name': nameController.text,
+        });
+
+        // Save user settings to Firestore
+        await _firestore
+            .collection('users')
+            .doc(currentUser.uid)
+            .collection('settings')
+            .doc('user_settings')
+            .set({
+          'dark_mode': false, // default value
+          'language': 'en', // default value
+        });
+
         // Navigate to the login page
         // ignore: use_build_context_synchronously
         Navigator.pushAndRemoveUntil(
@@ -278,190 +300,6 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 }
-
-/*
-  @override
-  Widget build(BuildContext context) {
-    // Get the screen size.
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(title: const Text('Register')),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/lego.png'),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.3,
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "Register",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                Container(
-                  //Register form
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: const [
-                        BoxShadow(
-                            color: Color.fromRGBO(143, 148, 251, .2),
-                            blurRadius: 20.0,
-                            offset: Offset(0, 10))
-                      ]),
-                  child: Form(
-                    key: _key,
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              border: Border(
-                                  bottom:
-                                      BorderSide(color: Colors.grey.shade100))),
-                          child: TextFormField(
-                            controller: emailController,
-                            validator: validateEmail,
-                            decoration: InputDecoration(
-                                hintText: " Email",
-                                prefixIcon: const Icon(Icons.email_outlined,
-                                    color: Colors.redAccent),
-                                hintStyle: TextStyle(color: Colors.grey[500])),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              border: Border(
-                                  bottom:
-                                      BorderSide(color: Colors.grey.shade100))),
-                          child: TextFormField(
-                            controller: phoneController,
-                            validator: validatePhone,
-                            decoration: InputDecoration(
-                                hintText: "Phone",
-                                prefixIcon: const Icon(Icons.phone,
-                                    color: Colors.redAccent),
-                                hintStyle: TextStyle(color: Colors.grey[500])),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              border: Border(
-                                  bottom:
-                                      BorderSide(color: Colors.grey.shade100))),
-                          child: TextFormField(
-                            controller: nameController,
-                            validator: validateName,
-                            decoration: InputDecoration(
-                                hintText: "Full Name",
-                                prefixIcon: const Icon(Icons.person,
-                                    color: Colors.redAccent),
-                                hintStyle: TextStyle(color: Colors.grey[500])),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              border: Border(
-                                  bottom:
-                                      BorderSide(color: Colors.grey.shade100))),
-                          child: TextFormField(
-                            controller: passwordController,
-                            validator: validatePassword,
-                            decoration: InputDecoration(
-                                hintText: "Password",
-                                prefixIcon: const Icon(Icons.lock,
-                                    color: Colors.redAccent),
-                                hintStyle: TextStyle(color: Colors.grey[500])),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              border: Border(
-                                  bottom:
-                                      BorderSide(color: Colors.grey.shade100))),
-                          child: TextFormField(
-                            controller: confirmationController,
-                            validator: validateConfirmation,
-                            decoration: InputDecoration(
-                                hintText: "Confirm Password",
-                                prefixIcon: const Icon(Icons.lock,
-                                    color: Colors.redAccent),
-                                hintStyle: TextStyle(color: Colors.grey[500])),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  //registration button
-                  height: 50,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      gradient: const LinearGradient(colors: [
-                        Color.fromRGBO(16, 20, 251, 1),
-                        Color.fromRGBO(16, 20, 251, .6),
-                      ])),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_key.currentState!.validate()) {
-                        _register();
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        shadowColor: Colors.transparent),
-                    child: const Center(
-                      child: Text(
-                        "Register",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}*/
 
 // Validate an email string and return an error message if invalid.
 String? validateEmail(String? formEmail) {

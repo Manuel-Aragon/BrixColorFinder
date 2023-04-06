@@ -228,15 +228,6 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
     return const Text('Scanning for LEGOs...', style: kAnalyzingTextStyle);
   }
 
-  // Builds the title for the page (probably will get rid of this)
-  /*Widget _buildTitle() {
-    return const Text(
-      'BrixColor Finder',
-      style: kTitleTextStyle,
-      textAlign: TextAlign.center,
-    );
-  }*/
-
   Widget _buildPickPhotoButton({
     required ImageSource source,
     required String title,

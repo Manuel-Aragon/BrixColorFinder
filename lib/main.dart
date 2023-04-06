@@ -6,6 +6,7 @@ import 'package:lucky13capstone/classifier/lego_recognizer.dart';
 import 'package:shared_preferences/shared_preferences.dart'; //used to save and restore settings when app is launched
 import 'settings_model.dart';
 import 'package:lucky13capstone/themes.dart';
+import 'package:lucky13capstone/landing_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,11 +20,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => HistoryModel()),
         ChangeNotifierProvider(
-          create: (context) => SettingsModel(
-            darkMode: preferences['darkMode'],
-            language: preferences['language'],
-            loggedIn: preferences['loggedIn'],
-          ),
+          create: (context) => SettingsModel(preferences: preferences),
         ),
       ],
       child: const BrickFinder(),
@@ -45,16 +42,13 @@ class BrickFinder extends StatelessWidget {
     return MaterialApp(
       theme: theme,
       home: const LegoRecogniser(),
+      //home: const LandingPage(),
     );
   }
 }
 
 Future<Map<String, dynamic>> loadPreferences() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  // Load preferences
-  bool darkModePref = prefs.getBool('darkMode') ?? false;
-  String languagePref = prefs.getString('language') ?? 'en';
 
   // Return the preferences in a map
   return {
