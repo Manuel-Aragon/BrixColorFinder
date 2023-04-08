@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:lucky13capstone/history_page.dart';
 import 'login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lucky13capstone/brickview_page.dart';
 import 'package:lucky13capstone/dev_page.dart';
 import 'settings_model.dart';
 import 'package:provider/provider.dart';
+
 import 'styles.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -64,11 +66,17 @@ Widget _generalSettingsColumn(BuildContext context) {
           ),
         ],
       ),
-      const ListTile(
-        leading: Icon(Icons.cloud),
-        title: Text("History"),
-        subtitle: Text("Settings"),
-      ),
+      const Divider(),
+      ListTile(
+          leading: const Icon(Icons.cloud),
+          title: const Text("History"),
+          subtitle: const Text("Settings"),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HistoryPage()),
+            );
+          }),
       const Divider(),
       ListTile(
           leading: const Icon(Icons.table_chart_outlined),
