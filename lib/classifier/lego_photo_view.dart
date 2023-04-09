@@ -32,9 +32,9 @@ import 'package:flutter/material.dart';
 import '../styles.dart';
 
 //This class is used to modify the shape of the widget of the photo object.
-class PlantPhotoView extends StatelessWidget {
+class LegoPhotoView extends StatelessWidget {
   final File? file;
-  const PlantPhotoView({super.key, this.file});
+  const LegoPhotoView({super.key, this.file});
 
   //builds the shape of the taken image
   @override
@@ -42,7 +42,7 @@ class PlantPhotoView extends StatelessWidget {
     return Container(
       width: 360,
       height: 360,
-      color: Color.fromARGB(255, 56, 99, 120),
+      color: const Color.fromARGB(255, 56, 99, 120),
       child: (file == null)
           ? _buildEmptyView()
           : Image.file(file!, fit: BoxFit.cover),

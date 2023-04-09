@@ -41,7 +41,7 @@ const kBgColor = kColorDarkGrey;
 
 const kTitleTextStyle = TextStyle(
   fontFamily: kDisplayFont,
-  fontSize: 50.0,
+  fontSize: 30.0,
   color: kColorPinkishRed,
   decoration: TextDecoration.none,
 );
@@ -54,12 +54,26 @@ const kAnalyzingTextStyle = TextStyle(
 
 const kResultTextStyle = TextStyle(
     fontFamily: kDisplayFont,
-    fontSize: 35.0,
+    fontSize: 25.0,
     color: kColorLightYellow,
     decoration: TextDecoration.none);
 
 const kResultRatingTextStyle = TextStyle(
     fontFamily: kMainFont,
-    fontSize: 18.0,
+    fontSize: 20.0,
     color: Colors.white,
     decoration: TextDecoration.none);
+
+//settings page
+TextStyle headingStyle = const TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: Color.fromARGB(223, 212, 89, 100));
+
+TextStyle headingStyleIOS = const TextStyle(
+  fontWeight: FontWeight.w600,
+  fontSize: 16,
+  color: Color.fromARGB(223, 89, 212, 161),
+);
+TextStyle descStyleIOS =
+    const TextStyle(color: Color.fromARGB(255, 194, 13, 13));
