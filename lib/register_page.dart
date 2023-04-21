@@ -89,7 +89,12 @@ class _SignUpPageState extends State<SignUpPage> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             //**top part**
-            const Image(image: AssetImage('assets/images/logo1.png')),
+            Image.asset(
+              //checks to see which theme we are using and chooses approriate image
+              Theme.of(context).brightness == Brightness.dark
+                  ? 'assets/images/logo1_dark.png'
+                  : 'assets/images/logo1.png',
+            ),
             const Text(
               "Sign Up",
               style: TextStyle(
