@@ -130,10 +130,8 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: kBgColor,
       appBar: AppBar(
-        title: const Text("BrixColor Finder", style: kResultTextStyle),
-        backgroundColor: kColorBrickRed,
+        title: const Text("BrixColor Finder"),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -233,19 +231,17 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
     required ImageSource source,
     required String title,
   }) {
-    return TextButton(
+    return ElevatedButton(
       onPressed: () => _onPickPhoto(source),
       child: Container(
         width: 300,
         height: 40,
-        color: kColorBrickRed,
         child: Center(
             child: Text(title,
                 style: const TextStyle(
                   fontFamily: kButtonFont,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w600,
-                  color: kColorLightYellow,
                 ))),
       ),
     );
