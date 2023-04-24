@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart'; //used to save and 
 import 'settings_model.dart';
 import 'package:lucky13capstone/themes.dart';
 import 'package:lucky13capstone/landing_page.dart';
+import 'package:lucky13capstone/settings_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,10 +42,43 @@ class BrickFinder extends StatelessWidget {
 
     return MaterialApp(
       theme: theme,
-      home: const LegoRecogniser(),
+      home: const BottomNav(),
       //home: const LandingPage(),
     );
   }
+}
+
+// This class was created as our main widget, which contains our bottom navigation bar
+class BottomNav extends StatefulWidget {
+  const BottomNav({super.key});
+
+  @override
+  State<BottomNav> createState() => _BottomNav();
+}
+
+// This class creates a widget that includes the bottom navigation bar of the app,
+// as well as the body of other pages (screens), based on what bottom navigation bar index
+// is currently selected (currentIndex).
+class _BottomNav extends State<BottomNav> {
+  int currentIndex = 0;
+  final screens = [LegoRecogniser(), HistoryPage(), SettingsPage()];
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        body: screens[currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex,
+          onTap: (index) => setState(() => currentIndex = index),
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.camera_alt_outlined), label: 'Scan'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.history_sharp), label: 'History'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings), label: 'Settings')
+          ],
+        ),
+      );
 }
 
 Future<Map<String, dynamic>> loadPreferences() async {

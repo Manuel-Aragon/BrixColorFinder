@@ -138,9 +138,9 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
         child: Column(
           children: [
             _buildPhotolView(),
-            const SizedBox(height: 25),
+            const SizedBox(height: 5),
             _buildResultView(),
-            const SizedBox(height: 25),
+            const SizedBox(height: 5),
             Column(
               children: [
                 ElevatedButton(

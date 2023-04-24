@@ -41,7 +41,7 @@ class LegoPhotoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 360,
-      height: 360,
+      height: 310,
       color: const Color.fromARGB(255, 56, 99, 120),
       child: (file == null)
           ? _buildEmptyView()
