@@ -39,7 +39,6 @@ class MyHistoryBox extends StatelessWidget {
           //the list object
           //onPressed:
           height: 400,
-          color: const Color.fromARGB(255, 49, 49, 49),
           child: Column(
             //the values inside the list object
             children: [
@@ -53,12 +52,8 @@ class MyHistoryBox extends StatelessWidget {
                         height: 270.0,
                         child: Icon(Icons.image_outlined)),
               ),
-              Text(blockText,
-                  style:
-                      const TextStyle(fontSize: 30.0, color: kColorOffWhite)),
-              Text(blockColor,
-                  style:
-                      const TextStyle(fontSize: 30.0, color: kColorOffWhite)),
+              Text(blockText, style: const TextStyle(fontSize: 30.0)),
+              Text(blockColor, style: const TextStyle(fontSize: 30.0)),
             ],
           ),
         ),
@@ -170,10 +165,8 @@ class HistoryState extends State<HistoryPage>
     return Consumer<HistoryModel>(
       builder: (context, historyModel, child) => Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: const Color.fromARGB(255, 57, 57, 57),
         appBar: AppBar(
           title: const Text("LEGO\u00AE Scan History"),
-          backgroundColor: const Color.fromARGB(255, 44, 44, 44),
         ),
         body: ListView.builder(
           itemCount: historyModel._brick.length,
@@ -193,8 +186,7 @@ class HistoryState extends State<HistoryPage>
             var historyModel = context.read<HistoryModel>();
             historyModel.clearScans();
           },
-          backgroundColor: const Color.fromARGB(255, 189, 189, 189),
-          child: const Icon(Icons.delete_forever_sharp, color: kColorDarkGrey),
+          child: const Icon(Icons.delete_forever_sharp),
         ),
       ),
     );
