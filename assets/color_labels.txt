@@ -1,4 +1,11 @@
-0 Red
-1 Yellow
-2 White
-3 Black
+0 Black
+1 Dark Grey
+2 Blue
+3 Brown
+4 Green
+5 Light Grey
+6 Orange
+7 Red
+8 Tan
+9 White
+10 Yellow
