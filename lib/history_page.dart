@@ -172,7 +172,7 @@ class HistoryState extends State<HistoryPage>
         resizeToAvoidBottomInset: false,
         backgroundColor: const Color.fromARGB(255, 57, 57, 57),
         appBar: AppBar(
-          title: const Text("LEGO Scan History"),
+          title: const Text("LEGO\u00AE Scan History"),
           backgroundColor: const Color.fromARGB(255, 44, 44, 44),
         ),
         body: ListView.builder(

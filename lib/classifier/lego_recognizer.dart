@@ -162,11 +162,11 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
                   },
                 ),
                 _buildPickPhotoButton(
-                  title: 'Take a picture of a LEGO',
+                  title: 'Take a picture of a LEGO\u00AE',
                   source: ImageSource.camera,
                 ),
                 _buildPickPhotoButton(
-                  title: 'Pick a LEGO from gallery',
+                  title: 'Pick a LEGO\u00AE from gallery',
                   source: ImageSource.gallery,
                 ),
               ],
@@ -189,13 +189,14 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
   // widget for creating the popup dialog for the tip button
   Widget _buildTipDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Some tips for taking LEGO photos effectively:'),
+      title: const Text(
+          'Some tips for taking LEGO\u00AE brick photos effectively:'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const <Widget>[
           Text(
-              "-Take your pictures at 3 times magnification so you may take your photos close without blurring the image.\n\n-Take pictures in a well lit area with neutral colored lighting.\n\n-Don't take pictures directly from above, as some bricks will look identical.\n\n-Use white or dark brown backgrounds if possible.\n\n-Make sure the LEGO brick is as center frame as possible."),
+              "-Take your pictures at 3 times magnification so you may take your photos close without blurring the image.\n\n-Take pictures in a well lit area with neutral colored lighting.\n\n-Don't take pictures directly from above, as some bricks will look identical.\n\n-Use white or dark brown backgrounds if possible.\n\n-Make sure the LEGO\u00AE brick is as center frame as possible."),
         ],
       ),
       actions: <Widget>[
