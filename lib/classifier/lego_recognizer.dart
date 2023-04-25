@@ -143,24 +143,6 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
             const SizedBox(height: 5),
             Column(
               children: [
-                ElevatedButton(
-                  child: const Text(
-                    'Tips for taking photos',
-                    style: TextStyle(
-                      fontFamily: kButtonFont,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w600,
-                      color: kColorLightYellow,
-                    ),
-                  ),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          _buildTipDialog(context),
-                    );
-                  },
-                ),
                 _buildPickPhotoButton(
                   title: 'Take a picture of a LEGO\u00AE',
                   source: ImageSource.camera,
@@ -169,17 +151,29 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
                   title: 'Pick a LEGO\u00AE from gallery',
                   source: ImageSource.gallery,
                 ),
+                ElevatedButton(
+                  child: Container(
+                      width: 300,
+                      height: 40,
+                      child: const Center(
+                          child: Text(
+                        'Tips for taking photos',
+                        style: TextStyle(
+                          fontFamily: kButtonFont,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ))),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) =>
+                          _buildTipDialog(context),
+                    );
+                  },
+                ),
               ],
             ),
-            Row(
-              children: [
-                _buildHistoryButton(context: context),
-                const Spacer(),
-                _buildSettingsButton(
-                  context: context,
-                )
-              ],
-            )
           ],
         ),
       ),
