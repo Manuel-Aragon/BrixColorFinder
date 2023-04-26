@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucky13capstone/register_page.dart';
 import 'login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lucky13capstone/brickview_page.dart';
@@ -169,6 +170,15 @@ Widget _securitySettingsColumnLoggedOut(BuildContext context) {
             );
           }),
       const Divider(),
+      ListTile(
+          leading: const Icon(Icons.person_add),
+          title: const Text("Create Account"),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SignUpPage()),
+            );
+          }),
     ],
   );
 }
