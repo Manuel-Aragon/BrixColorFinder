@@ -85,7 +85,6 @@ class _LoginPageState extends State<LoginPage> {
             const Text(
               "Welcome back!",
               style: TextStyle(
-                color: Colors.black,
                 fontSize: 35,
                 fontWeight: FontWeight.bold,
               ),
@@ -202,8 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: const Text.rich(
                           TextSpan(
                               text: "Don't have an account?",
-                              style: TextStyle(
-                                  color: Colors.black, fontSize: 18.0),
+                              style: TextStyle(fontSize: 18.0),
                               children: [
                                 TextSpan(
                                   text: " Sign Up",
