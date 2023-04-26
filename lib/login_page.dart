@@ -152,8 +152,6 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         ),
                         alignLabelWithHint: false,
-                        //filled: true,
-                        //fillColor: Colors.white,
                       ),
                       keyboardType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.done,
