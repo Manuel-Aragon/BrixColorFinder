@@ -28,7 +28,7 @@ final ThemeData darkTheme = ThemeData(
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      backgroundColor: const Color.fromARGB(255, 67, 64, 65),
+      backgroundColor: const Color.fromARGB(223, 212, 89, 100),
       foregroundColor: const Color.fromARGB(255, 255, 255, 255),
     ),
   ),
