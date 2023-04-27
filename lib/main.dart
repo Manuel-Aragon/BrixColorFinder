@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'settings_model.dart';
-import 'navigation_index_model.dart';
 import 'themes.dart';
 import 'landing_page.dart';
 import 'settings_page.dart';
@@ -22,7 +21,6 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => HistoryModel()),
-        ChangeNotifierProvider(create: (context) => NavigationIndexModel()),
         ChangeNotifierProvider(
           create: (context) => SettingsModel(preferences: preferences),
         ),
