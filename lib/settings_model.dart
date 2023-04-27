@@ -78,8 +78,8 @@ class SettingsModel extends ChangeNotifier {
   void loadFromCloud() async {
     Map<String, dynamic> cloudSettings = await getFromCloud();
     if (cloudSettings != {}) {
-      updateDarkMode(cloudSettings['darkmode']);
-      updateLanguage(cloudSettings['language']);
+      updateDarkMode(cloudSettings['darkMode'] ?? false); // Fixed the typo here
+      updateLanguage(cloudSettings['language'] ?? 'en');
       saveSettings();
     }
   }
