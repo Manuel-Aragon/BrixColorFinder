@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'settings_model.dart';
 import 'themes.dart';
-import 'landing_page.dart';
+import 'about.dart';
 import 'settings_page.dart';
 import 'history_page.dart';
 import 'classifier/lego_recognizer.dart';

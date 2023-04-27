@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucky13capstone/about.dart';
 import 'package:lucky13capstone/register_page.dart';
 import 'package:lucky13capstone/login_page.dart';
 import 'package:lucky13capstone/settings_page.dart';
@@ -97,6 +98,15 @@ class _DevPageState extends State<DevPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => const LegoRecogniser()),
+                );
+              },
+            ),
+            ElevatedButton(
+              child: const Text('About'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AboutPage()),
                 );
               },
             ),
