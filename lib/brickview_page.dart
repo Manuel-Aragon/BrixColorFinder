@@ -25,11 +25,24 @@ class MyBrickviewBox extends StatelessWidget {
           child: Container(
             //the list object
             height: 380,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color.fromARGB(255, 38, 214, 226),
+                width: 6.0,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+            ),
             child: Column(//the values inside the list object
                 children: [
-              blockImage,
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(8.0),
+                child: ClipRRect(
+                  //rounding edges of list object
+                  borderRadius: BorderRadius.circular(10), child: blockImage,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Text(blockText, style: const TextStyle(fontSize: 30.0)),
               )
             ]),

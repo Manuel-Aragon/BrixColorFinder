@@ -38,18 +38,28 @@ class MyHistoryBox extends StatelessWidget {
         child: Container(
           //the list object
           height: 400,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: const Color.fromARGB(223, 212, 89, 100),
+              width: 6.0,
+            ),
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+          ),
           child: Column(
             //the values inside the list object
             children: [
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: blockImage != null
-                    ? Image.file(blockImage!,
-                        width: 270.0, height: 270.0, fit: BoxFit.contain)
-                    : const SizedBox(
-                        width: 270.0,
-                        height: 270.0,
-                        child: Icon(Icons.image_outlined)),
+                child: ClipRRect(
+                    //rounding edges of list object
+                    borderRadius: BorderRadius.circular(10),
+                    child: blockImage != null
+                        ? Image.file(blockImage!,
+                            width: 270.0, height: 270.0, fit: BoxFit.contain)
+                        : const SizedBox(
+                            width: 270.0,
+                            height: 270.0,
+                            child: Icon(Icons.image_outlined))),
               ),
               Text(blockText, style: const TextStyle(fontSize: 30.0)),
               Text(blockColor, style: const TextStyle(fontSize: 30.0)),
