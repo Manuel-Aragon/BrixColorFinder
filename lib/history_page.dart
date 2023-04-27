@@ -37,7 +37,6 @@ class MyHistoryBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: Container(
           //the list object
-          //onPressed:
           height: 400,
           child: Column(
             //the values inside the list object
@@ -73,7 +72,7 @@ class HistoryModel extends ChangeNotifier {
   final List<File?> _image = [];
 
   // the unmodifiable view of the items in the Scan History Lists
-  //UnmodifiableListView<Item> get items => UnmodifiableListView(_items);
+  // UnmodifiableListView<Item> get items => UnmodifiableListView(_items);
 
   // Used to round the accuracy
   double roundDouble(double val, int places) {
@@ -99,7 +98,7 @@ class HistoryModel extends ChangeNotifier {
     _color.add(color);
     _image.add(image);
     debugPrint('brick: $_brick\naccuracy: $_color\nimage: $_image\n');
-    notifyListeners();
+    notifyListeners(); // Tells the listeners that there has been a change to the history list
   }
 
   // clear all the items from the Lists
@@ -108,56 +107,17 @@ class HistoryModel extends ChangeNotifier {
     _color.clear();
     _image.clear();
     debugPrint('brick: $_brick\naccuracy: $_color\nimage: $_image\n');
-    notifyListeners();
+    notifyListeners(); // Tells the listeners that there has been a change to the history list
   }
 }
 
 // Class for tracking the STATE of the Scan History dynamic list
 class HistoryState extends State<HistoryPage>
     with AutomaticKeepAliveClientMixin {
-  //final ImagePicker _picker = ImagePicker();
   File? _selectedImage;
 
-  /*
-  final List<String> block = [];
-  final List<String> color = [];
-  final List<File?> image = [];
-  */
   @override
   bool get wantKeepAlive => true;
-
-  /*
-  // Call this function to add a result to the history list
-  updateHistory(String blockData, String colorData, File? imageFile) {
-    setState(() {
-      block.add(blockData);
-      color.add(colorData);
-      image.add(imageFile);
-      _selectedImage = null;
-    });
-  }
-
-  // Call this function to add a result to the history list from another page
-  updateHistoryFromOtherScreen(
-      String blockData, String colorData, File? imageFile) {
-    setState(() {
-      block.add(blockData);
-      color.add(colorData);
-      image.add(imageFile);
-    });
-  }
-
-  // This function is called by pressing the button on the scan history page, for testing
-  Future<void> launchCamera() async {
-    final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.camera);
-    if (pickedImage != null) {
-      setState(() {
-        _selectedImage = File(pickedImage.path);
-      });
-      updateHistory('New Block', 'New Color', _selectedImage);
-    }
-  }*/
 
   @override
   Widget build(BuildContext context) {

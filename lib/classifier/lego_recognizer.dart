@@ -65,29 +65,30 @@ enum _ResultStatus {
 //it contains the UI for the page, how the user selects the scan method,
 //how the user's LEGO image is displayed and processed with the model.
 class _LegoRecogniserState extends State<LegoRecogniser> {
-  bool _isAnalyzing =
-      false; //used to check if the image is in the process of being analyized by the model
-  final picker =
-      ImagePicker(); //initialize picker to use the image picker package for selecting images from the user's camera roll
-  File?
-      _selectedImageFile; //used for accessing the selected image from the image gallery
+  //used to check if the image is in the process of being analyized by the model
+  bool _isAnalyzing = false;
+  //initialize picker to use the image picker package for selecting images from the user's camera roll
+  final picker = ImagePicker();
+  //used for accessing the selected image from the image gallery
+  File? _selectedImageFile;
 
-  // Result
-  _ResultStatus _legoResultStatus =
-      _ResultStatus.notStarted; //initialize result status to notStarted yet
-  String _legoLabel =
-      ''; //the string for printing the Model Label (the name of the LEGO brick)
-  double _legoAccuracy = 0.0; //initialize the accuracy variable to zero
+  // Result for Brick Classifier
+  //initialize result status to notStarted yet
+  _ResultStatus _legoResultStatus = _ResultStatus.notStarted;
+  //the string for printing the Model Label (the name of the LEGO brick)
+  String _legoLabel = '';
+  //initialize the accuracy variable to zero
+  double _legoAccuracy = 0.0;
 
-  // Result
-  _ResultStatus _colorResultStatus =
-      _ResultStatus.notStarted; //initialize result status to notStarted yet
-  String _colorLabel =
-      ''; //the string for printing the Model Label (the name of the LEGO brick)
-  double _colorAccuracy = 0.0; //initialize the accuracy variable to zero
+  // Result for Color Classifier
+  //initialize result status to notStarted yet
+  _ResultStatus _colorResultStatus = _ResultStatus.notStarted;
+  //the string for printing the Model Label (the color of the LEGO brick)
+  String _colorLabel = '';
+  //initialize the accuracy variable to zero
+  double _colorAccuracy = 0.0;
 
   //initialize a classifier type, using the class from the classifier.dart file.
-  //this is used
   late Classifier _classifier;
   late Classifier _colorClassifier;
 
@@ -294,6 +295,7 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
       _colorLabel = colorLabel;
       _colorAccuracy = colorAccuracy;
 
+      // Update the history with the results of the scan
       var historyModel = context.read<HistoryModel>();
       historyModel.addNewScan(legoLabel, colorLabel, image);
     });
@@ -351,6 +353,8 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
   }
 }
 
+// THESE BUTTONS ARE NO LONGER USED, SO WE CAN SAFELY DELETE THEM
+/*
 Widget _buildHistoryButton({
   required BuildContext context,
 }) {
@@ -382,3 +386,4 @@ Widget _buildSettingsButton({
     icon: const Icon(Icons.settings, color: Colors.white),
   );
 }
+*/
