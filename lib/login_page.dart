@@ -68,6 +68,10 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black;
+
     return Scaffold(
         appBar: AppBar(title: const Text('Login')),
         body: SingleChildScrollView(
@@ -198,15 +202,17 @@ class _LoginPageState extends State<LoginPage> {
                                 builder: (context) => const SignUpPage()),
                           );
                         },
-                        child: const Text.rich(
+                        child: Text.rich(
                           TextSpan(
                               text: "Don't have an account?",
-                              style: TextStyle(fontSize: 18.0),
+                              style:
+                                  TextStyle(color: textColor, fontSize: 18.0),
                               children: [
                                 TextSpan(
                                   text: " Sign Up",
-                                  style: TextStyle(
-                                      color: Color.fromARGB(223, 212, 89, 100)),
+                                  style: const TextStyle(
+                                      color: const Color.fromARGB(
+                                          223, 212, 89, 100)),
                                 )
                               ]),
                         ),

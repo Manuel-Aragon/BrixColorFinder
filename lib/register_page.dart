@@ -81,6 +81,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black;
     return Scaffold(
       appBar: AppBar(title: const Text("Register")),
       body: SingleChildScrollView(
@@ -279,11 +282,10 @@ class _SignUpPageState extends State<SignUpPage> {
                               builder: (context) => const LoginPage()),
                         );
                       },
-                      child: const Text.rich(
+                      child: Text.rich(
                         TextSpan(
-                            text: "Already have an account?",
-                            style:
-                                TextStyle(fontSize: 18.0),
+                            text: 'Already have an account?',
+                            style: TextStyle(color: textColor),
                             children: [
                               TextSpan(
                                 text: " Login",
@@ -353,4 +355,10 @@ String? validateConfirmation(String? formConfirmation) {
   }
   //other validations go here
   return null;
+}
+
+Color getColor(BuildContext context) {
+  return Theme.of(context).brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black;
 }
