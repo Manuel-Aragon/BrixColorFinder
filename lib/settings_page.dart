@@ -65,11 +65,6 @@ Widget _generalSettingsColumn(BuildContext context) {
           ),
         ],
       ),
-      const ListTile(
-        leading: Icon(Icons.cloud),
-        title: Text("History"),
-        subtitle: Text("Settings"),
-      ),
       const Divider(),
       ListTile(
           leading: const Icon(Icons.table_chart_outlined),
@@ -94,7 +89,10 @@ Widget _accountSettingsColumn() {
       Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("Account", style: headingStyle),
+          Text(
+            "Account",
+            style: headingStyle,
+          ),
         ],
       ),
       const ListTile(
@@ -117,7 +115,10 @@ Widget _securitySettingsColumn(BuildContext context, _SettingsPageState state) {
       Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("Security", style: headingStyle),
+          Text(
+            "Security",
+            style: headingStyle,
+          ),
         ],
       ),
       const Divider(),
