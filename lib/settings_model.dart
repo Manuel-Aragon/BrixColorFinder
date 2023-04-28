@@ -7,7 +7,7 @@ class SettingsModel extends ChangeNotifier {
   bool _darkMode;
   String _language;
   // Initialize the Firestore instance
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   SettingsModel({
     required Map<String, dynamic> preferences,
@@ -56,7 +56,7 @@ class SettingsModel extends ChangeNotifier {
   Future<Map<String, dynamic>> getFromCloud() async {
     // Get the current user
     User? currentUser = FirebaseAuth.instance.currentUser;
-    FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     // Get the user's settings document from Firestore
     DocumentSnapshot settingsDocument = await FirebaseFirestore.instance
