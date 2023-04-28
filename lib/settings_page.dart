@@ -8,6 +8,7 @@ import 'package:lucky13capstone/dev_page.dart';
 import 'settings_model.dart';
 import 'package:provider/provider.dart';
 import 'styles.dart';
+import 'password_change.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -105,31 +106,29 @@ Widget _accountSettingsColumn(BuildContext context, _SettingsPageState state) {
         title: Text(FirebaseAuth.instance.currentUser?.displayName ?? "Guest"),
       ),
       const Divider(),
-      const ListTile(
-        leading: Icon(Icons.lock),
-        title: Text("Change Password"),
-      ),
-      const Divider(),
-      ListTile(
-        leading: const Icon(Icons.exit_to_app),
-        title: const Text("Sign Out"),
-        onTap: () => state._logout(context),
-      ),
-      const Divider(),
-      ListTile(
-        leading: const Icon(Icons.save),
-        title: const Text('Save Settings'),
-        onTap: () {
-          context.read<SettingsModel>().saveSettings();
-        },
-      ),
-      const Divider(),
       ListTile(
         leading: const Icon(Icons.save),
         title: const Text('Save to cloud'),
         onTap: () {
           context.read<SettingsModel>().saveToCloud();
         },
+      ),
+      const Divider(),
+      ListTile(
+        leading: Icon(Icons.lock),
+        title: const Text("Change Password"),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const PasswordChangePage()),
+          );
+        },
+      ),
+      const Divider(),
+      ListTile(
+        leading: const Icon(Icons.exit_to_app),
+        title: const Text("Sign Out"),
+        onTap: () => state._logout(context),
       ),
     ],
   );
@@ -204,6 +203,7 @@ class ThemeSwitcher extends StatelessWidget {
       onChanged: (bool value) {
         // Update the dark mode value in the settings model
         context.read<SettingsModel>().updateDarkMode(value);
+        context.read<SettingsModel>().saveSettings();
       },
     );
   }

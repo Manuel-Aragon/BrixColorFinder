@@ -346,7 +346,11 @@ String? validatePassword(String? formPassword) {
   if (formPassword == null || formPassword.isEmpty) {
     return 'Password is required.';
   }
-  // Return null if input is not null or empty.
+  // Return error message if password is less than 6 characters long.
+  if (formPassword.length < 6) {
+    return 'Password must be at least 6 characters long.';
+  }
+  // Return null if input is not null or empty and password is at least 6 characters long.
   return null;
 }
 
