@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-// import 'package:image_picker/image_picker.dart';
-import 'package:lucky13capstone/styles.dart';
 import 'dart:math';
 import 'package:provider/provider.dart'; // used to work with ChangeNotifiers, Consumers, and Producers to manage State
 

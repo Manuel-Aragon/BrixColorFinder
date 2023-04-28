@@ -38,13 +38,8 @@ import '../styles.dart';
 import 'lego_photo_view.dart';
 
 import '../history_page.dart';
-import '../settings_page.dart';
 
-const _labelsFileName = 'assets/brick_labels.txt';
-const _modelFileName = 'brick_model_unquant.tflite';
-
-const _colorLabelFileName = 'assets/color_labels.txt';
-const _colorModelFileName = 'color_unquant.tflite';
+import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
 
 class LegoRecogniser extends StatefulWidget {
   const LegoRecogniser({super.key});
@@ -99,25 +94,62 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
     _loadClassifier();
   }
 
-  //
   Future<void> _loadClassifier() async {
+    //local file paths
+    const labelsFileName = 'assets/brick_labels.txt';
+    const modelFileName = 'brick_model_unquant.tflite';
+
+    const colorLabelFileName = 'assets/color_labels.txt';
+    const colorModelFileName = 'color_unquant.tflite';
+
+    // firebase model names
+    String firebaseLegoModelName = 'brick_model_unquant';
+    String firebaseColorModelName = 'color_unquant';
+
+    //get models from firebase
+    FirebaseCustomModel? firebaseLegoModel;
+    FirebaseCustomModel? firebaseColorModel;
+
+    // Initialize with local models first
+    firebaseLegoModel = await FirebaseModelDownloader.instance.getModel(
+        firebaseLegoModelName,
+        FirebaseModelDownloadType.localModelUpdateInBackground);
+
+    firebaseColorModel = await FirebaseModelDownloader.instance.getModel(
+        firebaseColorModelName,
+        FirebaseModelDownloadType.localModelUpdateInBackground);
+
+    //NEW CODE HERE
+    String legoModelPath = firebaseLegoModel != null &&
+            firebaseLegoModel.file != null &&
+            await File(firebaseLegoModel.file.path).exists()
+        ? firebaseLegoModel.file.path
+        : modelFileName;
+    String colorModelPath = firebaseColorModel != null &&
+            firebaseColorModel.file != null &&
+            await File(firebaseColorModel.file.path).exists()
+        ? firebaseColorModel.file.path
+        : colorModelFileName;
+
     //print to the debug console the model being used and its labels
     debugPrint(
       'Start loading of Classifier with '
-      'labels at $_labelsFileName, '
-      'model at $_modelFileName',
+      'labels at $labelsFileName, '
+      'model at $modelFileName',
     );
 
     //initialize classifier, by waiting for the Classifier class's loadWith() function
     //loads the classifier using the input model and labels and assigns them to mutable
     //variables.
     final legoClassifier = await Classifier.loadWith(
-      labelsFileName: _labelsFileName,
-      modelFileName: _modelFileName,
+      labelsFileName: labelsFileName,
+      //modelFileName: legoModelPath,
+      modelFileName: modelFileName,
     );
     final colorClassifier = await Classifier.loadWith(
-      labelsFileName: _colorLabelFileName,
-      modelFileName: _colorModelFileName,
+      labelsFileName: colorLabelFileName,
+      //modelFileName: colorModelPath,
+      modelFileName: colorModelFileName,
     );
 
     //this generated classifier is then assigned to the earlier initialized classifier
@@ -352,38 +384,3 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
     );
   }
 }
-
-// THESE BUTTONS ARE NO LONGER USED, SO WE CAN SAFELY DELETE THEM
-/*
-Widget _buildHistoryButton({
-  required BuildContext context,
-}) {
-  return IconButton(
-    iconSize: 50,
-    onPressed: () {
-      // Navigate to the history page when the history icon is pressed.
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const HistoryPage()),
-      );
-    },
-    icon: const Icon(Icons.access_time, color: Colors.white),
-  );
-}
-
-Widget _buildSettingsButton({
-  required BuildContext context,
-}) {
-  return IconButton(
-    iconSize: 50,
-    onPressed: () {
-      // Navigate to the settings page when the settings icon is pressed.
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const SettingsPage()),
-      );
-    },
-    icon: const Icon(Icons.settings, color: Colors.white),
-  );
-}
-*/

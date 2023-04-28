@@ -5,10 +5,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'settings_model.dart';
 import 'themes.dart';
-import 'landing_page.dart';
 import 'settings_page.dart';
 import 'history_page.dart';
 import 'classifier/lego_recognizer.dart';
+import 'notifiers.dart';
+
+const kModelName = "brick_model_unquant";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +26,7 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => SettingsModel(preferences: preferences),
         ),
+        ChangeNotifierProvider(create: (context) => PageNotifier()),
       ],
       child: const BrickFinder(),
     ),
@@ -38,9 +41,20 @@ class BrickFinder extends StatefulWidget {
 }
 
 class _BrickFinderState extends State<BrickFinder> {
-  int currentIndex = 0;
+  // Declare screens as a late variable so it can be initialized in initState
+  late List<Widget> screens;
 
-  final screens = [LegoRecogniser(), HistoryPage(), SettingsPage()];
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize the screens list here and pass the model
+    screens = [
+      const LegoRecogniser(), // Use widget.model here
+      const HistoryPage(),
+      const SettingsPage(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +66,11 @@ class _BrickFinderState extends State<BrickFinder> {
     return MaterialApp(
       theme: theme,
       home: Scaffold(
-        body: screens[currentIndex],
+        body: screens[context.watch<PageNotifier>().currentIndex],
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: currentIndex,
-          onTap: (index) => setState(() => currentIndex = index),
-          items: [
+          currentIndex: context.watch<PageNotifier>().currentIndex,
+          onTap: (index) => context.read<PageNotifier>().setCurrentIndex(index),
+          items: const [
             BottomNavigationBarItem(
                 icon: Icon(Icons.camera_alt_outlined), label: 'Scan'),
             BottomNavigationBarItem(

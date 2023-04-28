@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lucky13capstone/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'notifiers.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -54,13 +56,11 @@ class _SignUpPageState extends State<SignUpPage> {
           'language': 'en', // default value
         });
 
-        // Navigate to the login page
-        // ignore: use_build_context_synchronously
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-          (r) => false,
-        );
+        // Navigate to the login page and remove the registration page from the stack
+        // Pop all routes except the first one (BrickFinder)
+        Navigator.popUntil(context, (route) => route.isFirst);
+        // Set the currentIndex to 0 (LegoRecogniser)
+        context.read<PageNotifier>().setCurrentIndex(0);
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

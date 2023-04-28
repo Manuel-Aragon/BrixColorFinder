@@ -2,12 +2,11 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:lucky13capstone/classifier/lego_recognizer.dart';
-import 'package:lucky13capstone/main.dart';
 import 'package:lucky13capstone/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lucky13capstone/settings_model.dart';
 import 'package:provider/provider.dart';
+import 'notifiers.dart';
 
 // This class represents the login page of the app.
 class LoginPage extends StatefulWidget {
@@ -58,12 +57,12 @@ class _LoginPageState extends State<LoginPage> {
       if (user != null) {
         context.read<SettingsModel>().loadFromCloud();
 
-        //pushAndRemoveUntil() used so that user can't navigate back after they login
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const BrickFinder()),
-            (r) => false);
+        // Pop all routes except the first one (BrickFinder)
+        Navigator.popUntil(context, (route) => route.isFirst);
       }
+
+      // Set the currentIndex to 0 (LegoRecogniser)
+      context.read<PageNotifier>().setCurrentIndex(0);
     });
   }
 
@@ -208,12 +207,11 @@ class _LoginPageState extends State<LoginPage> {
                               text: "Don't have an account?",
                               style:
                                   TextStyle(color: textColor, fontSize: 18.0),
-                              children: [
+                              children: const [
                                 TextSpan(
                                   text: " Sign Up",
-                                  style: const TextStyle(
-                                      color: const Color.fromARGB(
-                                          223, 212, 89, 100)),
+                                  style: TextStyle(
+                                      color: Color.fromARGB(223, 212, 89, 100)),
                                 )
                               ]),
                         ),
