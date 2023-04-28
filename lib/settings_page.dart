@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucky13capstone/register_page.dart';
 import 'login_page.dart';
+import 'package:lucky13capstone/about.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lucky13capstone/brickview_page.dart';
 import 'package:lucky13capstone/dev_page.dart';
@@ -203,6 +204,14 @@ Widget _developmentSettingsColumn(BuildContext context) {
         ),
       ),
       const Divider(),
+      ListTile(
+        leading: const Icon(Icons.info_outline),
+        title: const Text("About"),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AboutPage()),
+        ),
+      ),
     ],
   );
 }
