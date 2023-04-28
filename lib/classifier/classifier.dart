@@ -189,22 +189,23 @@ class Classifier {
   }
 
   TensorImage _preProcessInput(Image image) {
-    // #1
+    // Create the TensorImage and load the image data to it.
     final inputTensor = TensorImage(_model.inputType);
     inputTensor.loadImage(image);
 
-    // #2
+    // Crop the image to a square shape. You have to import dart:math at the top to use the min function
     final minLength = min(inputTensor.height, inputTensor.width);
     final cropOp = ResizeWithCropOrPadOp(minLength, minLength);
 
-    // #3
+    // Resize the image operation to fit the shape requirements of the model
     final shapeLength = _model.inputShape[1];
     final resizeOp = ResizeOp(shapeLength, shapeLength, ResizeMethod.BILINEAR);
 
-    // #4
+    // Normalize the value of the data. Argument 127.5 is selected because of your trained model's parameters.
+    // You want to convert image's pixel 0-255 value to -1...1 range.
     final normalizeOp = NormalizeOp(127.5, 127.5);
 
-    // #5
+    // Create the image processor with the defined operation and preprocess the image.
     final imageProcessor = ImageProcessorBuilder()
         .add(cropOp)
         .add(resizeOp)
@@ -213,7 +214,7 @@ class Classifier {
 
     imageProcessor.process(inputTensor);
 
-    // #6
+    // Return the preprocessed image.
     return inputTensor;
   }
 }
