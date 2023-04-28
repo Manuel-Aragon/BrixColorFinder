@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'settings_model.dart';
 import 'themes.dart';
-import 'about.dart';
 import 'settings_page.dart';
 import 'history_page.dart';
 import 'classifier/lego_recognizer.dart';
@@ -92,6 +91,5 @@ Future<Map<String, dynamic>> loadPreferences() async {
   return {
     'darkMode': prefs.getBool('darkMode') ?? false,
     'language': prefs.getString('language') ?? 'en',
-    'loggedIn': prefs.getBool('loggedIn') ?? false,
   };
 }

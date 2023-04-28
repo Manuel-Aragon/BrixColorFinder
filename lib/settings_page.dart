@@ -35,15 +35,11 @@ class _SettingsPageState extends State<SettingsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if (FirebaseAuth.instance.currentUser != null)
+                _accountSettingsColumn(context, this)
+              else
+                _accountSettingsColumnLoggedOut(context),
               _generalSettingsColumn(context),
-              if (FirebaseAuth.instance.currentUser != null)
-                _accountSettingsColumn()
-              else
-                const SizedBox(height: 0),
-              if (FirebaseAuth.instance.currentUser != null)
-                _securitySettingsColumn(context, this)
-              else
-                _securitySettingsColumnLoggedOut(context),
               _developmentSettingsColumn(context)
             ],
           ),
@@ -80,11 +76,19 @@ Widget _generalSettingsColumn(BuildContext context) {
       const Divider(),
       const ThemeSwitcher(),
       const Divider(),
+      ListTile(
+        leading: const Icon(Icons.info_outline),
+        title: const Text("About"),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AboutPage()),
+        ),
+      ),
     ],
   );
 }
 
-Widget _accountSettingsColumn() {
+Widget _accountSettingsColumn(BuildContext context, _SettingsPageState state) {
   return Column(
     children: [
       Row(
@@ -96,31 +100,9 @@ Widget _accountSettingsColumn() {
           ),
         ],
       ),
-      const ListTile(
-        leading: Icon(Icons.phone),
-        title: Text("Phone Number"),
-      ),
-      const Divider(),
-      const ListTile(
-        leading: Icon(Icons.mail),
-        title: Text("Email"),
-      ),
-      const Divider(),
-    ],
-  );
-}
-
-Widget _securitySettingsColumn(BuildContext context, _SettingsPageState state) {
-  return Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
-            "Security",
-            style: headingStyle,
-          ),
-        ],
+      ListTile(
+        leading: const Icon(Icons.manage_accounts),
+        title: Text(FirebaseAuth.instance.currentUser?.displayName ?? "Guest"),
       ),
       const Divider(),
       const ListTile(
@@ -153,13 +135,13 @@ Widget _securitySettingsColumn(BuildContext context, _SettingsPageState state) {
   );
 }
 
-Widget _securitySettingsColumnLoggedOut(BuildContext context) {
+Widget _accountSettingsColumnLoggedOut(BuildContext context) {
   return Column(
     children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("Security", style: headingStyle),
+          Text("Account", style: headingStyle),
         ],
       ),
       ListTile(
@@ -201,15 +183,6 @@ Widget _developmentSettingsColumn(BuildContext context) {
           context,
           MaterialPageRoute(
               builder: (context) => const DevPage(title: 'Dev Page')),
-        ),
-      ),
-      const Divider(),
-      ListTile(
-        leading: const Icon(Icons.info_outline),
-        title: const Text("About"),
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const AboutPage()),
         ),
       ),
     ],

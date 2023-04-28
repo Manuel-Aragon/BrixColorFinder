@@ -38,6 +38,7 @@ class _SignUpPageState extends State<SignUpPage> {
       // Check if the user was created successfully
       final currentUser = authResult.user;
       if (currentUser != null) {
+        currentUser.updateDisplayName(nameController.text);
         // Save user information to Firestore
         await _firestore.collection('users').doc(currentUser.uid).set({
           'email': emailController.text,
