@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:math';
 import 'package:provider/provider.dart'; // used to work with ChangeNotifiers, Consumers, and Producers to manage State
+import 'dart:collection';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -79,6 +80,15 @@ class HistoryModel extends ChangeNotifier {
   final List<String> _color = [];
   final List<File?> _image = [];
 
+  // Getter for _brick list
+  UnmodifiableListView<String> get brick => UnmodifiableListView(_brick);
+
+  // Getter for _color list
+  UnmodifiableListView<String> get color => UnmodifiableListView(_color);
+
+  // Getter for _image list
+  UnmodifiableListView<File?> get image => UnmodifiableListView(_image);
+
   // the unmodifiable view of the items in the Scan History Lists
   // UnmodifiableListView<Item> get items => UnmodifiableListView(_items);
 
@@ -90,21 +100,11 @@ class HistoryModel extends ChangeNotifier {
 
   // this function will tell the lists to update, then, when the History
   void addNewScan(String brick, String color, File? image) {
-    // round the accuracy value, then turn in back into a string
-    /*double d_Accuracy = double.parse(accuracy);
-    d_Accuracy = roundDouble(d_Accuracy, 2);
-    // check if the LEGO was not confidently found
-    if (d_Accuracy < 0.8) {
-      brick = "LEGO not Confident";
-    }
-    // make accuracy out of 100
-    d_Accuracy *= 100;
-    String acc = d_Accuracy.toString();*/
-
     // add the items to the Lists
     _brick.add(brick);
     _color.add(color);
     _image.add(image);
+
     debugPrint('brick: $_brick\naccuracy: $_color\nimage: $_image\n');
     notifyListeners(); // Tells the listeners that there has been a change to the history list
   }

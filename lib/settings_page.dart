@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucky13capstone/history_page.dart';
 import 'package:lucky13capstone/register_page.dart';
 import 'login_page.dart';
 import 'package:lucky13capstone/about.dart';
@@ -27,6 +28,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Access the SettingsModel and HistoryModel instances provided by ancestors
+    final settingsModel = Provider.of<SettingsModel>(context, listen: false);
+    final historyModel = Provider.of<HistoryModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
       body: SingleChildScrollView(
@@ -37,11 +41,11 @@ class _SettingsPageState extends State<SettingsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (FirebaseAuth.instance.currentUser != null)
-                _accountSettingsColumn(context, this)
+                _accountSettingsColumn(context, this, historyModel)
               else
                 _accountSettingsColumnLoggedOut(context),
               _generalSettingsColumn(context),
-              _developmentSettingsColumn(context)
+              _developmentSettingsColumn(context, this)
             ],
           ),
         ),
@@ -89,7 +93,8 @@ Widget _generalSettingsColumn(BuildContext context) {
   );
 }
 
-Widget _accountSettingsColumn(BuildContext context, _SettingsPageState state) {
+Widget _accountSettingsColumn(
+    BuildContext context, _SettingsPageState state, HistoryModel historyModel) {
   return Column(
     children: [
       Row(
@@ -110,7 +115,7 @@ Widget _accountSettingsColumn(BuildContext context, _SettingsPageState state) {
         leading: const Icon(Icons.save),
         title: const Text('Save to cloud'),
         onTap: () {
-          context.read<SettingsModel>().saveToCloud();
+          context.read<SettingsModel>().saveToCloud(historyModel);
         },
       ),
       const Divider(),
@@ -166,7 +171,8 @@ Widget _accountSettingsColumnLoggedOut(BuildContext context) {
   );
 }
 
-Widget _developmentSettingsColumn(BuildContext context) {
+Widget _developmentSettingsColumn(
+    BuildContext context, _SettingsPageState state) {
   return Column(
     children: [
       Row(

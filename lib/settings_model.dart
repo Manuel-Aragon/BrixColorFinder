@@ -3,6 +3,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path_provider/path_provider.dart';
+import 'history_page.dart';
+import 'package:provider/provider.dart';
+
 class SettingsModel extends ChangeNotifier {
   bool _darkMode;
   String _language;
@@ -36,7 +43,7 @@ class SettingsModel extends ChangeNotifier {
     print("Saved Settings to preferences");
   }
 
-  Future<void> saveToCloud() async {
+  Future<void> saveToCloud(HistoryModel historyModel) async {
     saveSettings();
     // Get the current user's ID
     String? userId = FirebaseAuth.instance.currentUser?.uid;
@@ -47,9 +54,19 @@ class SettingsModel extends ChangeNotifier {
         'darkMode': _darkMode,
         'language': _language,
       });
-    } else {
-      // Handle the case where there's no user logged in
-      print("No user is logged in. Unable to save settings to Firebase.");
+
+      //save history
+      //   // Get the lists from the HistoryModel instance
+      //   List<String> brickList = historyModel.brick.toList();
+      //   List<String> colorList = historyModel.color.toList();
+      //   List<File?> imageList = historyModel.image.toList();
+
+      //   // Call the saveData function to save the history to Firestore
+      //   await saveData(brickList, colorList, imageList);
+      // } else {
+      //   // Handle the case where there's no user logged in
+      //   print("No user is logged in. Unable to save settings to Firebase.");
+      // }
     }
   }
 
@@ -83,4 +100,35 @@ class SettingsModel extends ChangeNotifier {
       saveSettings();
     }
   }
+}
+
+Future<List<String>> uploadImages(List<File?> images) async {
+  List<String> imageUrls = [];
+
+  for (File? image in images) {
+    if (image != null) {
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      Reference storageReference =
+          FirebaseStorage.instance.ref().child('images/$fileName');
+      UploadTask uploadTask = storageReference.putFile(image);
+      TaskSnapshot taskSnapshot = await uploadTask;
+      String imageUrl = await taskSnapshot.ref.getDownloadURL();
+      imageUrls.add(imageUrl);
+    }
+  }
+
+  return imageUrls;
+}
+
+Future<void> saveData(
+    List<String> brick, List<String> color, List<File?> images) async {
+  List<String> imageUrls = await uploadImages(images);
+
+  CollectionReference collectionReference =
+      FirebaseFirestore.instance.collection('your_collection_name');
+  await collectionReference.add({
+    'brick': brick,
+    'color': color,
+    'images': imageUrls,
+  });
 }
