@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucky13capstone/history_page.dart';
 import 'package:lucky13capstone/register_page.dart';
 import 'login_page.dart';
@@ -115,6 +116,7 @@ Widget _accountSettingsColumn(
         leading: const Icon(Icons.save),
         title: const Text('Save to cloud'),
         onTap: () {
+          HapticFeedback.vibrate();
           context.read<SettingsModel>().saveToCloud(historyModel);
         },
       ),
@@ -123,6 +125,7 @@ Widget _accountSettingsColumn(
         leading: Icon(Icons.lock),
         title: const Text("Change Password"),
         onTap: () {
+          HapticFeedback.vibrate();
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const PasswordChangePage()),
@@ -152,6 +155,7 @@ Widget _accountSettingsColumnLoggedOut(BuildContext context) {
           leading: const Icon(Icons.person),
           title: const Text("Login"),
           onTap: () {
+            HapticFeedback.vibrate();
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -162,6 +166,7 @@ Widget _accountSettingsColumnLoggedOut(BuildContext context) {
           leading: const Icon(Icons.person_add),
           title: const Text("Create Account"),
           onTap: () {
+            HapticFeedback.vibrate();
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const SignUpPage()),

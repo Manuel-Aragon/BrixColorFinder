@@ -9,6 +9,7 @@ import 'settings_page.dart';
 import 'history_page.dart';
 import 'classifier/lego_recognizer.dart';
 import 'notifiers.dart';
+import 'package:flutter/services.dart';
 
 const kModelName = "brick_model_unquant";
 

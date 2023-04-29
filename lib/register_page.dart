@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'notifiers.dart';
+import 'package:flutter/services.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -205,6 +206,8 @@ class _SignUpPageState extends State<SignUpPage> {
                             ? Icons.visibility_off
                             : Icons.visibility),
                         onPressed: () {
+                          HapticFeedback.vibrate();
+
                           setState(() {
                             passenable = !passenable;
                           });
@@ -243,6 +246,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             ? Icons.visibility_off
                             : Icons.visibility),
                         onPressed: () {
+                          HapticFeedback.vibrate();
                           setState(() {
                             passenable = !passenable;
                           });
@@ -261,6 +265,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
+                        HapticFeedback.vibrate();
                         _register();
                       },
                       style: ElevatedButton.styleFrom(
@@ -277,6 +282,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     alignment: Alignment.center,
                     child: TextButton(
                       onPressed: () {
+                        HapticFeedback.vibrate();
                         Navigator.push(
                           context,
                           MaterialPageRoute(

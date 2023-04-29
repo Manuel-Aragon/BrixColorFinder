@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lucky13capstone/settings_model.dart';
 import 'package:provider/provider.dart';
 import 'notifiers.dart';
+import 'package:flutter/services.dart';
 
 // This class represents the login page of the app.
 class LoginPage extends StatefulWidget {
@@ -149,6 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                               ? Icons.visibility_off
                               : Icons.visibility),
                           onPressed: () {
+                            HapticFeedback.vibrate();
                             setState(() {
                               passenable = !passenable;
                             });
@@ -180,6 +182,7 @@ class _LoginPageState extends State<LoginPage> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () async {
+                          HapticFeedback.vibrate();
                           _login();
                         },
                         style: ElevatedButton.styleFrom(
@@ -196,6 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.center,
                       child: TextButton(
                         onPressed: () {
+                          HapticFeedback.vibrate();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
