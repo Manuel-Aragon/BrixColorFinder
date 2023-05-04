@@ -50,7 +50,12 @@ class SettingsModel extends ChangeNotifier {
 
     if (userId != null) {
       // Save the settings to Firebase under the user's document
-      await _firestore.collection('users').doc(userId).update({
+      await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('settings')
+          .doc('user_settings')
+          .update({
         'darkMode': _darkMode,
         'language': _language,
       });
