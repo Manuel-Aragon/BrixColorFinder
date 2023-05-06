@@ -2,11 +2,12 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:lucky13capstone/classifier/lego_recognizer.dart';
 import 'package:lucky13capstone/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lucky13capstone/settings_model.dart';
 import 'package:provider/provider.dart';
+import 'notifiers.dart';
+import 'package:flutter/services.dart';
 
 // This class represents the login page of the app.
 class LoginPage extends StatefulWidget {
@@ -57,17 +58,21 @@ class _LoginPageState extends State<LoginPage> {
       if (user != null) {
         context.read<SettingsModel>().loadFromCloud();
 
-        //pushAndRemoveUntil() used so that user can't navigate back after they login
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const LegoRecogniser()),
-            (r) => false);
+        // Pop all routes except the first one (BrickFinder)
+        Navigator.popUntil(context, (route) => route.isFirst);
       }
+
+      // Set the currentIndex to 0 (LegoRecogniser)
+      context.read<PageNotifier>().setCurrentIndex(0);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black;
+
     return Scaffold(
         appBar: AppBar(title: const Text('Login')),
         body: SingleChildScrollView(
@@ -85,7 +90,6 @@ class _LoginPageState extends State<LoginPage> {
             const Text(
               "Welcome back!",
               style: TextStyle(
-                color: Colors.black,
                 fontSize: 35,
                 fontWeight: FontWeight.bold,
               ),
@@ -146,31 +150,30 @@ class _LoginPageState extends State<LoginPage> {
                               ? Icons.visibility_off
                               : Icons.visibility),
                           onPressed: () {
+                            HapticFeedback.vibrate();
                             setState(() {
                               passenable = !passenable;
                             });
                           },
                         ),
                         alignLabelWithHint: false,
-                        filled: true,
-                        fillColor: Colors.white,
                       ),
                       keyboardType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.done,
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            foregroundColor:
-                                const Color.fromARGB(223, 212, 89, 100),
-                          ),
-                          child: const Text(
-                            "Forgot Password?",
-                            style: TextStyle(fontSize: 16),
-                          )),
-                    ),
+                    // Align(
+                    //   alignment: Alignment.centerRight,
+                    //   child: TextButton(
+                    //       onPressed: () {},
+                    //       style: TextButton.styleFrom(
+                    //         foregroundColor:
+                    //             const Color.fromARGB(223, 212, 89, 100),
+                    //       ),
+                    //       child: const Text(
+                    //         "Forgot Password?",
+                    //         style: TextStyle(fontSize: 16),
+                    //       )),
+                    // ),
                     const SizedBox(
                       height: 15,
                     ),
@@ -179,6 +182,7 @@ class _LoginPageState extends State<LoginPage> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () async {
+                          HapticFeedback.vibrate();
                           _login();
                         },
                         style: ElevatedButton.styleFrom(
@@ -195,18 +199,19 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.center,
                       child: TextButton(
                         onPressed: () {
+                          HapticFeedback.vibrate();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const SignUpPage()),
                           );
                         },
-                        child: const Text.rich(
+                        child: Text.rich(
                           TextSpan(
                               text: "Don't have an account?",
-                              style: TextStyle(
-                                  color: Colors.black, fontSize: 18.0),
-                              children: [
+                              style:
+                                  TextStyle(color: textColor, fontSize: 18.0),
+                              children: const [
                                 TextSpan(
                                   text: " Sign Up",
                                   style: TextStyle(
@@ -248,6 +253,10 @@ String? validatePassword(String? formPassword) {
   if (formPassword == null || formPassword.isEmpty) {
     return 'Password is required.';
   }
-  // Return null if input is not null or empty.
+  // Return error message if password is less than 6 characters long.
+  if (formPassword.length < 6) {
+    return 'Password must be at least 6 characters long.';
+  }
+  // Return null if input is not null or empty and password is at least 6 characters long.
   return null;
 }

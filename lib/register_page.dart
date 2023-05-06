@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:lucky13capstone/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'notifiers.dart';
+import 'package:flutter/services.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -36,6 +39,7 @@ class _SignUpPageState extends State<SignUpPage> {
       // Check if the user was created successfully
       final currentUser = authResult.user;
       if (currentUser != null) {
+        currentUser.updateDisplayName(nameController.text);
         // Save user information to Firestore
         await _firestore.collection('users').doc(currentUser.uid).set({
           'email': emailController.text,
@@ -54,13 +58,11 @@ class _SignUpPageState extends State<SignUpPage> {
           'language': 'en', // default value
         });
 
-        // Navigate to the login page
-        // ignore: use_build_context_synchronously
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-          (r) => false,
-        );
+        // Navigate to the login page and remove the registration page from the stack
+        // Pop all routes except the first one (BrickFinder)
+        Navigator.popUntil(context, (route) => route.isFirst);
+        // Set the currentIndex to 0 (LegoRecogniser)
+        context.read<PageNotifier>().setCurrentIndex(0);
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -81,6 +83,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black;
     return Scaffold(
       appBar: AppBar(title: const Text("Register")),
       body: SingleChildScrollView(
@@ -98,7 +103,6 @@ class _SignUpPageState extends State<SignUpPage> {
             const Text(
               "Sign Up",
               style: TextStyle(
-                color: Colors.black,
                 fontSize: 35,
                 fontWeight: FontWeight.bold,
               ),
@@ -202,14 +206,16 @@ class _SignUpPageState extends State<SignUpPage> {
                             ? Icons.visibility_off
                             : Icons.visibility),
                         onPressed: () {
+                          HapticFeedback.vibrate();
+
                           setState(() {
                             passenable = !passenable;
                           });
                         },
                       ),
                       alignLabelWithHint: false,
-                      filled: true,
-                      fillColor: Colors.white,
+                      //filled: true,
+                      //fillColor: Colors.white,
                     ),
                     keyboardType: TextInputType.visiblePassword,
                     textInputAction: TextInputAction.done,
@@ -240,14 +246,13 @@ class _SignUpPageState extends State<SignUpPage> {
                             ? Icons.visibility_off
                             : Icons.visibility),
                         onPressed: () {
+                          HapticFeedback.vibrate();
                           setState(() {
                             passenable = !passenable;
                           });
                         },
                       ),
                       alignLabelWithHint: false,
-                      filled: true,
-                      fillColor: Colors.white,
                     ),
                     keyboardType: TextInputType.visiblePassword,
                     textInputAction: TextInputAction.done,
@@ -260,6 +265,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
+                        HapticFeedback.vibrate();
                         _register();
                       },
                       style: ElevatedButton.styleFrom(
@@ -276,17 +282,17 @@ class _SignUpPageState extends State<SignUpPage> {
                     alignment: Alignment.center,
                     child: TextButton(
                       onPressed: () {
+                        HapticFeedback.vibrate();
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const LoginPage()),
                         );
                       },
-                      child: const Text.rich(
+                      child: Text.rich(
                         TextSpan(
-                            text: "Already have an account?",
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 18.0),
+                            text: 'Already have an account?',
+                            style: TextStyle(color: textColor),
                             children: [
                               TextSpan(
                                 text: " Login",
@@ -346,7 +352,11 @@ String? validatePassword(String? formPassword) {
   if (formPassword == null || formPassword.isEmpty) {
     return 'Password is required.';
   }
-  // Return null if input is not null or empty.
+  // Return error message if password is less than 6 characters long.
+  if (formPassword.length < 6) {
+    return 'Password must be at least 6 characters long.';
+  }
+  // Return null if input is not null or empty and password is at least 6 characters long.
   return null;
 }
 
@@ -356,4 +366,10 @@ String? validateConfirmation(String? formConfirmation) {
   }
   //other validations go here
   return null;
+}
+
+Color getColor(BuildContext context) {
+  return Theme.of(context).brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black;
 }

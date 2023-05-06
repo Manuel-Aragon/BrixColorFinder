@@ -38,13 +38,8 @@ import '../styles.dart';
 import 'lego_photo_view.dart';
 
 import '../history_page.dart';
-import '../settings_page.dart';
 
-const _labelsFileName = 'assets/brick_labels.txt';
-const _modelFileName = 'brick_model_unquant.tflite';
-
-const _colorLabelFileName = 'assets/color_labels.txt';
-const _colorModelFileName = 'color_unquant.tflite';
+import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
 
 class LegoRecogniser extends StatefulWidget {
   const LegoRecogniser({super.key});
@@ -65,29 +60,30 @@ enum _ResultStatus {
 //it contains the UI for the page, how the user selects the scan method,
 //how the user's LEGO image is displayed and processed with the model.
 class _LegoRecogniserState extends State<LegoRecogniser> {
-  bool _isAnalyzing =
-      false; //used to check if the image is in the process of being analyized by the model
-  final picker =
-      ImagePicker(); //initialize picker to use the image picker package for selecting images from the user's camera roll
-  File?
-      _selectedImageFile; //used for accessing the selected image from the image gallery
+  //used to check if the image is in the process of being analyized by the model
+  bool _isAnalyzing = false;
+  //initialize picker to use the image picker package for selecting images from the user's camera roll
+  final picker = ImagePicker();
+  //used for accessing the selected image from the image gallery
+  File? _selectedImageFile;
 
-  // Result
-  _ResultStatus _legoResultStatus =
-      _ResultStatus.notStarted; //initialize result status to notStarted yet
-  String _legoLabel =
-      ''; //the string for printing the Model Label (the name of the LEGO brick)
-  double _legoAccuracy = 0.0; //initialize the accuracy variable to zero
+  // Result for Brick Classifier
+  //initialize result status to notStarted yet
+  _ResultStatus _legoResultStatus = _ResultStatus.notStarted;
+  //the string for printing the Model Label (the name of the LEGO brick)
+  String _legoLabel = '';
+  //initialize the accuracy variable to zero
+  double _legoAccuracy = 0.0;
 
-  // Result
-  _ResultStatus _colorResultStatus =
-      _ResultStatus.notStarted; //initialize result status to notStarted yet
-  String _colorLabel =
-      ''; //the string for printing the Model Label (the name of the LEGO brick)
-  double _colorAccuracy = 0.0; //initialize the accuracy variable to zero
+  // Result for Color Classifier
+  //initialize result status to notStarted yet
+  _ResultStatus _colorResultStatus = _ResultStatus.notStarted;
+  //the string for printing the Model Label (the color of the LEGO brick)
+  String _colorLabel = '';
+  //initialize the accuracy variable to zero
+  double _colorAccuracy = 0.0;
 
   //initialize a classifier type, using the class from the classifier.dart file.
-  //this is used
   late Classifier _classifier;
   late Classifier _colorClassifier;
 
@@ -98,25 +94,62 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
     _loadClassifier();
   }
 
-  //
   Future<void> _loadClassifier() async {
+    //local file paths
+    const labelsFileName = 'assets/brick_labels.txt';
+    const modelFileName = 'brick_model_unquant.tflite';
+
+    const colorLabelFileName = 'assets/color_labels.txt';
+    const colorModelFileName = 'color_unquant.tflite';
+
+    // firebase model names
+    String firebaseLegoModelName = 'brick_model_unquant';
+    String firebaseColorModelName = 'color_unquant';
+
+    //get models from firebase
+    FirebaseCustomModel? firebaseLegoModel;
+    FirebaseCustomModel? firebaseColorModel;
+
+    // Initialize with local models first
+    firebaseLegoModel = await FirebaseModelDownloader.instance.getModel(
+        firebaseLegoModelName,
+        FirebaseModelDownloadType.localModelUpdateInBackground);
+
+    firebaseColorModel = await FirebaseModelDownloader.instance.getModel(
+        firebaseColorModelName,
+        FirebaseModelDownloadType.localModelUpdateInBackground);
+
+    //NEW CODE HERE
+    String legoModelPath = firebaseLegoModel != null &&
+            firebaseLegoModel.file != null &&
+            await File(firebaseLegoModel.file.path).exists()
+        ? firebaseLegoModel.file.path
+        : modelFileName;
+    String colorModelPath = firebaseColorModel != null &&
+            firebaseColorModel.file != null &&
+            await File(firebaseColorModel.file.path).exists()
+        ? firebaseColorModel.file.path
+        : colorModelFileName;
+
     //print to the debug console the model being used and its labels
     debugPrint(
       'Start loading of Classifier with '
-      'labels at $_labelsFileName, '
-      'model at $_modelFileName',
+      'labels at $labelsFileName, '
+      'model at $modelFileName',
     );
 
     //initialize classifier, by waiting for the Classifier class's loadWith() function
     //loads the classifier using the input model and labels and assigns them to mutable
     //variables.
     final legoClassifier = await Classifier.loadWith(
-      labelsFileName: _labelsFileName,
-      modelFileName: _modelFileName,
+      labelsFileName: labelsFileName,
+      //modelFileName: legoModelPath,
+      modelFileName: modelFileName,
     );
     final colorClassifier = await Classifier.loadWith(
-      labelsFileName: _colorLabelFileName,
-      modelFileName: _colorModelFileName,
+      labelsFileName: colorLabelFileName,
+      //modelFileName: colorModelPath,
+      modelFileName: colorModelFileName,
     );
 
     //this generated classifier is then assigned to the earlier initialized classifier
@@ -130,31 +163,40 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: kBgColor,
       appBar: AppBar(
-        title: const Text("BrixColor Finder", style: kResultTextStyle),
-        backgroundColor: kColorBrickRed,
+        title: const Text("BrixColor Finder"),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             _buildPhotolView(),
-            const SizedBox(height: 25),
+            const SizedBox(height: 5),
             _buildResultView(),
-            const SizedBox(height: 25),
+            const SizedBox(height: 5),
             Column(
               children: [
+                _buildPickPhotoButton(
+                  title: 'Take a picture of a LEGO\u00AE',
+                  source: ImageSource.camera,
+                ),
+                _buildPickPhotoButton(
+                  title: 'Pick a LEGO\u00AE from gallery',
+                  source: ImageSource.gallery,
+                ),
                 ElevatedButton(
-                  child: const Text(
-                    'Tips for taking photos',
-                    style: TextStyle(
-                      fontFamily: kButtonFont,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w600,
-                      color: kColorLightYellow,
-                    ),
-                  ),
+                  child: Container(
+                      width: 300,
+                      height: 40,
+                      child: const Center(
+                          child: Text(
+                        'Tips for taking photos',
+                        style: TextStyle(
+                          fontFamily: kButtonFont,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ))),
                   onPressed: () {
                     showDialog(
                       context: context,
@@ -163,25 +205,8 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
                     );
                   },
                 ),
-                _buildPickPhotoButton(
-                  title: 'Take a picture of a LEGO',
-                  source: ImageSource.camera,
-                ),
-                _buildPickPhotoButton(
-                  title: 'Pick a LEGO from gallery',
-                  source: ImageSource.gallery,
-                ),
               ],
             ),
-            Row(
-              children: [
-                _buildHistoryButton(context: context),
-                const Spacer(),
-                _buildSettingsButton(
-                  context: context,
-                )
-              ],
-            )
           ],
         ),
       ),
@@ -191,13 +216,14 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
   // widget for creating the popup dialog for the tip button
   Widget _buildTipDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Some tips for taking LEGO photos effectively:'),
+      title: const Text(
+          'Some tips for taking LEGO\u00AE brick photos effectively:'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const <Widget>[
           Text(
-              "-Take your pictures at 3 times magnification so you may take your photos close without blurring the image.\n\n-Take pictures in a well lit area with neutral colored lighting.\n\n-Don't take pictures directly from above, as some bricks will look identical.\n\n-Use white or dark brown backgrounds if possible.\n\n-Make sure the LEGO brick is as center frame as possible."),
+              "-Take your pictures at 3 times magnification so you may take your photos close without blurring the image.\n\n-Take pictures in a well lit area with neutral colored lighting.\n\n-Don't take pictures directly from above, as some bricks will look identical.\n\n-Use white or dark brown backgrounds if possible.\n\n-Make sure the LEGO\u00AE brick is as center frame as possible."),
         ],
       ),
       actions: <Widget>[
@@ -233,19 +259,17 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
     required ImageSource source,
     required String title,
   }) {
-    return TextButton(
+    return ElevatedButton(
       onPressed: () => _onPickPhoto(source),
       child: Container(
         width: 300,
         height: 40,
-        color: kColorBrickRed,
         child: Center(
             child: Text(title,
                 style: const TextStyle(
                   fontFamily: kButtonFont,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w600,
-                  color: kColorLightYellow,
                 ))),
       ),
     );
@@ -303,6 +327,7 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
       _colorLabel = colorLabel;
       _colorAccuracy = colorAccuracy;
 
+      // Update the history with the results of the scan
       var historyModel = context.read<HistoryModel>();
       historyModel.addNewScan(legoLabel, colorLabel, image);
     });
@@ -358,36 +383,4 @@ class _LegoRecogniserState extends State<LegoRecogniser> {
       ],
     );
   }
-}
-
-Widget _buildHistoryButton({
-  required BuildContext context,
-}) {
-  return IconButton(
-    iconSize: 50,
-    onPressed: () {
-      // Navigate to the history page when the history icon is pressed.
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const HistoryPage()),
-      );
-    },
-    icon: const Icon(Icons.access_time, color: Colors.white),
-  );
-}
-
-Widget _buildSettingsButton({
-  required BuildContext context,
-}) {
-  return IconButton(
-    iconSize: 50,
-    onPressed: () {
-      // Navigate to the settings page when the settings icon is pressed.
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const SettingsPage()),
-      );
-    },
-    icon: const Icon(Icons.settings, color: Colors.white),
-  );
 }

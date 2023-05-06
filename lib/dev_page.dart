@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lucky13capstone/about.dart';
 import 'package:lucky13capstone/register_page.dart';
 import 'package:lucky13capstone/login_page.dart';
 import 'package:lucky13capstone/settings_page.dart';
 import 'package:lucky13capstone/brickview_page.dart';
 import 'package:lucky13capstone/history_page.dart';
-import 'package:lucky13capstone/classifier/lego_recognizer.dart';
 import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
+import 'notifiers.dart';
+import 'package:provider/provider.dart';
 
 class DevPage extends StatefulWidget {
   const DevPage({super.key, required this.title});
@@ -93,10 +95,16 @@ class _DevPageState extends State<DevPage> {
             ElevatedButton(
               child: const Text('Lego Scan'),
               onPressed: () {
+                // Set the currentIndex to 0 (LegoRecogniser)
+                context.read<PageNotifier>().setCurrentIndex(0);
+              },
+            ),
+            ElevatedButton(
+              child: const Text('About'),
+              onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const LegoRecogniser()),
+                  MaterialPageRoute(builder: (context) => const AboutPage()),
                 );
               },
             ),

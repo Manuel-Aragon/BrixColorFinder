@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:lucky13capstone/history_page.dart';
+import 'package:lucky13capstone/register_page.dart';
 import 'login_page.dart';
+import 'package:lucky13capstone/about.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lucky13capstone/brickview_page.dart';
 import 'package:lucky13capstone/dev_page.dart';
 import 'settings_model.dart';
 import 'package:provider/provider.dart';
 import 'styles.dart';
+import 'password_change.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -24,6 +29,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Access the SettingsModel and HistoryModel instances provided by ancestors
+    final settingsModel = Provider.of<SettingsModel>(context, listen: false);
+    final historyModel = Provider.of<HistoryModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
       body: SingleChildScrollView(
@@ -33,16 +41,12 @@ class _SettingsPageState extends State<SettingsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if (FirebaseAuth.instance.currentUser != null)
+                _accountSettingsColumn(context, this, historyModel)
+              else
+                _accountSettingsColumnLoggedOut(context),
               _generalSettingsColumn(context),
-              if (FirebaseAuth.instance.currentUser != null)
-                _accountSettingsColumn()
-              else
-                const SizedBox(height: 0),
-              if (FirebaseAuth.instance.currentUser != null)
-                _securitySettingsColumn(context, this)
-              else
-                _securitySettingsColumnLoggedOut(context),
-              _developmentSettingsColumn(context)
+              _developmentSettingsColumn(context, this)
             ],
           ),
         ),
@@ -64,11 +68,6 @@ Widget _generalSettingsColumn(BuildContext context) {
           ),
         ],
       ),
-      const ListTile(
-        leading: Icon(Icons.cloud),
-        title: Text("History"),
-        subtitle: Text("Settings"),
-      ),
       const Divider(),
       ListTile(
           leading: const Icon(Icons.table_chart_outlined),
@@ -83,11 +82,67 @@ Widget _generalSettingsColumn(BuildContext context) {
       const Divider(),
       const ThemeSwitcher(),
       const Divider(),
+      ListTile(
+        leading: const Icon(Icons.info_outline),
+        title: const Text("About"),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AboutPage()),
+        ),
+      ),
     ],
   );
 }
 
-Widget _accountSettingsColumn() {
+Widget _accountSettingsColumn(
+    BuildContext context, _SettingsPageState state, HistoryModel historyModel) {
+  return Column(
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            "Account",
+            style: headingStyle,
+          ),
+        ],
+      ),
+      ListTile(
+        leading: const Icon(Icons.manage_accounts),
+        title: Text(FirebaseAuth.instance.currentUser?.displayName ?? "Guest"),
+      ),
+      const Divider(),
+      ListTile(
+        leading: const Icon(Icons.save),
+        title: const Text('Save to cloud'),
+        onTap: () {
+          HapticFeedback.vibrate();
+          context.read<SettingsModel>().saveToCloud(historyModel);
+        },
+      ),
+      const Divider(),
+      ListTile(
+        leading: Icon(Icons.lock),
+        title: const Text("Change Password"),
+        onTap: () {
+          HapticFeedback.vibrate();
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const PasswordChangePage()),
+          );
+        },
+      ),
+      const Divider(),
+      ListTile(
+        leading: const Icon(Icons.exit_to_app),
+        title: const Text("Sign Out"),
+        onTap: () => state._logout(context),
+      ),
+    ],
+  );
+}
+
+Widget _accountSettingsColumnLoggedOut(BuildContext context) {
   return Column(
     children: [
       Row(
@@ -96,84 +151,33 @@ Widget _accountSettingsColumn() {
           Text("Account", style: headingStyle),
         ],
       ),
-      const ListTile(
-        leading: Icon(Icons.phone),
-        title: Text("Phone Number"),
-      ),
-      const Divider(),
-      const ListTile(
-        leading: Icon(Icons.mail),
-        title: Text("Email"),
-      ),
-      const Divider(),
-    ],
-  );
-}
-
-Widget _securitySettingsColumn(BuildContext context, _SettingsPageState state) {
-  return Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text("Security", style: headingStyle),
-        ],
-      ),
-      const Divider(),
-      const ListTile(
-        leading: Icon(Icons.lock),
-        title: Text("Change Password"),
-      ),
-      const Divider(),
-      ListTile(
-        leading: const Icon(Icons.exit_to_app),
-        title: const Text("Sign Out"),
-        onTap: () => state._logout(context),
-      ),
-      const Divider(),
-      ListTile(
-        leading: const Icon(Icons.save),
-        title: const Text('Save Settings'),
-        onTap: () {
-          context.read<SettingsModel>().saveSettings();
-        },
-      ),
-      const Divider(),
-      ListTile(
-        leading: const Icon(Icons.save),
-        title: const Text('Save to cloud'),
-        onTap: () {
-          context.read<SettingsModel>().saveToCloud();
-        },
-      ),
-    ],
-  );
-}
-
-Widget _securitySettingsColumnLoggedOut(BuildContext context) {
-  return Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text("Security", style: headingStyle),
-        ],
-      ),
       ListTile(
           leading: const Icon(Icons.person),
           title: const Text("Login"),
           onTap: () {
+            HapticFeedback.vibrate();
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const LoginPage()),
             );
           }),
       const Divider(),
+      ListTile(
+          leading: const Icon(Icons.person_add),
+          title: const Text("Create Account"),
+          onTap: () {
+            HapticFeedback.vibrate();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SignUpPage()),
+            );
+          }),
     ],
   );
 }
 
-Widget _developmentSettingsColumn(BuildContext context) {
+Widget _developmentSettingsColumn(
+    BuildContext context, _SettingsPageState state) {
   return Column(
     children: [
       Row(
@@ -191,7 +195,6 @@ Widget _developmentSettingsColumn(BuildContext context) {
               builder: (context) => const DevPage(title: 'Dev Page')),
         ),
       ),
-      const Divider(),
     ],
   );
 }
@@ -211,6 +214,7 @@ class ThemeSwitcher extends StatelessWidget {
       onChanged: (bool value) {
         // Update the dark mode value in the settings model
         context.read<SettingsModel>().updateDarkMode(value);
+        context.read<SettingsModel>().saveSettings();
       },
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lucky13capstone/register_page.dart';
 import 'package:lucky13capstone/login_page.dart';
 import 'package:lucky13capstone/classifier/lego_recognizer.dart';
+import 'package:flutter/services.dart';
 
 // This will be the first page the user sees if they are not logged in
 class LandingPage extends StatefulWidget {
@@ -32,6 +33,7 @@ class _LandingPageState extends State<LandingPage> {
           ElevatedButton(
             child: const Text('Login'),
             onPressed: () {
+              HapticFeedback.vibrate();
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -41,6 +43,7 @@ class _LandingPageState extends State<LandingPage> {
           ElevatedButton(
             child: const Text('Register'),
             onPressed: () {
+              HapticFeedback.vibrate();
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const SignUpPage()),
@@ -50,6 +53,7 @@ class _LandingPageState extends State<LandingPage> {
           ElevatedButton(
             child: const Text('Continue as Guest'),
             onPressed: () {
+              HapticFeedback.vibrate();
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const LegoRecogniser()),

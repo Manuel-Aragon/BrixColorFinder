@@ -41,7 +41,7 @@ class LegoPhotoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 360,
-      height: 360,
+      height: 310,
       color: const Color.fromARGB(255, 56, 99, 120),
       child: (file == null)
           ? _buildEmptyView()
@@ -56,8 +56,9 @@ class LegoPhotoView extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Text(
-            'Take a picture of a LEGO or select one from your photos',
+            'Take a picture of a LEGO\u00AE brick or select one from your photos',
             style: kAnalyzingTextStyle,
+            textAlign: TextAlign.center,
           ),
         ));
   }

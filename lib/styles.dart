@@ -38,31 +38,29 @@ const kColorLightYellow = Color.fromARGB(255, 248, 241, 201);
 const kColorPinkishRed = Color.fromARGB(255, 232, 57, 118);
 const kColorOffWhite = Color.fromARGB(255, 236, 236, 236);
 const kBgColor = kColorDarkGrey;
+const kBgColorDark = kColorPinkishRed;
 
 const kTitleTextStyle = TextStyle(
   fontFamily: kDisplayFont,
   fontSize: 30.0,
-  color: kColorPinkishRed,
   decoration: TextDecoration.none,
 );
 
 const kAnalyzingTextStyle = TextStyle(
     fontFamily: kMainFont,
     fontSize: 40.0,
-    color: kColorOffWhite,
+    fontWeight: FontWeight.bold,
+    color: Color.fromARGB(255, 255, 255, 255),
     decoration: TextDecoration.none);
 
 const kResultTextStyle = TextStyle(
     fontFamily: kDisplayFont,
     fontSize: 25.0,
-    color: kColorLightYellow,
+    fontWeight: FontWeight.bold,
     decoration: TextDecoration.none);
 
 const kResultRatingTextStyle = TextStyle(
-    fontFamily: kMainFont,
-    fontSize: 20.0,
-    color: Colors.white,
-    decoration: TextDecoration.none);
+    fontFamily: kMainFont, fontSize: 20.0, decoration: TextDecoration.none);
 
 //settings page
 TextStyle headingStyle = const TextStyle(

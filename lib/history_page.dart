@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-// import 'package:image_picker/image_picker.dart';
-import 'package:lucky13capstone/styles.dart';
 import 'dart:math';
 import 'package:provider/provider.dart'; // used to work with ChangeNotifiers, Consumers, and Producers to manage State
+import 'dart:collection';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -37,28 +36,32 @@ class MyHistoryBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: Container(
           //the list object
-          //onPressed:
           height: 400,
-          color: const Color.fromARGB(255, 49, 49, 49),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: const Color.fromARGB(223, 212, 89, 100),
+              width: 6.0,
+            ),
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+          ),
           child: Column(
             //the values inside the list object
             children: [
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: blockImage != null
-                    ? Image.file(blockImage!,
-                        width: 270.0, height: 270.0, fit: BoxFit.contain)
-                    : const SizedBox(
-                        width: 270.0,
-                        height: 270.0,
-                        child: Icon(Icons.image_outlined)),
+                child: ClipRRect(
+                    //rounding edges of list object
+                    borderRadius: BorderRadius.circular(10),
+                    child: blockImage != null
+                        ? Image.file(blockImage!,
+                            width: 270.0, height: 270.0, fit: BoxFit.contain)
+                        : const SizedBox(
+                            width: 270.0,
+                            height: 270.0,
+                            child: Icon(Icons.image_outlined))),
               ),
-              Text(blockText,
-                  style:
-                      const TextStyle(fontSize: 30.0, color: kColorOffWhite)),
-              Text(blockColor,
-                  style:
-                      const TextStyle(fontSize: 30.0, color: kColorOffWhite)),
+              Text(blockText, style: const TextStyle(fontSize: 30.0)),
+              Text(blockColor, style: const TextStyle(fontSize: 30.0)),
             ],
           ),
         ),
@@ -77,8 +80,17 @@ class HistoryModel extends ChangeNotifier {
   final List<String> _color = [];
   final List<File?> _image = [];
 
+  // Getter for _brick list
+  UnmodifiableListView<String> get brick => UnmodifiableListView(_brick);
+
+  // Getter for _color list
+  UnmodifiableListView<String> get color => UnmodifiableListView(_color);
+
+  // Getter for _image list
+  UnmodifiableListView<File?> get image => UnmodifiableListView(_image);
+
   // the unmodifiable view of the items in the Scan History Lists
-  //UnmodifiableListView<Item> get items => UnmodifiableListView(_items);
+  // UnmodifiableListView<Item> get items => UnmodifiableListView(_items);
 
   // Used to round the accuracy
   double roundDouble(double val, int places) {
@@ -88,23 +100,13 @@ class HistoryModel extends ChangeNotifier {
 
   // this function will tell the lists to update, then, when the History
   void addNewScan(String brick, String color, File? image) {
-    // round the accuracy value, then turn in back into a string
-    /*double d_Accuracy = double.parse(accuracy);
-    d_Accuracy = roundDouble(d_Accuracy, 2);
-    // check if the LEGO was not confidently found
-    if (d_Accuracy < 0.8) {
-      brick = "LEGO not Confident";
-    }
-    // make accuracy out of 100
-    d_Accuracy *= 100;
-    String acc = d_Accuracy.toString();*/
-
     // add the items to the Lists
     _brick.add(brick);
     _color.add(color);
     _image.add(image);
+
     debugPrint('brick: $_brick\naccuracy: $_color\nimage: $_image\n');
-    notifyListeners();
+    notifyListeners(); // Tells the listeners that there has been a change to the history list
   }
 
   // clear all the items from the Lists
@@ -113,56 +115,17 @@ class HistoryModel extends ChangeNotifier {
     _color.clear();
     _image.clear();
     debugPrint('brick: $_brick\naccuracy: $_color\nimage: $_image\n');
-    notifyListeners();
+    notifyListeners(); // Tells the listeners that there has been a change to the history list
   }
 }
 
 // Class for tracking the STATE of the Scan History dynamic list
 class HistoryState extends State<HistoryPage>
     with AutomaticKeepAliveClientMixin {
-  //final ImagePicker _picker = ImagePicker();
   File? _selectedImage;
 
-  /*
-  final List<String> block = [];
-  final List<String> color = [];
-  final List<File?> image = [];
-  */
   @override
   bool get wantKeepAlive => true;
-
-  /*
-  // Call this function to add a result to the history list
-  updateHistory(String blockData, String colorData, File? imageFile) {
-    setState(() {
-      block.add(blockData);
-      color.add(colorData);
-      image.add(imageFile);
-      _selectedImage = null;
-    });
-  }
-
-  // Call this function to add a result to the history list from another page
-  updateHistoryFromOtherScreen(
-      String blockData, String colorData, File? imageFile) {
-    setState(() {
-      block.add(blockData);
-      color.add(colorData);
-      image.add(imageFile);
-    });
-  }
-
-  // This function is called by pressing the button on the scan history page, for testing
-  Future<void> launchCamera() async {
-    final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.camera);
-    if (pickedImage != null) {
-      setState(() {
-        _selectedImage = File(pickedImage.path);
-      });
-      updateHistory('New Block', 'New Color', _selectedImage);
-    }
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -170,10 +133,8 @@ class HistoryState extends State<HistoryPage>
     return Consumer<HistoryModel>(
       builder: (context, historyModel, child) => Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: const Color.fromARGB(255, 57, 57, 57),
         appBar: AppBar(
-          title: const Text("LEGO Scan History"),
-          backgroundColor: const Color.fromARGB(255, 44, 44, 44),
+          title: const Text("LEGO\u00AE Scan History"),
         ),
         body: ListView.builder(
           itemCount: historyModel._brick.length,
@@ -193,8 +154,7 @@ class HistoryState extends State<HistoryPage>
             var historyModel = context.read<HistoryModel>();
             historyModel.clearScans();
           },
-          backgroundColor: const Color.fromARGB(255, 189, 189, 189),
-          child: const Icon(Icons.delete_forever_sharp, color: kColorDarkGrey),
+          child: const Icon(Icons.delete_forever_sharp),
         ),
       ),
     );

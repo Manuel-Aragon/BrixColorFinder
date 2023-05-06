@@ -1,12 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; // used to work with ChangeNotifiers, Consumers, and Producers to manage State
-import 'package:lucky13capstone/history_page.dart'; // used to access the HistoryModel for updating the State of the Scan History
-import 'package:lucky13capstone/classifier/lego_recognizer.dart';
-import 'package:shared_preferences/shared_preferences.dart'; //used to save and restore settings when app is launched
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'settings_model.dart';
-import 'package:lucky13capstone/themes.dart';
-import 'package:lucky13capstone/landing_page.dart';
+import 'themes.dart';
+import 'settings_page.dart';
+import 'history_page.dart';
+import 'classifier/lego_recognizer.dart';
+import 'notifiers.dart';
+import 'package:flutter/services.dart';
+
+const kModelName = "brick_model_unquant";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,15 +27,35 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => SettingsModel(preferences: preferences),
         ),
+        ChangeNotifierProvider(create: (context) => PageNotifier()),
       ],
       child: const BrickFinder(),
     ),
   );
-  // runApp(const BrickFinder());   // this is the original way we called this without Provider class
 }
 
-class BrickFinder extends StatelessWidget {
-  const BrickFinder({super.key});
+class BrickFinder extends StatefulWidget {
+  const BrickFinder({Key? key}) : super(key: key);
+
+  @override
+  _BrickFinderState createState() => _BrickFinderState();
+}
+
+class _BrickFinderState extends State<BrickFinder> {
+  // Declare screens as a late variable so it can be initialized in initState
+  late List<Widget> screens;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize the screens list here and pass the model
+    screens = [
+      const LegoRecogniser(), // Use widget.model here
+      const HistoryPage(),
+      const SettingsPage(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +66,21 @@ class BrickFinder extends StatelessWidget {
 
     return MaterialApp(
       theme: theme,
-      home: const LegoRecogniser(),
-      //home: const LandingPage(),
+      home: Scaffold(
+        body: screens[context.watch<PageNotifier>().currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: context.watch<PageNotifier>().currentIndex,
+          onTap: (index) => context.read<PageNotifier>().setCurrentIndex(index),
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.camera_alt_outlined), label: 'Scan'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.history_sharp), label: 'History'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings), label: 'Settings')
+          ],
+        ),
+      ),
     );
   }
 }
@@ -54,6 +92,5 @@ Future<Map<String, dynamic>> loadPreferences() async {
   return {
     'darkMode': prefs.getBool('darkMode') ?? false,
     'language': prefs.getString('language') ?? 'en',
-    'loggedIn': prefs.getBool('loggedIn') ?? false,
   };
 }
