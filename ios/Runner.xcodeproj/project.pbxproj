@@ -402,7 +402,7 @@
 					"-fcxx-modules",
 					"-fmodules",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.lucky13capstone;
+				PRODUCT_BUNDLE_IDENTIFIER = lucky13capstone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -543,7 +543,7 @@
 					"-fcxx-modules",
 					"-fmodules",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.lucky13capstone;
+				PRODUCT_BUNDLE_IDENTIFIER = lucky13capstone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -575,7 +575,7 @@
 					"-fcxx-modules",
 					"-fmodules",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.lucky13capstone;
+				PRODUCT_BUNDLE_IDENTIFIER = lucky13capstone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";

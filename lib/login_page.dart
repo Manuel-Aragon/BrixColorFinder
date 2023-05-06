@@ -8,6 +8,7 @@ import 'package:lucky13capstone/settings_model.dart';
 import 'package:provider/provider.dart';
 import 'notifiers.dart';
 import 'package:flutter/services.dart';
+import 'password_change.dart';
 
 // This class represents the login page of the app.
 class LoginPage extends StatefulWidget {
@@ -161,19 +162,27 @@ class _LoginPageState extends State<LoginPage> {
                       keyboardType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.done,
                     ),
-                    // Align(
-                    //   alignment: Alignment.centerRight,
-                    //   child: TextButton(
-                    //       onPressed: () {},
-                    //       style: TextButton.styleFrom(
-                    //         foregroundColor:
-                    //             const Color.fromARGB(223, 212, 89, 100),
-                    //       ),
-                    //       child: const Text(
-                    //         "Forgot Password?",
-                    //         style: TextStyle(fontSize: 16),
-                    //       )),
-                    // ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                          onPressed: () {
+                            HapticFeedback.vibrate();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const PasswordChangePage()),
+                            );
+                          },
+                          style: TextButton.styleFrom(
+                            foregroundColor:
+                                const Color.fromARGB(223, 212, 89, 100),
+                          ),
+                          child: const Text(
+                            "Forgot Password?",
+                            style: TextStyle(fontSize: 16),
+                          )),
+                    ),
                     const SizedBox(
                       height: 15,
                     ),
